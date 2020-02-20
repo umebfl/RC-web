@@ -45,7 +45,7 @@ module.exports = {
                     {
                         loader: 'less-loader',
                     },
-                ]
+                ],
             },
         ],
     },
@@ -62,8 +62,7 @@ module.exports = {
             author: 'haq',
             template: './src/index.html',
             bundle_time: config.bundle_time,
-            filename: 'index.html',
-            // filename: 'index.[hash].html',
+            filename: 'index.[hash].html',
         }),
 
         // 独立打包CSS文件
@@ -81,10 +80,9 @@ module.exports = {
 
         // 热加载
         new webpack.HotModuleReplacementPlugin(),
-        // 打包预加载
-        new webpack.AutomaticPrefetchPlugin(),
     ],
 
+    // 全局别名
     resolve: {
         moduleExtensions: [path.resolve(__dirname, 'node_modules')],
         alias: {
@@ -93,14 +91,11 @@ module.exports = {
         },
     },
 
+    // 开发服务器
     devServer: {
         hot: true,
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
         port: 9000,
-    },
-
-    optimization: {
-
     },
 }
