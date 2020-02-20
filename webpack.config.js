@@ -62,7 +62,7 @@ module.exports = {
             author: 'haq',
             template: './src/index.html',
             bundle_time: config.bundle_time,
-            filename: 'index.[hash].html',
+            filename: 'index.html',
         }),
 
         // 独立打包CSS文件
@@ -93,9 +93,13 @@ module.exports = {
 
     // 开发服务器
     devServer: {
+        // 启用webpack的热模块更换功能
         hot: true,
+        // 静态文件入口
         contentBase: path.join(__dirname, 'dist'),
+        // 
         compress: true,
-        port: 9000,
+        port: 7000,
+        open: true,
     },
 }
