@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 
 const config = require('./config')
@@ -62,7 +61,7 @@ module.exports = {
             author: 'haq',
             template: './src/index.html',
             bundle_time: config.bundle_time,
-            filename: 'index.html',
+            filename: config.env === config.DEV ? 'index.html' : 'index.[hash].html',
         }),
 
         // 独立打包CSS文件
@@ -73,6 +72,7 @@ module.exports = {
         // 全局变量
         new webpack.ProvidePlugin({
             R: 'ramda',
+            React: 'react',
         }),
 
         // 清理dist
@@ -96,10 +96,13 @@ module.exports = {
         // 启用webpack的热模块更换功能
         hot: true,
         // 静态文件入口
-        contentBase: path.join(__dirname, 'dist'),
-        // 
+        contentBase: path.join(__dirname, './content'),
+        // 压缩
         compress: true,
+        // 端口
         port: 7000,
+        // 自动打开浏览器
         open: true,
     },
+
 }
