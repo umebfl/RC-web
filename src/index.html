@@ -21,13 +21,16 @@
 		<meta name='keywords' content=''/>
 
 		<!--  版本  -->
-		<meta name='version' content=''/>
+		<meta name='version' content='<%= htmlWebpackPlugin.options.version %>'/>
+
+		<!--  构建时间  -->
+		<meta name='build time' content='<%= htmlWebpackPlugin.options.bundle_time %>'/>
 
 		<!--  标题  -->
 		<title><%= htmlWebpackPlugin.options.title %></title>
 
 		<!--  作者  -->
-		<meta name='author' content=''/>
+		<meta name='author' content='<%= htmlWebpackPlugin.options.author %>'/>
 
 		<!--  商标  -->
 		<link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/>
@@ -35,7 +38,7 @@
 	</head>
 
 	<body>
-		<article id='workspace'>
+		<article id='workspace' style='width: 1000px;height: 1000px;'>
 
 		</article>
 	</body>

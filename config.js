@@ -14,5 +14,5 @@ module.exports = {
     version: '0.0.1',
 
     // 构建时间
-    bundle_time: `${new Date().getMonth() + 1}${new Date().getDate()}${new Date().getHours()}`,
+    bundle_time: `${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}`,
 }
