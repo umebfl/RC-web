@@ -4,8 +4,8 @@ module.exports = {
         es6: true,
     },
     extends: [
-        // 'plugin:react/recommended',
-        // 'airbnb',
+        'plugin:react/recommended',
+        'airbnb',
     ],
     globals: {
         Atomics: 'readonly',
@@ -72,5 +72,16 @@ module.exports = {
         "no-trailing-spaces": 2,    // 不允许在语句后存在多余的空格
         "eqeqeq": 2,                // 消除不安全类型的全等操作
         "no-debugger": 1,           // debugger关键字
+        "react/react-in-jsx-scope": 0,
+        "react/jsx-filename-extension": 0,
+        "react/jsx-tag-spacing": 0,
+        "jsx-quotes": [                 // 引号数量
+            2,
+            "prefer-single",
+        ],
+        "react/jsx-indent": [                 // 缩进
+            2,
+            4,                      // 4个空格一个tab
+        ],
     },
 }

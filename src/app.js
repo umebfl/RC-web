@@ -25,13 +25,13 @@ export default function App() {
 
                 <Switch>
                     <Route path='/about'>
-                        <About />
+                        <About/>
                     </Route>
                     <Route path='/users'>
-                        <Users />
+                        <Users/>
                     </Route>
                     <Route path='/'>
-                        <Home />
+                        <Home/>
                     </Route>
                 </Switch>
             </div>
@@ -40,6 +40,7 @@ export default function App() {
 }
 
 function Home() {
+    debugger
     return <h2>Home</h2>
 }
 
