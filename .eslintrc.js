@@ -83,5 +83,6 @@ module.exports = {
             2,
             4,                      // 4个空格一个tab
         ],
+        "import/no-unresolved": 0,
     },
 }

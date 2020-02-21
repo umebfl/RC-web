@@ -9,7 +9,7 @@ const config = require('./config')
 module.exports = {
     // 打包环境
     mode: config.env,
-    entry: './src/index.js',
+    entry: './src/web/index.js',
     output: {
         filename: 'bundle.[hash].js',
         path: path.resolve(__dirname, 'dist'),
@@ -59,7 +59,7 @@ module.exports = {
             title: 'RC',
             version: config.version,
             author: 'haq',
-            template: './src/index.html',
+            template: './src/web/index.html',
             bundle_time: config.bundle_time,
             filename: config.env === config.DEV ? 'index.html' : 'index.[hash].html',
         }),
@@ -88,7 +88,7 @@ module.exports = {
         moduleExtensions: [path.resolve(__dirname, 'node_modules')],
         alias: {
             SYS: path.resolve(__dirname, './'),
-            SRC: path.resolve(__dirname, './src'),
+            SRC: path.resolve(__dirname, './src/web'),
         },
     },
 
