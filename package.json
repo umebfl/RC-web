@@ -2,7 +2,10 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js --hot",
     "build": "npx webpack --config webpack.config.js",
-    "kill windows t": "netstat -aon|findstr x | taskkill -f -pid x "
+    "server": "onchange -i -k '**/*.js' -- node ./src/server/index.js"
+  },
+  "commond": {
+    "关闭win端口占用": "netstat -aon|findstr x -- taskkill -f -pid x "
   },
   "dependencies": {
     "@ant-design/colors": "^4.0.0-alpha.1",
@@ -23,11 +26,12 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.4.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "onchange": "^6.1.0",
     "ramda": "^0.27.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
