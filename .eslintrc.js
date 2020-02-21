@@ -84,5 +84,7 @@ module.exports = {
             4,                      // 4个空格一个tab
         ],
         "import/no-unresolved": 0,
+        "camelcase": 0,
+        "react/jsx-pascal-case": 0,
     },
 }

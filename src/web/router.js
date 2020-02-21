@@ -5,6 +5,8 @@ import {
     Link,
 } from 'react-router-dom'
 
+import Chapter_1_string from 'SRC/module/chapter_1_string'
+
 export default function App() {
     return (
         <Router>
@@ -12,11 +14,8 @@ export default function App() {
                 <Route exact path='/'>
                     <Home/>
                 </Route>
-                <Route path='/about'>
-                    <About/>
-                </Route>
-                <Route path='/users'>
-                    <Users/>
+                <Route path='/chapter_1_string'>
+                    <Chapter_1_string/>
                 </Route>
             </Switch>
         </Router>
@@ -28,47 +27,7 @@ const Home = () => (
         <h2>Home</h2>
         <ul>
             <li>
-                <Link to='/'>Home</Link>
-            </li>
-            <li>
-                <Link to='/about'>About</Link>
-            </li>
-            <li>
-                <Link to='/users'>Users</Link>
-            </li>
-        </ul>
-    </nav>
-)
-
-const About = () => (
-    <nav>
-        <h2>About</h2>
-        <ul>
-            <li>
-                <Link to='/'>Home</Link>
-            </li>
-            <li>
-                <Link to='/about'>About</Link>
-            </li>
-            <li>
-                <Link to='/users'>Users</Link>
-            </li>
-        </ul>
-    </nav>
-)
-
-const Users = () => (
-    <nav>
-        <h2>Users</h2>
-        <ul>
-            <li>
-                <Link to='/'>Home</Link>
-            </li>
-            <li>
-                <Link to='/about'>About</Link>
-            </li>
-            <li>
-                <Link to='/users'>Users</Link>
+                <Link to='/chapter_1_string'>chapter_1_string</Link>
             </li>
         </ul>
     </nav>
