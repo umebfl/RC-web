@@ -1,6 +1,17 @@
 import 'SRC/index.less'
 
 import ReactDOM from 'react-dom'
-import Router from './router'
 
-ReactDOM.render(<Router/>, document.getElementById('workspace'))
+import {
+    Provider,
+} from 'react-redux'
+
+import Router from './router'
+import store from './store'
+
+ReactDOM.render(
+    <Provider store={store()}>
+        <Router/>
+    </Provider>,
+    document.getElementById('workspace'),
+)

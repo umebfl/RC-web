@@ -5,6 +5,8 @@ import {
     Link,
 } from 'react-router-dom'
 
+import Home from 'SRC/module/home'
+import Count from 'SRC/module/count'
 import Chapter_1_string from 'SRC/module/chapter_1_string'
 
 export default function App() {
@@ -14,6 +16,9 @@ export default function App() {
                 <Route exact path='/'>
                     <Home/>
                 </Route>
+                <Route exact path='/count'>
+                    <Count/>
+                </Route>
                 <Route path='/chapter_1_string'>
                     <Chapter_1_string/>
                 </Route>
@@ -21,14 +26,3 @@ export default function App() {
         </Router>
     )
 }
-
-const Home = () => (
-    <nav>
-        <h2>Home</h2>
-        <ul>
-            <li>
-                <Link to='/chapter_1_string'>chapter_1_string</Link>
-            </li>
-        </ul>
-    </nav>
-)
