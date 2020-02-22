@@ -2,12 +2,12 @@ import {
     combineReducers,
 } from 'redux'
 
-import count from 'SRC/module/count/reducer'
+import main from 'SRC/module/main/reducer'
 
 // export const AUTH_SIGNOUT = 'redux_auth_signout'
 
 const app_reducer = combineReducers({
-    count,
+    main,
 })
 
 const root_reducer = (state, action) => {

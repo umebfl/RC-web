@@ -46,6 +46,17 @@ module.exports = {
                     },
                 ],
             },
+
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {},
+                    },
+                ],
+            },
+
         ],
     },
 
@@ -89,6 +100,7 @@ module.exports = {
         alias: {
             SYS: path.resolve(__dirname, './'),
             SRC: path.resolve(__dirname, './src/web'),
+            IMG: path.resolve(__dirname, './content/img'),
         },
     },
 

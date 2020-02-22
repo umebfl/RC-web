@@ -1,28 +1,21 @@
 import {
+    Component,
+} from 'react'
+
+import {
     HashRouter as Router,
-    Switch,
+    Redirect,
     Route,
-    Link,
 } from 'react-router-dom'
 
-import Home from 'SRC/module/home'
-import Count from 'SRC/module/count'
-import Chapter_1_string from 'SRC/module/chapter_1_string'
+import Main from 'SRC/module/main'
 
-export default function App() {
-    return (
-        <Router>
-            <Switch>
-                <Route exact path='/'>
-                    <Home/>
-                </Route>
-                <Route exact path='/count'>
-                    <Count/>
-                </Route>
-                <Route path='/chapter_1_string'>
-                    <Chapter_1_string/>
-                </Route>
-            </Switch>
-        </Router>
-    )
+export default class Mod extends Component {
+    render() {
+        return (
+            <Router>
+                <Route path='/' component={Main}/>
+            </Router>
+        )
+    }
 }

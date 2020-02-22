@@ -3,7 +3,7 @@ import {
     handleActions,
 } from 'redux-actions'
 
-export const MODULE_KEY = 'count'
+export const MODULE_KEY = 'main'
 
 const init_state = {
     num: 0,

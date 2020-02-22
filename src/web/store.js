@@ -4,12 +4,12 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
-import rootReducer from './reducer'
+import root_reducer from './reducer'
 
 export default () => {
 
     const store = createStore(
-        rootReducer,
+        root_reducer,
         // applyMiddleware(thunk),
         applyMiddleware(thunk, logger),
     )
