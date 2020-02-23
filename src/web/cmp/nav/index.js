@@ -6,7 +6,7 @@ import {
 
 export default () => (
     <Flex style={{
-        width: 300,
+        width: 360,
         height: '100%',
         background: VITRIC,
     }}>

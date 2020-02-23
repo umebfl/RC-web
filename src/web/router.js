@@ -6,16 +6,18 @@ import {
     HashRouter as Router,
     Redirect,
     Route,
+    Switch,
 } from 'react-router-dom'
 
 import Main from 'SRC/module/main'
 
-export default class Mod extends Component {
-    render() {
-        return (
-            <Router>
-                <Route path='/' component={Main}/>
-            </Router>
-        )
-    }
-}
+import Flex from 'SRC/cmp/flex'
+
+export default () => (
+    <Router>
+        <Switch>
+            <Route exact path='/' render={() => <Redirect to='/power/SSKW/T3'/>}/>
+            <Route path='/' component={Main}/>
+        </Switch>
+    </Router>
+)
