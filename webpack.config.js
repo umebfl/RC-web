@@ -84,6 +84,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             R: 'ramda',
             React: 'react',
+            ky: 'ky',
         }),
 
         // 清理dist
@@ -116,6 +117,20 @@ module.exports = {
         port: 7000,
         // 自动打开浏览器
         // open: true,
+        proxy: {
+            '/get_current_data': {
+                target: 'https://hq.sinajs.cn',
+                changeOrigin: true,
+                pathRewrite: {'^/get_current_data' : ''},
+            },
+            '/get_contract_data': {
+                target: 'https://stock2.finance.sina.com.cn/futures/api/json.php/IndexService.getInnerFuturesDailyKLine',
+                // 改变源
+                changeOrigin: true,
+                // 不传递到路径
+                pathRewrite: {'^/get_contract_data' : ''},
+            },
+        },
     },
 
 }

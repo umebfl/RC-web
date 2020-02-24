@@ -10,7 +10,10 @@ import Content from 'SRC/cmp/content'
 export default () => (
     <Flex style={{
         height: '100%',
+        flexDirection: 'column',
+        flex: 1,
+        padding: 20,
     }}>
-        <p>T3</p>
+        PZSX
     </Flex>
 )

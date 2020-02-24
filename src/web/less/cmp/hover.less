@@ -1,0 +1,43 @@
+
+.hover {
+    &.vitric {
+        color: @WHITE;
+        border-bottom: 2px solid @VITRIC;
+
+        &.active {
+            color: @MAIN !important;
+            border-bottom: 2px solid @MAIN !important;
+        }
+
+        &:hover {
+            color: @VITRIC_DD;
+            border-bottom: 2px solid @VITRIC_DD;
+        }
+    }
+
+    &.dark {
+        color: @DARK_L;
+
+        &.active {
+            background-color: @VITRIC_L;
+            border-right: 4px solid @MAIN !important;
+        }
+
+        &:hover {
+            background-color: @MAIN_L;
+            border-right: 4px solid @VITRIC_DD;
+        }
+    }
+
+    &.tab {
+        background-color: @VITRIC_D;
+
+        &.active {
+            background-color: @VITRIC_DDD !important;
+        }
+
+        &:hover {
+            background-color: @VITRIC_DD;
+        }
+    }
+}

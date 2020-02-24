@@ -1,6 +1,8 @@
 body {
     margin: 0px;
     overflow: hidden;
+    min-width: 1600px;
+    color: @DARK_L;
 }
 
 #workspace {
@@ -15,24 +17,6 @@ body {
     background-repeat: no-repeat;
 }
 
-@MAIN: #4E98C7;
 
-@VITRIC_L: rgba(247, 241, 241, 0.1);
-@VITRIC: rgba(247, 241, 241, 0.22);
-@VITRIC_W: rgba(247, 241, 241, 0.4);
-@VITRIC_D: white;
-
-.hover {
-    &.vitric {
-        color: @VITRIC_D;
-        &.active {
-            color: @MAIN;
-            border-bottom: 2px solid @MAIN;
-        }
-
-        &:hover {
-            color: @VITRIC_W;
-            border-bottom: 2px solid @VITRIC_W;
-        }
-    }
-}
+@import "./less/theme.less";
+@import "./less/cmp/hover.less";

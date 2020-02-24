@@ -10,6 +10,7 @@ export default payload => (
         height: '100%',
         background: VITRIC_L,
         flexDirection: 'column',
+        padding: 25,
     }}>
         {payload.children}
     </Flex>
