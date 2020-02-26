@@ -9,8 +9,29 @@ const init_state = {
     power: {
         name: '技能',
         path: '/power',
-        default_path: '/power/SSKW/SJHQ',
+        default_path: '/power/JMFX/DYJM',
         node: {
+            JMFX: {
+                name: '建模分析',
+                path: '/power/JMFX',
+                default_path: '/power/JMFX/DYJM',
+                node: {
+                    DYJM: {
+                        name: '单一建模',
+                        path: '/power/JMFX/DYJM',
+                    },
+                    ZTTB: {
+                        name: '整体图表',
+                        path: '/power/JMFX/ZTTB',
+                    },
+                },
+            },
+            MJTY: {
+                name: '梦境推演',
+                path: '/power/MJTY',
+                default_path: '/power/MJTY',
+                node: {},
+            },
             SSKW: {
                 name: '嗜血渴望',
                 path: '/power/SSKW',
@@ -54,18 +75,6 @@ const init_state = {
                 name: '多线分身',
                 path: '/power/DXFS',
                 default_path: '/power/DXFS',
-                node: {},
-            },
-            MJTY: {
-                name: '梦境推演',
-                path: '/power/MJTY',
-                default_path: '/power/MJTY',
-                node: {},
-            },
-            JMFX: {
-                name: '建模分析',
-                path: '/power/JMFX',
-                default_path: '/power/JMFX',
                 node: {},
             },
             FXPG: {

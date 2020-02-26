@@ -26,6 +26,7 @@ import Top from 'SRC/cmp/top'
 import Nav from 'SRC/cmp/nav'
 
 import SSKW from 'SRC/module/main/power/SSKW'
+import JMFX from 'SRC/module/main/power/JMFX'
 
 import {
     VITRIC_L,
@@ -33,11 +34,10 @@ import {
     VITRIC_W,
 } from 'SRC/theme'
 
-
 class Mod extends Component {
 
     componentWillMount() {
-        this.props.action.refresh()
+        this.props.action.search()
     }
 
     render() {
@@ -59,6 +59,7 @@ class Mod extends Component {
                 }}>
                     <Nav history={history} nav={nav}/>
                     <Switch>
+                        <Route path='/power/JMFX' component={JMFX}/>
                         <Route path='/power/SSKW' component={SSKW}/>
                         {/*<Redirect from='*' to='/404'/>*/}
                     </Switch>

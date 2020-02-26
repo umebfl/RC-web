@@ -16,7 +16,7 @@ import Flex from 'SRC/cmp/flex'
 export default () => (
     <Router>
         <Switch>
-            <Route exact path='/' render={() => <Redirect to='/power/SSKW/SJHQ'/>}/>
+            <Route exact path='/' render={() => <Redirect to='/power/JMFX/DYJM'/>}/>
             <Route path='/' component={Main}/>
         </Switch>
     </Router>

@@ -1,4 +1,6 @@
 
+export const MAIN_L = 'rgba(212, 230, 241, 0.66)'
+export const MAIN = 'rgba(78, 152, 199, 1)'
 // 玻璃质
 export const VITRIC_L = 'rgba(247, 241, 241, 0.1)'
 export const VITRIC = 'rgba(247, 241, 241, 0.22)'

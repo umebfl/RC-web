@@ -18,7 +18,6 @@ import {
 import {
     VITRIC_L,
     VITRIC,
-    VITRIC_W,
 } from 'SRC/theme'
 
 import SJHQ from 'SRC/module/main/power/SSKW/SJHQ'
