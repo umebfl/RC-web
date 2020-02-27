@@ -8,7 +8,7 @@ export default payload => (
     <div style={{
         width: '100%',
         height: '100%',
-        background: VITRIC_L,
+        // background: VITRIC_L,
         overflow: 'hidden',
     }}>
         <div style={{height: '88%', margin: '2%', overflow: 'hidden'}}>

@@ -20,6 +20,7 @@ import echarts from 'echarts'
 import {
     VITRIC_L,
     VITRIC,
+    VITRIC_D,
     VITRIC_DD,
     VITRIC_DDD,
     MAIN_L,
@@ -238,6 +239,47 @@ const Info = ({data}) => (
     </Flex>
 )
 
+const Contract_data_list = ({data}) => {
+
+    return (
+        <div>
+            <div>
+                {
+                    `${data[0].日期} 至 ${data[data.length - 1].日期}`
+                }
+            </div>
+            {
+                R.addIndex(R.map)(
+                    (v, k) => (
+                        <div key={k} style={{display: 'inline-block', background: VITRIC_D, margin: 5}}>
+                            <div style={{
+                                display: 'inline-block',
+                                width: 50,
+                                textAlign: 'right',
+                                marginRight: 10,
+                                color: Math.abs(v.day_amplitude_rate_fixed) > 1.5 ? blue[8] : 'inherit',
+                                fontWeight: Math.abs(v.day_amplitude_rate_fixed) > 1.5 ? 'bold' : 'normal',
+                            }}>
+                                {v.day_amplitude_rate_fixed.toFixed(2)}
+                            </div>
+                            <div style={{
+                                display: 'inline-block',
+                                width: 50,
+                                textAlign: 'right',
+                                marginRight: 10,
+                                color: v.hl_day_amplitude_rate_fixed > 4 ? red[8] : 'inherit',
+                                fontWeight: v.hl_day_amplitude_rate_fixed > 4 ? 'bold' : 'normal',
+                            }}>
+                                {v.hl_day_amplitude_rate_fixed.toFixed(2)}
+                            </div>
+                        </div>
+                    ),
+                )(R.take(100)(data))
+            }
+        </div>
+    )
+}
+
 class Mod extends Component {
 
     constructor(props) {
@@ -288,8 +330,8 @@ class Mod extends Component {
             <div style={{
                 height: '100%',
                 padding: 20,
-                overflowX: 'hidden',
-                overflowY: 'auto',
+                overflow: 'hidden auto',
+                background: `linear-gradient(${VITRIC_DDD}, ${VITRIC_L})`,
             }}>
                 <Item_list data={cal_data} active_key={active_key} handle_select={k => this.handle_select(k)}/>
 
@@ -297,12 +339,13 @@ class Mod extends Component {
                     cal_data[active_key] ? <Info data={cal_data[active_key]}/> : null
                 }
 
-                <div style={{
+                <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
 
-                }}>
-                    <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
-                    <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
-                </div>
+                {
+                    cal_data[active_key] ? <Contract_data_list data={cal_data[active_key].contract_data}/> : null
+                }
+
             </div>
         )
     }

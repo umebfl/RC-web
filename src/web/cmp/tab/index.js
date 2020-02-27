@@ -45,8 +45,7 @@ export default ({
         </div>
 
         <div style={{
-            height: '100%',
-            background: `linear-gradient(${VITRIC_DDD}, ${VITRIC_L})`,
+            height: '90%',
         }}>
             {children}
         </div>

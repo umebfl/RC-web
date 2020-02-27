@@ -93,6 +93,38 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     get_cal_data(dispatch, get_state, item)
 }
 
+const parse_data_str = (data, cut) => R.compose(
+    list => R.addIndex(R.map)(
+        (v, k) => {
+            const _open = parseInt(v[1])
+            const _high = parseInt(v[2])
+            const _low = parseInt(v[3])
+            const _close = parseInt(v[4])
+
+            const default_val = _open || _high || _low || _close
+
+            const open = k === 0
+                ? (_open || default_val)
+                : (parseInt(list[k - 1][4]) || default_val)
+
+            const close = _close || default_val
+            const high = open > _high ? open : _high
+            const low = open < _low ? open : (_low || default_val)
+
+            return ({
+                日期: v[0],
+                开盘价: open,
+                最高价: high,
+                最低价: low,
+                收盘价: close,
+            })
+        },
+    )(list),
+    // cut = true 提取6月后的数据
+    v => cut ? R.takeLast(180)(v) : v,
+    JSON.parse,
+)(data)
+
 const get_cal_hl = (fix_rate, all_contract_data, contract_data) => {
     const sort_all_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(all_contract_data)
     const sort_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(contract_data)
@@ -127,18 +159,59 @@ const get_cal_hl = (fix_rate, all_contract_data, contract_data) => {
     }
 }
 
-const parse_data_str = R.compose(
-    R.map(
-        v => ({
-            日期: v[0],
-            开盘价: parseInt(v[1]) === 0 ? parseInt(v[2]) || parseInt(v[3]) || parseInt(v[4]) : parseInt(v[1]),
-            最高价: parseInt(v[2]),
-            最低价: parseInt(v[3]),
-            收盘价: parseInt(v[4]),
-        }),
-    ),
-    JSON.parse,
-)
+// 获取合约期每日波幅
+const get_cal_contract_day_amplitude = (fix_rate, contract_data) => {
+
+    // 日期: "2019-05-20"
+    // 开盘价: 5760
+    // 最高价: 5766
+    // 最低价: 5712
+    // 收盘价: 5714
+    const contract_day_amplitude = R.addIndex(R.map)(
+        (v, k) => {
+
+            // 日开收盘波幅
+            const day_amplitude = (v['开盘价'] - v['收盘价'])
+            const day_amplitude_rate = day_amplitude / v['最低价'] * 100
+            const day_amplitude_rate_fixed = day_amplitude_rate * fix_rate
+
+            // 日最高最低波幅
+            const hl_day_amplitude = (v['最高价'] - v['最低价'])
+            const hl_day_amplitude_rate = hl_day_amplitude / v['最低价'] * 100
+            const hl_day_amplitude_rate_fixed = hl_day_amplitude_rate * fix_rate
+
+            return {
+                ...v,
+
+                day_amplitude,
+                day_amplitude_rate,
+                day_amplitude_rate_fixed,
+
+                hl_day_amplitude,
+                hl_day_amplitude_rate,
+                hl_day_amplitude_rate_fixed,
+            }
+        },
+    )(contract_data)
+
+    return contract_day_amplitude
+}
+
+// 分析 - 日间距的统计信息
+const get_analy_contract_day_amplitude = data => {
+
+    // const group = R.groupBy(
+    //     v => (
+    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 0.4 ? 'lv0' :
+    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 0.8 ? 'lv1' :
+    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 1.2 ? 'lv2' : 'lv3'
+    //     )
+    // )(data)
+
+    return {
+
+    }
+}
 
 // 计算极端信息
 const get_cal_data = (dispatch, get_state, item) => {
@@ -154,7 +227,7 @@ const get_cal_data = (dispatch, get_state, item) => {
         all_contract_data_str,
     } = item
 
-    const contract_data = parse_data_str(contract_data_str)
+    const contract_data = parse_data_str(contract_data_str, true)
     const all_contract_data = parse_data_str(all_contract_data_str)
 
     // 杠杆
@@ -163,6 +236,7 @@ const get_cal_data = (dispatch, get_state, item) => {
     const fix_rate = lever / 10
     // 获取最高最低信息
     const hl_info = get_cal_hl(fix_rate, all_contract_data, contract_data)
+    const contract_day_amplitude = get_cal_contract_day_amplitude(fix_rate, contract_data)
 
     const cal_item = {
         ...item.info,
@@ -170,10 +244,14 @@ const get_cal_data = (dispatch, get_state, item) => {
         lever,
         fix_rate,
 
-        contract_data,
+        // contract_data,
+        contract_data: contract_day_amplitude,
         all_contract_data,
 
         ...hl_info,
+        analy: {
+            contract_day_amplitude: get_analy_contract_day_amplitude(contract_day_amplitude),
+        },
     }
 
     const cal_data = [
@@ -220,12 +298,12 @@ export const action = {
 
             const data = JSON.parse(localStorage.data)
 
-            dispatch(
-                module_setter({
-                    finish_count: data.length,
-                    origin_data: data,
-                }),
-            )
+            // dispatch(
+            //     module_setter({
+            //         finish_count: data.length,
+            //         origin_data: data,
+            //     }),
+            // )
 
             R.map(
                 v => get_cal_data(dispatch, get_state, v),
