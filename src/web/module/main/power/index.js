@@ -48,23 +48,21 @@ class Mod extends Component {
         } = this.props
 
         return (
-            <Flex style={{
-                height: '100%',
-                flexDirection: 'column',
-            }}>
+            <div style={{width: '100%', height: '100%'}}>
                 <Top history={history} nav={nav}/>
-                <Flex style={{
-                    flex: 1,
-                    height: '100%',
-                }}>
-                    <Nav history={history} nav={nav}/>
-                    <Switch>
-                        <Route path='/power/JMFX' component={JMFX}/>
-                        <Route path='/power/SSKW' component={SSKW}/>
-                        {/*<Redirect from='*' to='/404'/>*/}
-                    </Switch>
-                </Flex>
-            </Flex>
+                <div style={{height: '100%', paddingLeft: '300px', position: 'relative'}}>
+                    <div style={{position: 'absolute', left: 0, top: 0, width: '300px', height: '100%'}}>
+                        <Nav history={history} nav={nav}/>
+                    </div>
+                    <div style={{width: '100%', height: '100%'}}>
+                        <Switch>
+                            <Route path='/power/JMFX' component={JMFX}/>
+                            <Route path='/power/SSKW' component={SSKW}/>
+                            {/*<Redirect from='*' to='/404'/>*/}
+                        </Switch>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

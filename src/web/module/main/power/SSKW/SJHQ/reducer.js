@@ -14,6 +14,8 @@ const init_state = {
 
     origin_data: [],
 
+    cal_data: [],
+
     finish_count: 0,
 }
 
@@ -46,22 +48,7 @@ const get_current_data = async ({code, month}) => {
 }
 
 // 获取合约数据
-const get_contract_data = async ({code, month}) => {
-    const data_str = await ky(`/get_contract_data/?symbol=${code}${month}`).text()
-
-    return R.compose(
-        R.map(
-            v => ({
-                日期: v[0],
-                开盘价: parseInt(v[1]) === 0 ? parseInt(v[2]) || parseInt(v[3]) || parseInt(v[4]) : parseInt(v[1]),
-                最高价: parseInt(v[2]),
-                最低价: parseInt(v[3]),
-                收盘价: parseInt(v[4]),
-            }),
-        ),
-        JSON.parse,
-    )(data_str)
-}
+const get_contract_data = async ({code, month}) => await ky(`/get_contract_data/?symbol=${code}${month}`).text()
 
 const get_all_data = async ({dispatch, get_state, info}) => {
 
@@ -69,50 +56,28 @@ const get_all_data = async ({dispatch, get_state, info}) => {
         code,
         month,
         name,
+        rate,
     } = info
 
     const current_data = await get_current_data({code, month})
-    const contract_data = await get_contract_data({code, month})
-    const all_contract_data = await get_contract_data({code, month: '0'})
+    const contract_data_str = await get_contract_data({code, month})
+    const all_contract_data_str = await get_contract_data({code, month: '0'})
 
     const state = get_state()
     const module_state = state[MODULE_KEY]
 
-    // 获取最高最低价格
-    const sort_all_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(all_contract_data)
-    const all_contract_high = sort_all_contract_data[0]
-    const all_contract_low = sort_all_contract_data[sort_all_contract_data.length - 1]
-    const all_contract_hl_gap = all_contract_high['开盘价'] - all_contract_low['开盘价']
-    const all_contract_hl_gap_rate = all_contract_hl_gap / all_contract_low['开盘价']
-
-    const sort_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(contract_data)
-    const contract_high = sort_contract_data[0]
-    const contract_low = sort_contract_data[sort_contract_data.length - 1]
-    const contract_hl_gap = contract_high['开盘价'] - contract_low['开盘价']
-    const contract_hl_gap_rate = contract_hl_gap / contract_low['开盘价']
+    const item = {
+        info: {
+            ...info,
+            current_data,
+        },
+        contract_data_str,
+        all_contract_data_str,
+    }
 
     const rv = [
         ...module_state.origin_data,
-        {
-            ...info,
-
-            current_data,
-            contract_data,
-            all_contract_data,
-
-            sort_all_contract_data,
-            sort_contract_data,
-
-            all_contract_high,
-            all_contract_low,
-            all_contract_hl_gap,
-            all_contract_hl_gap_rate,
-
-            contract_high,
-            contract_low,
-            contract_hl_gap,
-            contract_hl_gap_rate,
-        },
+        item,
     ]
 
     // 更新缓存
@@ -121,11 +86,107 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     dispatch(
         module_setter({
             finish_count: module_state.finish_count + 1,
-            origin_data: R.sort(
-                (a, b) => b.all_contract_hl_gap_rate - a.all_contract_hl_gap_rate,
-            )(rv),
+            origin_data: rv,
         }),
     )
+
+    get_cal_data(dispatch, get_state, item)
+}
+
+const get_cal_hl = (fix_rate, all_contract_data, contract_data) => {
+    const sort_all_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(all_contract_data)
+    const sort_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(contract_data)
+
+    const all_contract_high = sort_all_contract_data[0]
+    const all_contract_low = sort_all_contract_data[sort_all_contract_data.length - 1]
+    const all_contract_hl_gap = all_contract_high['开盘价'] - all_contract_low['开盘价']
+    const all_contract_hl_gap_rate = all_contract_hl_gap / all_contract_low['开盘价']
+    const all_contract_hl_gap_rate_fixed = all_contract_hl_gap_rate * fix_rate
+
+    const contract_high = sort_contract_data[0]
+    const contract_low = sort_contract_data[sort_contract_data.length - 1]
+    const contract_hl_gap = contract_high['开盘价'] - contract_low['开盘价']
+    const contract_hl_gap_rate = contract_hl_gap / contract_low['开盘价']
+    const contract_hl_gap_rate_fixed = contract_hl_gap_rate * fix_rate
+
+    return {
+        sort_all_contract_data,
+        sort_contract_data,
+
+        all_contract_high,
+        all_contract_low,
+        all_contract_hl_gap,
+        all_contract_hl_gap_rate,
+        all_contract_hl_gap_rate_fixed,
+
+        contract_high,
+        contract_low,
+        contract_hl_gap,
+        contract_hl_gap_rate,
+        contract_hl_gap_rate_fixed,
+    }
+}
+
+const parse_data_str = R.compose(
+    R.map(
+        v => ({
+            日期: v[0],
+            开盘价: parseInt(v[1]) === 0 ? parseInt(v[2]) || parseInt(v[3]) || parseInt(v[4]) : parseInt(v[1]),
+            最高价: parseInt(v[2]),
+            最低价: parseInt(v[3]),
+            收盘价: parseInt(v[4]),
+        }),
+    ),
+    JSON.parse,
+)
+
+// 计算极端信息
+const get_cal_data = (dispatch, get_state, item) => {
+
+    const state = get_state()
+    const module_state = state[MODULE_KEY]
+
+    const {
+        info: {
+            rate,
+        },
+        contract_data_str,
+        all_contract_data_str,
+    } = item
+
+    const contract_data = parse_data_str(contract_data_str)
+    const all_contract_data = parse_data_str(all_contract_data_str)
+
+    // 杠杆
+    const lever = 1 / rate
+    // 真实波幅
+    const fix_rate = lever / 10
+    // 获取最高最低信息
+    const hl_info = get_cal_hl(fix_rate, all_contract_data, contract_data)
+
+    const cal_item = {
+        ...item.info,
+
+        lever,
+        fix_rate,
+
+        contract_data,
+        all_contract_data,
+
+        ...hl_info,
+    }
+
+    const cal_data = [
+        ...module_state.cal_data,
+        cal_item,
+    ]
+
+    dispatch(
+        module_setter({
+            cal_data: R.sort((a, b) => b.contract_hl_gap_rate_fixed - a.contract_hl_gap_rate_fixed)(cal_data),
+        }),
+    )
+
 }
 
 const _refresh = (dispatch, get_state) => {
@@ -154,7 +215,6 @@ const module_setter = createAction(`${MODULE_KEY}_setter`)
 export const action = {
 
     search: payload => (dispatch, get_state) => {
-
         // 如果存在浏览器缓存, 则从缓存中获取, 否则刷新
         if(localStorage.data) {
 
@@ -166,9 +226,15 @@ export const action = {
                     origin_data: data,
                 }),
             )
+
+            R.map(
+                v => get_cal_data(dispatch, get_state, v),
+            )(data)
+
         } else {
             _refresh(dispatch, get_state)
         }
+
 
     },
 

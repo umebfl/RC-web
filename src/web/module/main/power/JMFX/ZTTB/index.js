@@ -43,7 +43,8 @@ import {
     MAIN,
 } from 'SRC/theme'
 
-const build_chart = origin_data => {
+const build_chart = cal_data => {
+
     const overview = echarts.init(document.getElementById('JMFX-overview'))
 
     const opt = R.addIndex(R.map)(
@@ -56,15 +57,15 @@ const build_chart = origin_data => {
                 // max: 400,
             },
             title: {
-                left: `${10 + (k % 3) * 30}%`,
-                top: `${5 + parseInt(k / 3) * 30}%`,
-                text: `${v.name} ${v.code}${v.month}`,
+                left: `${5 + (k % 3) * 35}%`,
+                top: `${parseInt(k / 3) * 220}`,
+                text: `${v.name} ${v.code}`,
             },
             grid: {
-                x: `${10 + (k % 3) * 30}%`,
-                y: `${10 + parseInt(k / 3) * 30}%`,
+                x: `${5 + (k % 3) * 32}%`,
+                y: `${30 + parseInt(k / 3) * 220}`,
                 width: '25%',
-                height: '20%',
+                height: '150px',
             },
             xAxis: {
                 // data: R.map(v => v['日期'])(v.contract_data),
@@ -91,7 +92,7 @@ const build_chart = origin_data => {
                 },
             },
         }),
-    )(origin_data)
+    )(cal_data)
 
     overview.setOption({
         tooltip: {
@@ -110,13 +111,13 @@ const build_chart = origin_data => {
 class Mod extends Component {
 
     componentDidMount() {
-        const origin_data = this.props.SJHQ.origin_data
+        const cal_data = this.props.SJHQ.cal_data
 
-        if(origin_data) {
-            build_chart(origin_data)
+        if(cal_data) {
+            build_chart(cal_data)
         } else {
             setTimeout(
-                () => build_chart(origin_data),
+                () => build_chart(cal_data),
                 1000,
             )
         }
@@ -125,13 +126,14 @@ class Mod extends Component {
     render() {
 
         return (
-            <Flex style={{
-                flex: 1,
+            <div style={{
                 padding: 20,
-                flexDirection: 'column',
+                height: '100%',
+                overflowX: 'hidden',
+                overflowY: 'auto',
             }}>
-                <Flex id='JMFX-overview' style={{height: 600}}/>
-            </Flex>
+                <div id='JMFX-overview' style={{height: 1200}}/>
+            </div>
         )
     }
 }

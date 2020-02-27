@@ -9,11 +9,10 @@ import {
 } from 'SRC/theme'
 
 export default ({history, nav}) => (
-    <Flex style={{
-        width: 300,
+    <div style={{
+        width: '100%',
         height: '100%',
         background: `linear-gradient(${VITRIC_DDD}, ${VITRIC_L})`,
-        flexDirection: 'column',
     }}>
         {
             R.addIndex(R.map)(
@@ -35,5 +34,5 @@ export default ({history, nav}) => (
                 ),
             )(R.values(nav.power.node))
         }
-    </Flex>
+    </div>
 )

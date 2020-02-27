@@ -52,7 +52,7 @@ const Mod = ({
 
         <Flex style={{padding: '10px 0'}}>总计: {SJHQ.finish_count}</Flex>
 
-        <Flex style={{flexDirection: 'column'}}>
+        <Flex style={{flexDirection: 'column', flex: 1, height: 0}}>
             <Flex style={{
                 height: 30,
                 alignItems: 'center',
@@ -78,7 +78,7 @@ const Mod = ({
                             </Flex>
                         ),
                     ),
-                )(SJHQ.origin_data)
+                )(SJHQ.cal_data)
             }
         </Flex>
     </Flex>

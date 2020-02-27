@@ -13,19 +13,18 @@ const Item = ({
     name,
     path,
 }) => (
-    <Flex
+    <div
         className={`hover tab ${history.location.pathname === path ? 'active' : ''}`}
         style={{
+            display: 'inline-block',
             fontSize: 14,
-            height: 50,
-            minWidth: 130,
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0 20px',
+            width: 130,
+            textAlign: 'center',
+            padding: '16px 20px',
         }}
         onClick={() => history.push(path)}>
         {name}
-    </Flex>
+    </div>
 )
 
 export default ({
@@ -33,25 +32,23 @@ export default ({
     data,
     children,
 }) => (
-    <Flex style={{
-        flex: 1,
+    <div style={{
         height: '100%',
         background: VITRIC_L,
-        flexDirection: 'column',
     }}>
-        <Flex>
+        <div>
             {
                 R.addIndex(R.map)(
                     (v, k) => <Item key={k} history={history} name={v.name} path={v.path}/>,
                 )(R.values(data))
             }
-        </Flex>
+        </div>
 
-        <Flex style={{
+        <div style={{
+            height: '100%',
             background: `linear-gradient(${VITRIC_DDD}, ${VITRIC_L})`,
-            flex: 1,
         }}>
             {children}
-        </Flex>
-    </Flex>
+        </div>
+    </div>
 )

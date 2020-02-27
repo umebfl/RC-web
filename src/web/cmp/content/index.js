@@ -5,13 +5,14 @@ import {
 } from 'SRC/theme'
 
 export default payload => (
-    <Flex style={{
-        flex: 1,
+    <div style={{
+        width: '100%',
         height: '100%',
         background: VITRIC_L,
-        flexDirection: 'column',
-        padding: 25,
+        overflow: 'hidden',
     }}>
-        {payload.children}
-    </Flex>
+        <div style={{height: '88%', margin: '2%', overflow: 'hidden'}}>
+            {payload.children}
+        </div>
+    </div>
 )

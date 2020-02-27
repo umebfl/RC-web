@@ -45,28 +45,31 @@ import Flex from 'SRC/cmp/flex'
 import Nav from 'SRC/cmp/nav'
 
 const Item_list = ({data, active_key, handle_select}) => (
-    <Flex style={{flexDirection: 'row', padding: 10}}>
+    <div style={{padding: 10}}>
         {
             R.addIndex(R.map)(
                 (v, k) => (
-                    <Flex
+                    <div
                         className={`hover item ${active_key === k ? 'active' : ''}`}
                         key={k}
                         onClick={() =>　handle_select(k)}
                         style={{
-                            margin: '0 10px',
-                            width: 100,
-                            height: 40,
+                            // float: 'left',
+                            display: 'inline-block',
+                            textAlign: 'center',
+                            margin: '5px 10px',
+                            width: 120,
+                            padding: '8px 0',
                             justifyContent: 'center',
                             alignItems: 'center',
                             cursor: 'pointer',
                         }}>
                         {v.name}
-                    </Flex>
+                    </div>
                 ),
             )(data)
         }
-    </Flex>
+    </div>
 )
 
 const build_all_contract_data_chart = (data) => {
@@ -217,6 +220,9 @@ const Info = ({data}) => (
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.all_contract_hl_gap_rate.toFixed(2)}
             </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.all_contract_hl_gap_rate_fixed.toFixed(2)}
+            </Flex>
         </Flex>
         <Flex>
             <Flex style={{width: 150, marginRight: 10, justifyContent: 'flex-end'}}>合约期最低/高价:</Flex>
@@ -224,6 +230,9 @@ const Info = ({data}) => (
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.contract_high['开盘价']}</Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.contract_hl_gap_rate.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.contract_hl_gap_rate_fixed.toFixed(2)}
             </Flex>
         </Flex>
     </Flex>
@@ -245,7 +254,7 @@ class Mod extends Component {
     handle_select(k) {
         const {
             SJHQ: {
-                origin_data,
+                cal_data,
             },
         } = this.props
 
@@ -253,12 +262,13 @@ class Mod extends Component {
             active_key: k,
         })
 
-        const data = origin_data[k]
+        const data = cal_data[k]
 
-        // 更新图表
-        build_all_contract_data_chart(data)
-        build_contract_data_chart(data)
-
+        if(data) {
+            // 更新图表
+            build_all_contract_data_chart(data)
+            build_contract_data_chart(data)
+        }
 
     }
 
@@ -266,7 +276,7 @@ class Mod extends Component {
 
         const {
             SJHQ: {
-                origin_data,
+                cal_data,
             },
         } = this.props
 
@@ -275,25 +285,25 @@ class Mod extends Component {
         } = this.state
 
         return (
-            <Flex style={{
+            <div style={{
                 height: '100%',
-                flexDirection: 'column',
-                flex: 1,
                 padding: 20,
-                height: 600,
+                overflowX: 'hidden',
+                overflowY: 'auto',
             }}>
-                <Item_list data={origin_data} active_key={active_key} handle_select={k => this.handle_select(k)}/>
+                <Item_list data={cal_data} active_key={active_key} handle_select={k => this.handle_select(k)}/>
 
-                <Info data={origin_data[active_key]}/>
+                {
+                    cal_data[active_key] ? <Info data={cal_data[active_key]}/> : null
+                }
 
-                <Flex style={{
-                    flexDirection: 'row',
-                    height: 400,
+                <div style={{
+
                 }}>
-                    <Flex id='DYJM-all_contract_data' style={{flex: 1, height: 400, justifyContent: 'center'}}/>
-                    <Flex id='DYJM-contract_data' style={{flex: 1, height: 400, justifyContent: 'center'}}/>
-                </Flex>
-            </Flex>
+                    <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                    <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                </div>
+            </div>
         )
     }
 }
