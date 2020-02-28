@@ -90,25 +90,9 @@ export default [
         disable: false,
     },
     {
-        code: 'L',
-        name: '塑料',
-        rate: 0.09,
-        unit: 5,
-        month: '2005',
-        disable: false,
-    },
-    {
         code: 'RU',
         name: '天胶',
         rate: 0.16,
-        unit: 10,
-        month: '2005',
-        disable: false,
-    },
-    {
-        code: 'HC',
-        name: '热卷',
-        rate: 0.13,
         unit: 10,
         month: '2005',
         disable: false,
@@ -123,7 +107,22 @@ export default [
     },
 
     // 忽略
-
+    {
+        code: 'L',
+        name: '塑料',
+        rate: 0.09,
+        unit: 5,
+        month: '2005',
+        disable: true,
+    },
+    {
+        code: 'HC',
+        name: '热卷',
+        rate: 0.13,
+        unit: 10,
+        month: '2005',
+        disable: true,
+    },
     {
         code: 'RB',
         name: '螺纹',

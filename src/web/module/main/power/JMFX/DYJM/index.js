@@ -212,8 +212,223 @@ const build_contract_data_chart = (data) => {
     })
 }
 
+const build_contract_amplitude_chart = (data) => {
+    const chart = echarts.init(document.getElementById('DYJM-contract_amplitude'))
+    const hl_day_amplitude = data.analy.contract_day_amplitude.hl_day_amplitude
+
+    const {
+        lv0 = [],
+        lv1 = [],
+        lv2 = [],
+        lv3 = [],
+        lv4 = [],
+        lv5 = [],
+    } = hl_day_amplitude
+
+    chart.setOption({
+        title: {
+            left: '5%',
+            top: '5%',
+            text: '合约期 日内极端波幅分段',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {             // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: (params) => {
+                const tar = params[1]
+                return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value
+            },
+        },
+        xAxis: {
+            type: 'category',
+            splitLine: {show: false},
+            data: ['总天数', '0-1', '1-2', '2-3', '3-4', '4-5', '5以上'],
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [
+            {
+                name: '辅助',
+                type: 'bar',
+                stack: '总量',
+                itemStyle: {
+                    barBorderColor: 'rgba(0,0,0,0)',
+                    color: 'rgba(0,0,0,0)',
+                },
+                emphasis: {
+                    itemStyle: {
+                        barBorderColor: 'rgba(0,0,0,0)',
+                        color: 'rgba(0,0,0,0)',
+                    },
+                },
+                data: [
+                    0,
+                    0,
+                    lv0.length,
+                    lv0.length + lv1.length,
+                    lv0.length + lv1.length + lv2.length,
+                    lv0.length + lv1.length + lv2.length + lv3.length,
+                    lv0.length + lv1.length + lv2.length + lv3.length + lv4.length,
+                ],
+            },
+            {
+                name: '波幅分段',
+                type: 'bar',
+                stack: '总量',
+                label: {
+                    show: true,
+                    position: 'inside',
+                },
+                data: [
+                    data.contract_data.length,
+                    lv0.length,
+                    lv1.length,
+                    lv2.length,
+                    lv3.length,
+                    lv4.length,
+                    lv5.length,
+                ],
+            },
+        ],
+    })
+
+}
+
+const build_price_group_chart = (data) => {
+    const all_contract_chart = echarts.init(document.getElementById('DYJM-all_contract_price_group'))
+    const contract_chart = echarts.init(document.getElementById('DYJM-contract_price_group'))
+
+    const contract_data = data.contract_data
+    const all_contract_data = data.all_contract_data
+
+    const group_all_contract_data = data.analy.price_state.group_all_contract_data
+    const group_contract_data = data.analy.price_state.group_contract_data
+
+    const get_chart_option = (title, data, group) => {
+        const {
+            lv0 = [],
+            lv1 = [],
+            lv2 = [],
+            lv3 = [],
+            lv4 = [],
+            lv5 = [],
+            lv6 = [],
+            lv7 = [],
+            lv8 = [],
+            lv9 = [],
+        } = group
+
+        return {
+            title: {
+                left: '5%',
+                top: '5%',
+                text: title,
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {             // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                },
+                formatter: (params) => {
+                    const tar = params[1]
+                    const data = group[`lv${tar.dataIndex - 1}`] || []
+                    return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value + ` (${data[data.length - 1]?.开盘价} - ${data[0]?.开盘价})`
+                },
+            },
+            xAxis: {
+                type: 'category',
+                splitLine: {show: false},
+                data: ['总天数', '0-10', '10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'],
+            },
+            yAxis: {
+                type: 'value',
+                max: data.length,
+            },
+            series: [
+                {
+                    name: '辅助',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle: {
+                        barBorderColor: 'rgba(0,0,0,0)',
+                        color: 'rgba(0,0,0,0)',
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            barBorderColor: 'rgba(0,0,0,0)',
+                            color: 'rgba(0,0,0,0)',
+                        },
+                    },
+                    data: [
+                        0,
+                        0,
+                        lv0.length,
+                        lv0.length + lv1.length,
+                        lv0.length + lv1.length + lv2.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length + lv4.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length + lv4.length + lv5.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length + lv4.length + lv5.length + lv6.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length + lv4.length + lv5.length + lv6.length + lv7.length,
+                        lv0.length + lv1.length + lv2.length + lv3.length + lv4.length + lv5.length + lv6.length + lv7.length + lv8.length,
+                    ],
+                },
+                {
+                    name: '价格分段',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        show: true,
+                        position: 'inside',
+                    },
+                    data: [
+                        data.length,
+                        lv0.length,
+                        lv1.length,
+                        lv2.length,
+                        lv3.length,
+                        lv4.length,
+                        lv5.length,
+                        lv6.length,
+                        lv7.length,
+                        lv8.length,
+                        lv9.length,
+                    ],
+                },
+            ],
+        }
+    }
+
+    all_contract_chart.setOption(get_chart_option('全期 价格分段', all_contract_data, group_all_contract_data))
+    contract_chart.setOption(get_chart_option('合约期 价格分段', contract_data, group_contract_data))
+}
+
 const Info = ({data}) => (
     <Flex style={{flexDirection: 'column'}}>
+        <Flex style={{
+            borderBottom: '1px solid #333',
+            paddingBottom: 2,
+            marginBottom: 2,
+        }}>
+            <Flex style={{width: 150, marginRight: 10, justifyContent: 'flex-end'}}></Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>最低价</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>最高价</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                间距
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                真间距
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                阶段
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                分段
+            </Flex>
+        </Flex>
         <Flex>
             <Flex style={{width: 150, marginRight: 10, justifyContent: 'flex-end'}}>全期最低/高价:</Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.all_contract_low['开盘价']}</Flex>
@@ -223,6 +438,12 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.all_contract_hl_gap_rate_fixed.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.all_contract_price_state_by_price.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.all_contract_price_state_by_sort.toFixed(2)}
             </Flex>
         </Flex>
         <Flex>
@@ -234,6 +455,12 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.contract_hl_gap_rate_fixed.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.contract_price_state_by_price.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.contract_price_state_by_sort.toFixed(2)}
             </Flex>
         </Flex>
     </Flex>
@@ -310,6 +537,8 @@ class Mod extends Component {
             // 更新图表
             build_all_contract_data_chart(data)
             build_contract_data_chart(data)
+            build_contract_amplitude_chart(data)
+            build_price_group_chart(data)
         }
 
     }
@@ -339,8 +568,13 @@ class Mod extends Component {
                     cal_data[active_key] ? <Info data={cal_data[active_key]}/> : null
                 }
 
-                <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
                 <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                <div id='DYJM-contract_amplitude' style={{display: 'inline-block', width: '50%', height: 300}}/>
+
+                <div id='DYJM-all_contract_price_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                <div id='DYJM-contract_price_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
+
+                <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
 
                 {
                     cal_data[active_key] ? <Contract_data_list data={cal_data[active_key].contract_data}/> : null

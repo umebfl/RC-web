@@ -93,37 +93,39 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     get_cal_data(dispatch, get_state, item)
 }
 
-const parse_data_str = (data, cut) => R.compose(
-    list => R.addIndex(R.map)(
-        (v, k) => {
-            const _open = parseInt(v[1])
-            const _high = parseInt(v[2])
-            const _low = parseInt(v[3])
-            const _close = parseInt(v[4])
+const parse_data_str = (data, cut) => {
+    return R.compose(
+        list => R.addIndex(R.map)(
+            (v, k) => {
+                const _open = parseInt(v[1])
+                const _high = parseInt(v[2])
+                const _low = parseInt(v[3])
+                const _close = parseInt(v[4])
 
-            const default_val = _open || _high || _low || _close
+                const default_val = _open || _high || _low || _close
 
-            const open = k === 0
-                ? (_open || default_val)
-                : (parseInt(list[k - 1][4]) || default_val)
+                const open = k === 0
+                    ? (_open || default_val)
+                    : (parseInt(list[k - 1][4]) || default_val)
 
-            const close = _close || default_val
-            const high = open > _high ? open : _high
-            const low = open < _low ? open : (_low || default_val)
+                const close = _close || default_val
+                const high = open > _high ? open : _high
+                const low = open < _low ? open : (_low || default_val)
 
-            return ({
-                日期: v[0],
-                开盘价: open,
-                最高价: high,
-                最低价: low,
-                收盘价: close,
-            })
-        },
-    )(list),
-    // cut = true 提取6月后的数据
-    v => cut ? R.takeLast(180)(v) : v,
-    JSON.parse,
-)(data)
+                return ({
+                    日期: v[0],
+                    开盘价: open,
+                    最高价: high,
+                    最低价: low,
+                    收盘价: close,
+                })
+            },
+        )(list),
+        // cut = true 提取6月后的数据
+        v => cut ? R.takeLast(180)(v) : v,
+        JSON.parse,
+    )(data)
+}
 
 const get_cal_hl = (fix_rate, all_contract_data, contract_data) => {
     const sort_all_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(all_contract_data)
@@ -200,20 +202,83 @@ const get_cal_contract_day_amplitude = (fix_rate, contract_data) => {
 // 分析 - 日间距的统计信息
 const get_analy_contract_day_amplitude = data => {
 
-    // const group = R.groupBy(
-    //     v => (
-    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 0.4 ? 'lv0' :
-    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 0.8 ? 'lv1' :
-    //         Math.abs(v.hl_day_amplitude_rate_fixed) < 1.2 ? 'lv2' : 'lv3'
-    //     )
-    // )(data)
+    const hl_day_amplitude = R.groupBy(
+        v => (
+            Math.abs(v.hl_day_amplitude_rate_fixed) < 1 ? 'lv0' :
+                Math.abs(v.hl_day_amplitude_rate_fixed) < 2 ? 'lv1' :
+                    Math.abs(v.hl_day_amplitude_rate_fixed) < 3 ? 'lv2' :
+                        Math.abs(v.hl_day_amplitude_rate_fixed) < 4 ? 'lv3' :
+                            Math.abs(v.hl_day_amplitude_rate_fixed) < 5 ? 'lv4' : 'lv5'
+        ),
+    )(data)
 
     return {
-
+        hl_day_amplitude,
     }
 }
 
-// 计算极端信息
+// 分析 价格状态
+const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_info) => {
+
+    const {
+        sort_all_contract_data,
+        sort_contract_data,
+
+        all_contract_high,
+        all_contract_low,
+        all_contract_hl_gap,
+        all_contract_hl_gap_rate,
+        all_contract_hl_gap_rate_fixed,
+
+        contract_high,
+        contract_low,
+        contract_hl_gap,
+        contract_hl_gap_rate,
+        contract_hl_gap_rate_fixed,
+    } = hl_info
+
+    const get_price_state_by_price = (price, hp, lp) => (price - lp) / (hp - lp) * 100
+    const get_price_state_by_sort = (data, price) => {
+        for(let i = 0; i < data.length; i++) {
+            if(data[i].开盘价 < price) {
+                return (data.length - i) / data.length * 100
+            }
+        }
+    }
+
+    const get_group = (data, hp, lp) => {
+        return R.groupBy(
+            v => {
+                const amp = (v.开盘价 - lp) / (hp - lp)
+                return (
+                    amp < 0.1 ? 'lv0' :
+                        amp < 0.2 ? 'lv1' :
+                            amp < 0.3 ? 'lv2' :
+                                amp < 0.4 ? 'lv3' :
+                                    amp < 0.5 ? 'lv4' :
+                                        amp < 0.6 ? 'lv5' :
+                                            amp < 0.7 ? 'lv6' :
+                                                amp < 0.8 ? 'lv7' :
+                                                    amp < 0.9 ? 'lv8' : 'lv9'
+                )
+            },
+        )(data)
+    }
+
+    return {
+        all_contract_price_state_by_price: get_price_state_by_price(all_contract_data[all_contract_data.length - 1].开盘价, all_contract_high.开盘价, all_contract_low.开盘价),
+        contract_price_state_by_price: get_price_state_by_price(contract_data[contract_data.length - 1].开盘价, contract_high.开盘价, contract_low.开盘价),
+
+        group_all_contract_data: get_group(sort_all_contract_data, all_contract_high.开盘价, all_contract_low.开盘价),
+        group_contract_data: get_group(sort_contract_data, contract_high.开盘价, contract_low.开盘价),
+
+        all_contract_price_state_by_sort: get_price_state_by_sort(sort_all_contract_data, all_contract_data[all_contract_data.length - 1].开盘价),
+        contract_price_state_by_sort: get_price_state_by_sort(sort_contract_data, contract_data[contract_data.length - 1].开盘价),
+    }
+
+}
+
+// 计算信息
 const get_cal_data = (dispatch, get_state, item) => {
 
     const state = get_state()
@@ -251,7 +316,9 @@ const get_cal_data = (dispatch, get_state, item) => {
         ...hl_info,
         analy: {
             contract_day_amplitude: get_analy_contract_day_amplitude(contract_day_amplitude),
+            price_state: get_analy_price_state(fix_rate, all_contract_data, contract_data, hl_info),
         },
+
     }
 
     const cal_data = [
@@ -261,7 +328,7 @@ const get_cal_data = (dispatch, get_state, item) => {
 
     dispatch(
         module_setter({
-            cal_data: R.sort((a, b) => b.contract_hl_gap_rate_fixed - a.contract_hl_gap_rate_fixed)(cal_data),
+            cal_data: R.sort((a, b) => b.all_contract_hl_gap_rate_fixed - a.all_contract_hl_gap_rate_fixed)(cal_data),
         }),
     )
 

@@ -57,7 +57,7 @@ const build_chart = cal_data => {
                 // max: 400,
             },
             title: {
-                left: `${5 + (k % 3) * 35}%`,
+                left: `${5 + (k % 3) * 32}%`,
                 top: `${parseInt(k / 3) * 220}`,
                 text: `${v.name} ${v.code}`,
             },
