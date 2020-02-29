@@ -10,6 +10,10 @@ import {
 
 export const MODULE_KEY = 'SJHQ'
 
+// 反转判定幅度标准
+// const SHAKE_QUOTATION_RATE = 0.04
+const SHAKE_QUOTATION_RATE = 0.038
+
 const init_state = {
 
     origin_data: [],
@@ -278,6 +282,119 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
 
 }
 
+// 获取多空行情分组数据
+const get_bull_bear_group = (fix_rate, contract_data, all_contract_data) => {
+
+    const contract_bull_bear_group_data = []
+    const all_contract_bull_bear_group_data = []
+
+    const get_target_price = (price, dir) => {
+        // 连续修正
+        const fix_up_rate = dir === 'up' ? SHAKE_QUOTATION_RATE * 0.5 : SHAKE_QUOTATION_RATE
+        const fix_down_rate = dir === 'down' ? SHAKE_QUOTATION_RATE * 0.5 : SHAKE_QUOTATION_RATE
+
+        return ({
+            up: price * (1 + fix_up_rate),
+            down: price * (1 - fix_down_rate),
+        })
+    }
+
+    const _get_bull_bear_group = (fix_rate, data) => {
+        let rv = []
+        let target_price = get_target_price(data[0].开盘价)
+        let node = []
+
+        // 判定多空行情起始 结束
+        R.addIndex(R.map)(
+            (v, k) => {
+                const price = v.开盘价
+
+                node = [
+                    ...node,
+                    v,
+                ]
+
+                if(price >= target_price.up || price <= target_price.down) {
+                    const dir = price > target_price.up ? 'up' : 'down'
+                    const last_node = rv[rv.length - 1]
+
+                    if(last_node && last_node.dir === dir) {
+                        // 连续拼接
+                        rv = [
+                            ...R.take(rv.length - 1)(rv),
+                            {
+                                dir,
+                                node: [
+                                    ...rv[rv.length - 1].node,
+                                    ...node,
+                                ],
+                            },
+                        ]
+
+                        // 重置
+                        node = []
+                        target_price = get_target_price(price, dir)
+                    } else {
+                        // 拼接
+                        rv = [
+                            ...rv,
+                            {
+                                dir,
+                                node,
+                            },
+                        ]
+
+                        // 重置
+                        node = []
+                        target_price = get_target_price(price)
+                    }
+
+                }
+
+                if(k === data.length - 1 && node.length) {
+                    rv = [
+                        ...rv,
+                        {
+                            dir: null,
+                            node,
+                        },
+                    ]
+                }
+            },
+        )(data)
+
+        // 构造图表数据集
+        const chart_rv = R.addIndex(R.map)(
+            (v, k) => {
+                const before_len = R.compose(
+                    R.sum,
+                    R.addIndex(R.map)(
+                        (v1, k1) => k1 < k ? v1.node.length : 0,
+                    ),
+                )(rv)
+
+                const last_len = data.length - v.node.length - before_len
+
+                return ({
+                    ...v,
+                    chart_data: [
+                        ...R.repeat(null, before_len),
+                        ...R.map(R.prop('开盘价'))(v.node),
+                        ...R.repeat(null, last_len),
+                    ],
+                })
+            },
+        )(rv)
+
+        return chart_rv
+    }
+
+    return {
+        all_contract_bull_bear_group_data: _get_bull_bear_group(fix_rate, all_contract_data),
+        contract_bull_bear_group_data: _get_bull_bear_group(fix_rate, contract_data),
+    }
+}
+
 // 计算信息
 const get_cal_data = (dispatch, get_state, item) => {
 
@@ -303,11 +420,16 @@ const get_cal_data = (dispatch, get_state, item) => {
     const hl_info = get_cal_hl(fix_rate, all_contract_data, contract_data)
     const contract_day_amplitude = get_cal_contract_day_amplitude(fix_rate, contract_data)
 
+    // 合约期总波动
+    const contract_data_day_amplitude_rate_fixed_sum = R.reduce((a, b) => a + Math.abs(b.day_amplitude_rate_fixed), 0)(contract_day_amplitude)
+
     const cal_item = {
         ...item.info,
 
         lever,
         fix_rate,
+
+        contract_data_day_amplitude_rate_fixed_sum,
 
         // contract_data,
         contract_data: contract_day_amplitude,
@@ -317,6 +439,8 @@ const get_cal_data = (dispatch, get_state, item) => {
         analy: {
             contract_day_amplitude: get_analy_contract_day_amplitude(contract_day_amplitude),
             price_state: get_analy_price_state(fix_rate, all_contract_data, contract_data, hl_info),
+            // 获取多空行情分组数据
+            bull_bear_group: get_bull_bear_group(fix_rate, contract_data, all_contract_data),
         },
 
     }
@@ -328,7 +452,7 @@ const get_cal_data = (dispatch, get_state, item) => {
 
     dispatch(
         module_setter({
-            cal_data: R.sort((a, b) => b.all_contract_hl_gap_rate_fixed - a.all_contract_hl_gap_rate_fixed)(cal_data),
+            cal_data: R.sort((a, b) => b.contract_data_day_amplitude_rate_fixed_sum - a.contract_data_day_amplitude_rate_fixed_sum)(cal_data),
         }),
     )
 

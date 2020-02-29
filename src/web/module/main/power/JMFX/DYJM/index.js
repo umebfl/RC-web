@@ -406,6 +406,98 @@ const build_price_group_chart = (data) => {
     contract_chart.setOption(get_chart_option('合约期 价格分段', contract_data, group_contract_data))
 }
 
+const build_bull_bear_group = data => {
+    const all_contract_chart = echarts.init(document.getElementById('DYJM-all_contract_bull_bear_group'))
+    const contract_chart = echarts.init(document.getElementById('DYJM-contract_bull_bear_group'))
+
+    all_contract_chart.clear()
+    contract_chart.clear()
+
+    const all_contract_data = data.all_contract_data
+    const contract_data = data.contract_data
+
+    const all_contract_low = data.all_contract_low
+    const contract_low = data.contract_low
+
+    const all_contract_bull_bear_group_data = data.analy.bull_bear_group.all_contract_bull_bear_group_data
+    const contract_bull_bear_group_data = data.analy.bull_bear_group.contract_bull_bear_group_data
+
+    const get_chart_option = (title, data, all_data, low) => {
+
+        return {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999',
+                    },
+                },
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                },
+            },
+            visualMap: {
+                show: false,
+                type: 'continuous',
+            },
+            title: {
+                left: '5%',
+                top: '5%',
+                text: title,
+            },
+            xAxis: [
+                {
+                    data: R.map(v => v['日期'])(all_data),
+                },
+            ],
+            yAxis: [
+                {
+                    splitLine: {show: false},
+                    min: low['开盘价'],
+                },
+                {
+                    splitLine: {show: false},
+                },
+            ],
+            series: [
+                ...R.addIndex(R.map)(
+                    (v, k) => {
+                        return {
+                            type: 'line',
+                            showSymbol: false,
+                            data: v.chart_data,
+                            animation: false,
+                            lineStyle: {
+                                color: v.dir === 'up' ? red[5] : v.dir === 'down' ? green[5] : blue[5],
+                                width: 1,
+                                shadowBlur: 0,
+                            },
+                            yAxisIndex: 0,
+                        }
+                    },
+                )(data),
+                // {
+                //     type: 'line',
+                //     showSymbol: false,
+                //     data: R.map(v => v['开盘价'])(data.contract_data),
+                //     animation: false,
+                //     lineStyle: {
+                //         color: red[5],
+                //         width: 1,
+                //         shadowBlur: 0,
+                //     },
+                // },
+            ],
+        }
+    }
+
+    // all_contract_chart.setOption(get_chart_option('全期 行情分段', all_contract_bull_bear_group_data, all_contract_data, all_contract_low))
+    contract_chart.setOption(get_chart_option('合约期 行情分段', contract_bull_bear_group_data, contract_data, contract_low))
+}
+
 const Info = ({data}) => (
     <Flex style={{flexDirection: 'column'}}>
         <Flex style={{
@@ -427,6 +519,9 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 分段
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                总波幅
             </Flex>
         </Flex>
         <Flex>
@@ -461,6 +556,9 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.analy.price_state.contract_price_state_by_sort.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.contract_data_day_amplitude_rate_fixed_sum.toFixed(2)}
             </Flex>
         </Flex>
     </Flex>
@@ -539,6 +637,7 @@ class Mod extends Component {
             build_contract_data_chart(data)
             build_contract_amplitude_chart(data)
             build_price_group_chart(data)
+            build_bull_bear_group(data)
         }
 
     }
@@ -568,12 +667,15 @@ class Mod extends Component {
                     cal_data[active_key] ? <Info data={cal_data[active_key]}/> : null
                 }
 
-                <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
-                <div id='DYJM-contract_amplitude' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                <div id='DYJM-contract_bull_bear_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                <div id='DYJM-all_contract_bull_bear_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
 
                 <div id='DYJM-all_contract_price_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
                 <div id='DYJM-contract_price_group' style={{display: 'inline-block', width: '50%', height: 300}}/>
 
+                <div id='DYJM-contract_amplitude' style={{display: 'inline-block', width: '50%', height: 300}}/>
+
+                <div id='DYJM-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
                 <div id='DYJM-all_contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
 
                 {
