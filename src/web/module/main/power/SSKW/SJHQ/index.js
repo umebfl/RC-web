@@ -46,7 +46,7 @@ const Mod = ({
                 alignItems: 'center',
                 cursor: 'pointer',
             }}
-            onClick={() =>　action.refresh()}>
+            onClick={() => action.refresh()}>
             刷新
         </Flex>
 

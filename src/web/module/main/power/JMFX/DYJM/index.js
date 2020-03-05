@@ -45,7 +45,7 @@ import {
 import Flex from 'SRC/cmp/flex'
 import Nav from 'SRC/cmp/nav'
 
-const Item_list = ({data, active_key, handle_select}) => (
+export const Item_list = ({data, active_key, handle_select}) => (
     <div style={{padding: 10}}>
         {
             R.addIndex(R.map)(
@@ -521,6 +521,9 @@ const Info = ({data}) => (
                 分段
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                均状态
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 总波幅
             </Flex>
         </Flex>
@@ -536,6 +539,9 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.analy.price_state.all_contract_price_state_by_price.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.all_contract_price_state_by_avg.toFixed(2)}
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.analy.price_state.all_contract_price_state_by_sort.toFixed(2)}
@@ -556,6 +562,9 @@ const Info = ({data}) => (
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.analy.price_state.contract_price_state_by_sort.toFixed(2)}
+            </Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
+                {data.analy.price_state.contract_price_state_by_avg.toFixed(2)}
             </Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.contract_data_day_amplitude_rate_fixed_sum.toFixed(2)}

@@ -244,6 +244,7 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
     const get_price_state_by_price = (price, hp, lp) => (price - lp) / (hp - lp) * 100
     const get_price_state_by_sort = (data, price) => {
         for(let i = 0; i < data.length; i++) {
+            // 精度控制
             if(data[i].开盘价 < price) {
                 return (data.length - i) / data.length * 100
             }
@@ -269,24 +270,31 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
         )(data)
     }
 
+    const all_contract_price_state_by_price = get_price_state_by_price(all_contract_data[all_contract_data.length - 1].开盘价, all_contract_high.开盘价, all_contract_low.开盘价)
+    const contract_price_state_by_price = get_price_state_by_price(contract_data[contract_data.length - 1].开盘价, contract_high.开盘价, contract_low.开盘价)
+
+    const all_contract_price_state_by_sort = get_price_state_by_sort(sort_all_contract_data, all_contract_data[all_contract_data.length - 1].开盘价)
+    const contract_price_state_by_sort = get_price_state_by_sort(sort_contract_data, contract_data[contract_data.length - 1].开盘价)
+
     return {
-        all_contract_price_state_by_price: get_price_state_by_price(all_contract_data[all_contract_data.length - 1].开盘价, all_contract_high.开盘价, all_contract_low.开盘价),
-        contract_price_state_by_price: get_price_state_by_price(contract_data[contract_data.length - 1].开盘价, contract_high.开盘价, contract_low.开盘价),
+        // 平均值
+        all_contract_price_state_by_avg: (all_contract_price_state_by_price + all_contract_price_state_by_sort) / 2,
+        contract_price_state_by_avg: (contract_price_state_by_price + contract_price_state_by_sort) / 2,
+
+        all_contract_price_state_by_price,
+        contract_price_state_by_price,
+
+        all_contract_price_state_by_sort,
+        contract_price_state_by_sort,
 
         group_all_contract_data: get_group(sort_all_contract_data, all_contract_high.开盘价, all_contract_low.开盘价),
         group_contract_data: get_group(sort_contract_data, contract_high.开盘价, contract_low.开盘价),
-
-        all_contract_price_state_by_sort: get_price_state_by_sort(sort_all_contract_data, all_contract_data[all_contract_data.length - 1].开盘价),
-        contract_price_state_by_sort: get_price_state_by_sort(sort_contract_data, contract_data[contract_data.length - 1].开盘价),
     }
 
 }
 
 // 获取多空行情分组数据
 const get_bull_bear_group = (fix_rate, contract_data, all_contract_data) => {
-
-    const contract_bull_bear_group_data = []
-    const all_contract_bull_bear_group_data = []
 
     const get_target_price = (price, dir) => {
         // 连续修正
@@ -389,9 +397,20 @@ const get_bull_bear_group = (fix_rate, contract_data, all_contract_data) => {
         return chart_rv
     }
 
+    const all_contract_bull_bear_group_data = _get_bull_bear_group(fix_rate, all_contract_data)
+    const contract_bull_bear_group_data = _get_bull_bear_group(fix_rate, contract_data)
+
+    const _get_bull_bear_list = R.reduce(
+        (a, b) => R.concat(a)(R.map(v => ({...v, dir: b.dir}))(b.node)),
+        [],
+    )
+
     return {
-        all_contract_bull_bear_group_data: _get_bull_bear_group(fix_rate, all_contract_data),
-        contract_bull_bear_group_data: _get_bull_bear_group(fix_rate, contract_data),
+        all_contract_bull_bear_group_data,
+        contract_bull_bear_group_data,
+
+        all_contract_bull_bear_list_data: _get_bull_bear_list(all_contract_bull_bear_group_data),
+        contract_bull_bear_list_data: _get_bull_bear_list(contract_bull_bear_group_data),
     }
 }
 

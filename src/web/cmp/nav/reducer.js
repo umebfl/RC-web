@@ -32,6 +32,12 @@ const init_state = {
                 default_path: '/power/MJTY',
                 node: {},
             },
+            ZSJY: {
+                name: '真实交易',
+                path: '/power/ZSJY',
+                default_path: '/power/ZSJY',
+                node: {},
+            },
             SSKW: {
                 name: '嗜血渴望',
                 path: '/power/SSKW',

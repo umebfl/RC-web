@@ -6,6 +6,7 @@ import nav from 'SRC/cmp/nav/reducer'
 import main from 'SRC/module/main/reducer'
 import SJHQ from 'SRC/module/main/power/SSKW/SJHQ/reducer'
 import PZSX from 'SRC/module/main/power/SSKW/PZSX/reducer'
+import MJTY from 'SRC/module/main/power/MJTY/reducer'
 
 // export const AUTH_SIGNOUT = 'redux_auth_signout'
 
@@ -15,6 +16,7 @@ const app_reducer = combineReducers({
     main,
     SJHQ,
     PZSX,
+    MJTY,
 })
 
 const root_reducer = (state, action) => {

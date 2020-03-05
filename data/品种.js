@@ -90,14 +90,6 @@ export default [
         disable: false,
     },
     {
-        code: 'RU',
-        name: '天胶',
-        rate: 0.16,
-        unit: 10,
-        month: '2005',
-        disable: false,
-    },
-    {
         code: 'Y',
         name: '豆油',
         rate: 0.10,
@@ -107,6 +99,14 @@ export default [
     },
 
     // 忽略
+    {
+        code: 'RU',
+        name: '天胶',
+        rate: 0.16,
+        unit: 10,
+        month: '2005',
+        disable: true,
+    },
     {
         code: 'L',
         name: '塑料',
