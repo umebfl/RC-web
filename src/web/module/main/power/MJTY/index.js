@@ -60,7 +60,7 @@ const Item_list = ({active_key, handle_select, deduction}) => (
                             {(v / 10000).toFixed(2)}w
                         </div>
                     ),
-                    R.reduce((a, b) => a + b.total_profit, 0),
+                    R.reduce((a, b) => a + (b.total_profit || b.current_deal.profit), 0),
                 )(deduction)}
             </div>
         </div>
@@ -84,7 +84,7 @@ const Item_list = ({active_key, handle_select, deduction}) => (
                             }}>
                             {v.name}
                             <div style={{display: 'inline-block', marginLeft: 4, color: v.total_profit > 0 ? red[5] : green[5]}}>
-                                {(v.total_profit / 10000).toFixed(2)}
+                                {((v.total_profit || v.current_deal.profit) / 10000).toFixed(2)}
                             </div>
                         </div>
                     ),
@@ -107,7 +107,7 @@ const TY_List = ({data, active_key}) => (
                 <div style={{display: 'inline-block', margin: 4, width: 40}}>
                     方向
                 </div>
-                <div style={{display: 'inline-block', margin: 4, width: 50}}>
+                <div style={{display: 'inline-block', margin: 4, width: 120}}>
                     价格
                 </div>
                 <div style={{display: 'inline-block', margin: 4, width: 40}}>
@@ -119,13 +119,16 @@ const TY_List = ({data, active_key}) => (
                 {
                     R.compose(
                         v => (
-                            <div style={{display: 'inline-block', margin: 4, width: 50, color: v > 0 ? red[7] : green[7]}}>
+                            <div style={{display: 'inline-block', margin: 4, width: 70, color: v > 0 ? red[7] : green[7]}}>
                                 {(v / 10000).toFixed(2)}w
                             </div>
                         ),
                         R.reduce((a, b) => a + b.profit, 0),
                     )(data?.deal_list || [])
                 }
+                <div style={{display: 'inline-block', margin: 4, width: 60}}>
+                    保证金
+                </div>
             </div>
 
             {
@@ -141,8 +144,8 @@ const TY_List = ({data, active_key}) => (
                             <div style={{display: 'inline-block', margin: 4, width: 40, color: v.dir === 'up' ? red[7] : green[7]}}>
                                 {v.dir === 'up' ? '多' : '空'}
                             </div>
-                            <div style={{display: 'inline-block', margin: 4, width: 50}}>
-                                {v.price}
+                            <div style={{display: 'inline-block', margin: 4, width: 120, fontSize: 14}}>
+                                {v.add_count > 0 ? R.join(', ')([...v.add_before_price, v.price]) : v.price}
                             </div>
                             <div style={{display: 'inline-block', margin: 4, width: 40}}>
                                 {v.count}
@@ -150,8 +153,11 @@ const TY_List = ({data, active_key}) => (
                             <div style={{display: 'inline-block', margin: 4, width: 60}}>
                                 {v.close_price}
                             </div>
-                            <div style={{display: 'inline-block', margin: 4, width: 50, fontWeight: Math.abs(v.profit) > 10000 ? 'bold' : 'normal', color: v.profit > 0 ? red[7] : green[7]}}>
+                            <div style={{display: 'inline-block', margin: 4, width: 70, fontWeight: Math.abs(v.profit) > 10000 ? 'bold' : 'normal', color: v.profit > 0 ? red[7] : green[7]}}>
                                 {v.profit}
+                            </div>
+                            <div style={{display: 'inline-block', margin: 4, width: 60}}>
+                                {v.bond.toFixed(0)}
                             </div>
                         </div>
                     ),
