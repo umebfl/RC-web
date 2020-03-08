@@ -59,6 +59,10 @@ import {
 } from 'SRC/module/main/power/MJTY/chart/deal'
 
 import {
+    U_log_info,
+} from 'SRC/module/main/power/MJTY/util/log'
+
+import {
     MODULE_KEY as SJHQ_MODULE_KEY,
 } from 'SRC/module/main/power/SSKW/SJHQ/reducer'
 
@@ -69,17 +73,16 @@ const init_state = {
 }
 
 const get_deduction = (cal_data) => {
-
     return R.compose(
-
         // 依据总盈利排序
         R.sort((a, b) => b.total_profit - a.total_profit),
 
         // 推演
         R.addIndex(R.map)(
             (breed, k) => {
-                // const contract_data = breed.contract_data
-                const contract_data = R.take(50)(breed.contract_data)
+
+                const contract_data = breed.contract_data
+                // const contract_data = R.take(50)(breed.contract_data)
                 // const contract_data = R.take(60)(breed.contract_data)
 
                 return R.compose(
@@ -109,9 +112,7 @@ const get_deduction = (cal_data) => {
                     // 推演
                     R.reduce(
                         (last_store, current_day) => {
-
-                            const store = R.compose(
-
+                            return R.compose(
                                 // 数据更新
                                 v => ({
                                     ...v,
@@ -119,35 +120,28 @@ const get_deduction = (cal_data) => {
                                     day_list: [...v.day_list, v.current_day],
                                 }),
 
-                                // 依据status 进行处理
                                 R.cond([
                                     [
-                                        // 减仓
                                         v => v.display === 'cut',
                                         display_cut,
                                     ],
                                     [
-                                        // 加仓
                                         v => v.display === 'add',
                                         display_add,
                                     ],
                                     [
-                                        // 平仓
                                         v => v.display === 'close',
                                         display_close,
                                     ],
                                     [
-                                        // 持有
                                         v => v.display === 'keep',
                                         display_keep,
                                     ],
                                     [
-                                        // 开仓
                                         v => v.display === 'open',
                                         display_open,
                                     ],
                                     [
-                                        // 观望
                                         v => v.display === 'wait' || R.T,
                                         display_wait,
                                     ],
@@ -169,7 +163,6 @@ const get_deduction = (cal_data) => {
                                                 P_加仓次数控制,
                                                 P_加仓临界值判定,
                                             ]),
-                                            // 加仓
                                             R.assoc('display', 'add'),
                                             // 回撤止盈判定
                                             R.ifElse(
@@ -196,42 +189,18 @@ const get_deduction = (cal_data) => {
                                     R.ifElse(
                                         // 开仓判定
                                         R.allPass([
-                                            P_开仓_10日趋势判定,
                                             P_开仓_数据积累期判定,
                                             P_开仓_平仓静置期判定,
+                                            P_开仓_10日趋势判定,
                                             // 临界值突破
                                         ]),
-                                        // 开仓
                                         R.assoc('display', 'open'),
-                                        // 观望
                                         R.assoc('display', 'wait'),
                                     ),
                                 ),
 
-                                // 打印信息
-                                v => {
-                                    console.log(
-                                        'info    |',
-                                        v.name,
-                                        R.takeLast(5)(v.current_day.日期),
-                                        'C' + v.current_day.开盘价,
-                                        'H' + v.current_day.最高价,
-                                        'L' + v.current_day.最低价,
-                                        'AH' + v.series_high_day.最高价,
-                                        'AL' + v.series_low_day.最低价,
-                                        'trend_info:' + v.trend_info.day_10?.toFixed(2) || '-',
-                                        v.current_deal
-                                            ? ('持' + v.current_deal.price + (v.current_deal.dir === 'up' ? '多' : '空') + v.current_deal.count)
-                                            : '-',
-                                        v.current_deal
-                                            ? '盈' + v.current_deal.profit : '-',
-                                    )
-
-                                    return v
-                                },
-
+                                U_log_info,
                                 A_价格_最高最低价,
-
                                 A_趋势分析_10_20_30,
 
                                 // 添加信息: 保证金
@@ -247,8 +216,6 @@ const get_deduction = (cal_data) => {
                                 }),
 
                             )(last_store)
-
-                            return store
                         },
                         {
                             code: breed.code,
@@ -271,7 +238,6 @@ const get_deduction = (cal_data) => {
                             series_low_day: {最低价: 9999999},
                             // 全部交易列表 {交易信息, 加仓记录, 减仓记录}
                             deal_list: [],
-
                             // 当前交易
                             current_deal: null,
                             // 平仓间隔CLOSE_DEAL_WAIT_DAY天标记 CLOSE_DEAL_WAIT_DAY开始, 减到0
@@ -285,7 +251,7 @@ const get_deduction = (cal_data) => {
             },
         ),
 
-        R.filter(v => v.code === 'NI'),
+        // R.filter(v => v.code === 'NI'),
 
     )(cal_data)
 }
@@ -296,15 +262,11 @@ export const action = {
 
     deduction: payload => (dispatch, get_state) => {
         const state = get_state()
-        const module_state = state[MODULE_KEY]
         const sjhq_module_state = state[SJHQ_MODULE_KEY]
-        const cal_data = sjhq_module_state.cal_data
-
-        const data = get_deduction(cal_data)
 
         dispatch(
             module_setter({
-                deduction: data,
+                deduction: get_deduction(sjhq_module_state.cal_data),
             }),
         )
     },
