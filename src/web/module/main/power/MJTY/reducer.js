@@ -31,7 +31,32 @@ import {
 
 import {
     P_加仓次数控制,
+    P_加仓临界值判定,
 } from 'SRC/module/main/power/MJTY/policy/add'
+
+import {
+    P_回撤平仓_盈利判定,
+    P_回撤平仓_回撤临界值判定,
+    P_亏损平仓_临界值判定,
+} from 'SRC/module/main/power/MJTY/policy/close'
+
+import {
+    P_开仓_平仓静置期判定,
+    P_开仓_数据积累期判定,
+    P_开仓_10日趋势判定,
+} from 'SRC/module/main/power/MJTY/policy/open'
+
+import {
+    A_趋势分析_10_20_30,
+} from 'SRC/module/main/power/MJTY/analy/trend'
+
+import {
+    A_价格_最高最低价,
+} from 'SRC/module/main/power/MJTY/analy/price'
+
+import {
+    C_交易_交易分段数据生成,
+} from 'SRC/module/main/power/MJTY/chart/deal'
 
 import {
     MODULE_KEY as SJHQ_MODULE_KEY,
@@ -39,61 +64,8 @@ import {
 
 export const MODULE_KEY = 'MJTY'
 
-import {
-    INITIAL_CAPITAL,
-    CLOSE_DEAL_WAIT_DAY,
-    MAX_ADD_COUNT,
-} from 'SRC/module/main/power/MJTY/variable'
-
-// 数据量等待天数
-const WAIT_BASE_DAY_LEN = 10
-
-// 盈利回撤比例
-const CLOSE_BACK_RATE = 0.06  // 0.038 0.08 0.1 0.12
-// 盈利加仓后回撤比例
-const CLOSE_ADD_BACK_RATE = 0.04  //
-// 亏损比例
-const CLOSE_LOSS_RATE = 0.04  // 0.038 0.07 0.08 0.1
-// 加仓比例 0.1 = 10%
-const ADD_RATE = 0.05
-
 const init_state = {
     deduction: [],
-}
-
-const get_trend_info = (day) => {
-    if(day && day.length) {
-        return (day[day.length - 1].开盘价 - day[0].开盘价) / day[0].开盘价 * 100
-    }
-    return null
-}
-
-const get_deal_hl_price = (store, current_day) => {
-    let deal_hl_price = null
-    let deal_hl_price_back_rate = null
-
-    if(store.current_deal.dir === 'up') {
-        deal_hl_price = store.deal_hl_price
-            ? store.deal_hl_price > current_day.最高价
-                ? store.deal_hl_price
-                : current_day.最高价
-            : current_day.最高价
-
-        deal_hl_price_back_rate = (deal_hl_price - current_day.最低价) / store.current_deal.price
-    } else {
-        deal_hl_price = store.deal_hl_price
-            ? store.deal_hl_price < current_day.最低价
-                ? store.deal_hl_price
-                : current_day.最低价
-            : current_day.最低价
-
-        deal_hl_price_back_rate = (current_day.最高价 - deal_hl_price) / store.current_deal.price
-    }
-
-    return {
-        deal_hl_price,
-        deal_hl_price_back_rate,
-    }
 }
 
 const get_deduction = (cal_data) => {
@@ -106,16 +78,6 @@ const get_deduction = (cal_data) => {
         // 推演
         R.addIndex(R.map)(
             (breed, k) => {
-                const {
-                    code,
-                    month,
-                    name,
-                    rate,
-                    unit,
-                    contract_low,
-                    contract_high,
-                } = breed
-
                 // const contract_data = breed.contract_data
                 const contract_data = R.take(50)(breed.contract_data)
                 // const contract_data = R.take(60)(breed.contract_data)
@@ -123,46 +85,7 @@ const get_deduction = (cal_data) => {
                 return R.compose(
 
                     // 图表数据生成
-                    v => ({
-                        ...v,
-                        deal_chart_list: R.addIndex(R.map)(
-                            (v, k) => {
-                                const open_date = v.open_date
-                                const close_date = v.close_date || contract_data[contract_data.length - 1].日期
-                                let find = false
-                                let close = false
-
-                                const y = R.map(
-                                    item => {
-                                        if(close) {
-                                            return null
-                                        }
-                                        if(item.日期 === close_date) {
-                                            close = true
-                                            return v.close_price
-                                        }
-                                        if(item.日期 === open_date) {
-                                            find = true
-                                            if(v.add_count) {
-                                                return v.add_before_price[0]
-                                            }
-                                            return v.price
-                                        }
-                                        if(find) {
-                                            return item.开盘价
-                                        }
-
-                                        return null
-                                    },
-                                )(contract_data)
-
-                                return {
-                                    y,
-                                    dir: v.dir,
-                                }
-                            },
-                        )(v.deal_list),
-                    }),
+                    C_交易_交易分段数据生成,
 
                     // 未平仓汇入
                     R.ifElse(
@@ -234,7 +157,7 @@ const get_deduction = (cal_data) => {
                                 R.ifElse(
                                     // 是否存在持仓
                                     v => v.current_deal !== null,
-                                    // // 存在持仓
+                                    // 存在持仓
                                     R.ifElse(
                                         // 是否存在盈利
                                         v => v.current_deal.profit > 0,
@@ -243,29 +166,8 @@ const get_deduction = (cal_data) => {
                                             // 加仓判定
                                             // 盈利超过本金ADD_RATE
                                             R.allPass([
-                                                // 加仓次数控制
                                                 P_加仓次数控制,
-                                                // 临界值判定
-                                                v => {
-                                                    // const target_profit = v.current_deal.price * v.current_deal.count * v.unit * v.rate * ADD_RATE
-                                                    // const pass = v.current_deal.profit > target_profit
-
-                                                    const target_price = v.current_deal.dir === 'up'
-                                                        ? v.current_deal.price * (1 + ADD_RATE)
-                                                        : v.current_deal.price * (1 - ADD_RATE)
-
-                                                    const pass = v.current_deal.dir === 'up'
-                                                        ? target_price < v.current_day.最高价
-                                                        : target_price > v.current_day.最低价
-
-                                                    console.log('analy  | 盈 加仓判定',
-                                                        'T' + parseInt(target_price),
-                                                        pass ? '过' : '否',
-                                                        '盈' + v.current_deal.profit,
-                                                    )
-
-                                                    return pass
-                                                },
+                                                P_加仓临界值判定,
                                             ]),
                                             // 加仓
                                             R.assoc('display', 'add'),
@@ -273,64 +175,8 @@ const get_deduction = (cal_data) => {
                                             R.ifElse(
                                                 // 持有/平仓判定
                                                 R.allPass([
-                                                    // 盈利大于 CLOSE_LOSS_RATE 否则继续持有
-                                                    v => {
-                                                        // 存在加仓 默认通过
-                                                        if(v.current_deal.add_count > 0) {
-                                                            console.log('analy  | 盈 回撤判定 盈利幅度 加仓默认通过')
-                                                            return true
-                                                        }
-
-                                                        const target_price = v.current_deal.dir === 'up'
-                                                            ? parseInt(v.current_deal.price * (1 + CLOSE_LOSS_RATE))
-                                                            : parseInt(v.current_deal.price * (1 - CLOSE_LOSS_RATE))
-
-                                                        const pass = v.current_deal.dir === 'up'
-                                                            ? target_price < v.current_day.最高价
-                                                            : target_price > v.current_day.最低价
-
-                                                        console.log('analy  | 盈 回撤判定 盈利幅度',
-                                                            'T' + target_price,
-                                                            pass ? '过' : '否',
-                                                            v.current_deal.dir === 'up' ? target_price - v.current_day.最高价 : target_price - v.current_day.最低价,
-                                                        )
-
-                                                        return pass
-                                                    },
-                                                    // 回撤大于CLOSE_BACK_RATE则平仓 否则继续持有
-                                                    v => {
-                                                        const rate = v.current_deal.add_count > 0 ? CLOSE_ADD_BACK_RATE : CLOSE_BACK_RATE
-
-                                                        const target_price = v.current_deal.dir === 'up'
-                                                            ? parseInt(v.current_deal.price * (1 - rate))
-                                                            : parseInt(v.current_deal.price * (1 + rate))
-
-                                                        const pass = v.current_deal.dir === 'up'
-                                                            // 多, 低价平,
-                                                            // true = 平仓 false = 持有
-                                                            // 成交价 * (1 - 0.6) = 平仓价2000
-                                                            // true 平仓价2000 大于 最高价1000
-                                                            // false 平仓价2000 小于 最高价1000
-                                                            ? target_price > v.series_low_day.最低价
-                                                            // 空 高价平
-                                                            // true = 平仓 false = 持有
-                                                            // 成交价 * (1 + 0.6) = 平仓价2000
-                                                            // true 平仓价2000 大于 最高价3000
-                                                            // false 平仓价2000 小于 最高价3000
-                                                            : target_price > v.series_high_day.最高价
-
-                                                        console.log('analy  | 盈 回撤判定 回撤幅度',
-                                                            'AH' + v.series_high_day.最高价,
-                                                            'AL' + v.series_low_day.最低价,
-                                                            '盈' + v.current_deal.profit,
-                                                            'T' + target_price,
-                                                            rate,
-                                                            pass ? '过' : '否',
-                                                            v.current_deal.dir === 'up' ? target_price - v.series_low_day.最低价 : target_price - v.series_high_day.最高价,
-                                                        )
-
-                                                        return pass
-                                                    },
+                                                    P_回撤平仓_盈利判定,
+                                                    P_回撤平仓_回撤临界值判定,
                                                 ]),
                                                 R.assoc('display', 'close'),
                                                 R.assoc('display', 'keep'),
@@ -340,24 +186,7 @@ const get_deduction = (cal_data) => {
                                         R.ifElse(
                                             // 持有/平仓判定
                                             R.allPass([
-                                                // 临界值突破 CLOSE_LOSS_RATE
-                                                v => {
-                                                    const close_price = v.current_deal.dir === 'up'
-                                                        ? v.current_deal.price * (1 - CLOSE_LOSS_RATE)
-                                                        : v.current_deal.price * (1 + CLOSE_LOSS_RATE)
-
-                                                    const pass =  v.current_deal.dir === 'up'
-                                                        ? close_price < v.current_day.最低价   // 平1800 最低2000 过
-                                                        : close_price > v.current_day.最高价   // 2000 1900
-
-                                                    console.log('analy   | 亏',
-                                                        '盈' + v.current_deal.profit,
-                                                        '平' + close_price.toFixed(0), pass ? '过' : '否',
-                                                        v.current_deal.dir === 'up' ? parseInt(v.current_day.最低价 - close_price) : parseInt(close_price - v.current_day.最高价),
-                                                    )
-
-                                                    return pass
-                                                },
+                                                P_亏损平仓_临界值判定,
                                             ]),
                                             R.assoc('display', 'keep'),
                                             R.assoc('display', 'close'),
@@ -367,13 +196,10 @@ const get_deduction = (cal_data) => {
                                     R.ifElse(
                                         // 开仓判定
                                         R.allPass([
-                                            // 10日
-                                            v => v.trend_info.day_10 > 1 || v.trend_info.day_10 < -1,
+                                            P_开仓_10日趋势判定,
+                                            P_开仓_数据积累期判定,
+                                            P_开仓_平仓静置期判定,
                                             // 临界值突破
-                                            // 数据积累期
-                                            v => v.day_list.length > WAIT_BASE_DAY_LEN,
-                                            // 平仓静置期
-                                            v => v.close_deal_day === 0,
                                         ]),
                                         // 开仓
                                         R.assoc('display', 'open'),
@@ -404,37 +230,17 @@ const get_deduction = (cal_data) => {
                                     return v
                                 },
 
-                                // 更新 当前最高价 当前最低价
-                                v => ({
-                                    ...v,
-                                    // 当前最高价
-                                    series_high_day: v.current_day.最高价 > v.series_high_day.最高价 ? v.current_day : v.series_high_day,
-                                    // 当前最低价
-                                    series_low_day: v.current_day.最低价 < v.series_low_day.最低价 ? v.current_day : v.series_low_day,
-                                }),
+                                A_价格_最高最低价,
 
-                                // 分析 短期走势
-                                v => ({
-                                    ...v,
-                                    trend_info: {
-                                        // 连续走势
-                                        series: get_trend_info(v.day_list),
-                                        // 10天走势
-                                        day_10: get_trend_info(R.takeLast(10)(v.day_list)),
-                                        // 20天走势
-                                        day_20: get_trend_info(R.takeLast(20)(v.day_list)),
-                                        // 30天走势
-                                        day_30: get_trend_info(R.takeLast(30)(v.day_list)),
-                                    },
-                                }),
+                                A_趋势分析_10_20_30,
 
-                                // 信息: 保证金
+                                // 添加信息: 保证金
                                 v => ({
                                     ...v,
                                     bond: v.current_day.开盘价 * v.unit * v.rate,
                                 }),
 
-                                // 信息: 当日数据
+                                // 添加信息: 当日数据
                                 v => ({
                                     ...v,
                                     current_day,
@@ -445,14 +251,14 @@ const get_deduction = (cal_data) => {
                             return store
                         },
                         {
-                            code,
-                            month,
-                            name,
-                            unit,
-                            rate,
-                            contract_low,
-                            contract_high,
-                            contract_data,
+                            code: breed.code,
+                            month: breed.month,
+                            name: breed.name,
+                            unit: breed.unit,
+                            rate: breed.rate,
+                            contract_low: breed.contract_low,
+                            contract_high: breed.contract_high,
+                            contract_data: breed.contract_data,
                             // 处理
                             display: null,
                             // 序列
