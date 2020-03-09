@@ -210,7 +210,7 @@ const build_contract_data_chart = (data) => {
         yAxis: [
             {
                 splitLine: {show: false},
-                min: data.contract_low['开盘价'],
+                min: data.contract_low['收盘价'],
             },
             {
                 splitLine: {show: false},
@@ -220,7 +220,7 @@ const build_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(day_list),
+                data: R.map(v => v['收盘价'])(day_list),
                 animation: false,
                 lineStyle: {
                     color: blue[5],
@@ -231,7 +231,7 @@ const build_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(day_list),
+                data: R.map(v => v['收盘价'])(day_list),
                 animation: false,
                 lineStyle: {
                     color: blue[3],

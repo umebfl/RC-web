@@ -108,7 +108,7 @@ const build_all_contract_data_chart = (data) => {
         yAxis: [
             {
                 splitLine: {show: false},
-                min: data.all_contract_low['开盘价'],
+                min: data.all_contract_low['收盘价'],
             },
             {
                 splitLine: {show: false},
@@ -118,7 +118,7 @@ const build_all_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(data.all_contract_data),
+                data: R.map(v => v['收盘价'])(data.all_contract_data),
                 animation: false,
                 lineStyle: {
                     color: red[5],
@@ -129,7 +129,7 @@ const build_all_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(data.all_contract_data),
+                data: R.map(v => v['收盘价'])(data.all_contract_data),
                 animation: false,
                 lineStyle: {
                     color: blue[5],
@@ -178,7 +178,7 @@ const build_contract_data_chart = (data) => {
         yAxis: [
             {
                 splitLine: {show: false},
-                min: data.contract_low['开盘价'],
+                min: data.contract_low['收盘价'],
             },
             {
                 splitLine: {show: false},
@@ -188,7 +188,7 @@ const build_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(data.contract_data),
+                data: R.map(v => v['收盘价'])(data.contract_data),
                 animation: false,
                 lineStyle: {
                     color: red[5],
@@ -199,7 +199,7 @@ const build_contract_data_chart = (data) => {
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['开盘价'])(data.contract_data),
+                data: R.map(v => v['收盘价'])(data.contract_data),
                 animation: false,
                 lineStyle: {
                     color: blue[5],
@@ -335,7 +335,7 @@ const build_price_group_chart = (data) => {
                 formatter: (params) => {
                     const tar = params[1]
                     const data = group[`lv${tar.dataIndex - 1}`] || []
-                    return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value + ` (${data[data.length - 1]?.开盘价} - ${data[0]?.开盘价})`
+                    return tar.name + '<br/>' + tar.seriesName + ' : ' + tar.value + ` (${data[data.length - 1]?.收盘价} - ${data[0]?.收盘价})`
                 },
             },
             xAxis: {
@@ -456,7 +456,7 @@ const build_bull_bear_group = data => {
             yAxis: [
                 {
                     splitLine: {show: false},
-                    min: low['开盘价'],
+                    min: low['收盘价'],
                 },
                 {
                     splitLine: {show: false},
@@ -482,7 +482,7 @@ const build_bull_bear_group = data => {
                 // {
                 //     type: 'line',
                 //     showSymbol: false,
-                //     data: R.map(v => v['开盘价'])(data.contract_data),
+                //     data: R.map(v => v['收盘价'])(data.contract_data),
                 //     animation: false,
                 //     lineStyle: {
                 //         color: red[5],
@@ -529,8 +529,8 @@ const Info = ({data}) => (
         </Flex>
         <Flex>
             <Flex style={{width: 150, marginRight: 10, justifyContent: 'flex-end'}}>全期最低/高价:</Flex>
-            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.all_contract_low['开盘价']}</Flex>
-            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.all_contract_high['开盘价']}</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.all_contract_low['收盘价']}</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.all_contract_high['收盘价']}</Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.all_contract_hl_gap_rate.toFixed(2)}
             </Flex>
@@ -549,8 +549,8 @@ const Info = ({data}) => (
         </Flex>
         <Flex>
             <Flex style={{width: 150, marginRight: 10, justifyContent: 'flex-end'}}>合约期最低/高价:</Flex>
-            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.contract_low['开盘价']}</Flex>
-            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.contract_high['开盘价']}</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.contract_low['收盘价']}</Flex>
+            <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>{data.contract_high['收盘价']}</Flex>
             <Flex style={{width: 60, marginRight: 10, justifyContent: 'flex-end'}}>
                 {data.contract_hl_gap_rate.toFixed(2)}
             </Flex>

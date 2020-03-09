@@ -28,6 +28,7 @@ export const P_回撤平仓_盈利判定 = v => {
     return pass
 }
 
+// 强断连接 危机洞察 风险评估
 export const P_回撤平仓_回撤临界值判定 = v => {
     const rate = v.current_deal.add_count > 0 ? CLOSE_ADD_BACK_RATE : CLOSE_BACK_RATE
 
@@ -62,6 +63,7 @@ export const P_回撤平仓_回撤临界值判定 = v => {
     return pass
 }
 
+// 强断连接
 export const P_亏损平仓_临界值判定 = v => {
     const close_price = v.current_deal.dir === 'up'
         ? v.current_deal.price * (1 - CLOSE_LOSS_RATE)

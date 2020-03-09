@@ -25,7 +25,7 @@ export const C_交易_交易分段数据生成 = v => ({
                         return deal.price
                     }
                     if(find) {
-                        return item.开盘价
+                        return item.收盘价
                     }
 
                     return null

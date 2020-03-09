@@ -31,6 +31,7 @@ const get_current_data = async ({code, month}) => {
     let info = item_arr[0].split(',')
 
     return ({
+        '日期': info[17],
         '开盘价': parseInt(info[5]),
         '最高价': parseInt(info[3]),
         '最低价': parseInt(info[4]),
@@ -97,8 +98,25 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     get_cal_data(dispatch, get_state, item)
 }
 
-const parse_data_str = (data, cut) => {
+const parse_data_str = (current_data, data, cut) => {
     return R.compose(
+        list => {
+            if(current_data.日期 !== list[list.length - 1].日期) {
+                // 追加当天交易数据
+                list = [
+                    ...list,
+                    {
+                        日期: current_data.日期,
+                        开盘价: current_data.开盘价,
+                        最高价: current_data.最高价,
+                        最低价: current_data.最低价,
+                        收盘价: current_data.最新价,
+                    },
+                ]
+            }
+
+            return list
+        },
         list => R.addIndex(R.map)(
             (v, k) => {
                 const _open = parseInt(v[1])
@@ -132,19 +150,19 @@ const parse_data_str = (data, cut) => {
 }
 
 const get_cal_hl = (fix_rate, all_contract_data, contract_data) => {
-    const sort_all_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(all_contract_data)
-    const sort_contract_data = R.sort((a, b) => b['开盘价'] - a['开盘价'])(contract_data)
+    const sort_all_contract_data = R.sort((a, b) => b['收盘价'] - a['收盘价'])(all_contract_data)
+    const sort_contract_data = R.sort((a, b) => b['收盘价'] - a['收盘价'])(contract_data)
 
     const all_contract_high = sort_all_contract_data[0]
     const all_contract_low = sort_all_contract_data[sort_all_contract_data.length - 1]
-    const all_contract_hl_gap = all_contract_high['开盘价'] - all_contract_low['开盘价']
-    const all_contract_hl_gap_rate = all_contract_hl_gap / all_contract_low['开盘价']
+    const all_contract_hl_gap = all_contract_high['收盘价'] - all_contract_low['收盘价']
+    const all_contract_hl_gap_rate = all_contract_hl_gap / all_contract_low['收盘价']
     const all_contract_hl_gap_rate_fixed = all_contract_hl_gap_rate * fix_rate
 
     const contract_high = sort_contract_data[0]
     const contract_low = sort_contract_data[sort_contract_data.length - 1]
-    const contract_hl_gap = contract_high['开盘价'] - contract_low['开盘价']
-    const contract_hl_gap_rate = contract_hl_gap / contract_low['开盘价']
+    const contract_hl_gap = contract_high['收盘价'] - contract_low['收盘价']
+    const contract_hl_gap_rate = contract_hl_gap / contract_low['收盘价']
     const contract_hl_gap_rate_fixed = contract_hl_gap_rate * fix_rate
 
     return {
@@ -245,16 +263,18 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
     const get_price_state_by_sort = (data, price) => {
         for(let i = 0; i < data.length; i++) {
             // 精度控制
-            if(data[i].开盘价 < price) {
+            if(data[i].收盘价 < price) {
                 return (data.length - i) / data.length * 100
             }
         }
+
+        return 0
     }
 
     const get_group = (data, hp, lp) => {
         return R.groupBy(
             v => {
-                const amp = (v.开盘价 - lp) / (hp - lp)
+                const amp = (v.收盘价 - lp) / (hp - lp)
                 return (
                     amp < 0.1 ? 'lv0' :
                         amp < 0.2 ? 'lv1' :
@@ -270,11 +290,11 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
         )(data)
     }
 
-    const all_contract_price_state_by_price = get_price_state_by_price(all_contract_data[all_contract_data.length - 1].开盘价, all_contract_high.开盘价, all_contract_low.开盘价)
-    const contract_price_state_by_price = get_price_state_by_price(contract_data[contract_data.length - 1].开盘价, contract_high.开盘价, contract_low.开盘价)
+    const all_contract_price_state_by_price = get_price_state_by_price(all_contract_data[all_contract_data.length - 1].收盘价, all_contract_high.收盘价, all_contract_low.收盘价)
+    const contract_price_state_by_price = get_price_state_by_price(contract_data[contract_data.length - 1].收盘价, contract_high.收盘价, contract_low.收盘价)
 
-    const all_contract_price_state_by_sort = get_price_state_by_sort(sort_all_contract_data, all_contract_data[all_contract_data.length - 1].开盘价)
-    const contract_price_state_by_sort = get_price_state_by_sort(sort_contract_data, contract_data[contract_data.length - 1].开盘价)
+    const all_contract_price_state_by_sort = get_price_state_by_sort(sort_all_contract_data, all_contract_data[all_contract_data.length - 1].收盘价)
+    const contract_price_state_by_sort = get_price_state_by_sort(sort_contract_data, contract_data[contract_data.length - 1].收盘价)
 
     return {
         // 平均值
@@ -287,8 +307,8 @@ const get_analy_price_state = (fix_rate, all_contract_data, contract_data, hl_in
         all_contract_price_state_by_sort,
         contract_price_state_by_sort,
 
-        group_all_contract_data: get_group(sort_all_contract_data, all_contract_high.开盘价, all_contract_low.开盘价),
-        group_contract_data: get_group(sort_contract_data, contract_high.开盘价, contract_low.开盘价),
+        group_all_contract_data: get_group(sort_all_contract_data, all_contract_high.收盘价, all_contract_low.收盘价),
+        group_contract_data: get_group(sort_contract_data, contract_high.收盘价, contract_low.收盘价),
     }
 
 }
@@ -309,13 +329,13 @@ const get_bull_bear_group = (fix_rate, contract_data, all_contract_data) => {
 
     const _get_bull_bear_group = (fix_rate, data) => {
         let rv = []
-        let target_price = get_target_price(data[0].开盘价)
+        let target_price = get_target_price(data[0].收盘价)
         let node = []
 
         // 判定多空行情起始 结束
         R.addIndex(R.map)(
             (v, k) => {
-                const price = v.开盘价
+                const price = v.收盘价
 
                 node = [
                     ...node,
@@ -387,7 +407,7 @@ const get_bull_bear_group = (fix_rate, contract_data, all_contract_data) => {
                     ...v,
                     chart_data: [
                         ...R.repeat(null, before_len),
-                        ...R.map(R.prop('开盘价'))(v.node),
+                        ...R.map(R.prop('收盘价'))(v.node),
                         ...R.repeat(null, last_len),
                     ],
                 })
@@ -423,13 +443,14 @@ const get_cal_data = (dispatch, get_state, item) => {
     const {
         info: {
             rate,
+            current_data,
         },
         contract_data_str,
         all_contract_data_str,
     } = item
 
-    const contract_data = parse_data_str(contract_data_str, true)
-    const all_contract_data = parse_data_str(all_contract_data_str)
+    const contract_data = parse_data_str(current_data, contract_data_str, true)
+    const all_contract_data = parse_data_str(current_data, all_contract_data_str)
 
     // 杠杆
     const lever = 1 / rate

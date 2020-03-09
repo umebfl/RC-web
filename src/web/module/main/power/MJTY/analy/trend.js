@@ -2,7 +2,7 @@
 
 const get_trend_info = (day) => {
     if(day && day.length) {
-        return (day[day.length - 1].开盘价 - day[0].开盘价) / day[0].开盘价 * 100
+        return (day[day.length - 1].收盘价 - day[0].收盘价) / day[0].收盘价 * 100
     }
     return null
 }

@@ -11,6 +11,21 @@ const init_state = {
         path: '/power',
         default_path: '/power/JMFX/DYJM',
         node: {
+            SSKW: {
+                name: '嗜血渴望',
+                path: '/power/SSKW',
+                default_path: '/power/SSKW/SJHQ',
+                node: {
+                    SJHQ: {
+                        name: '数据获取',
+                        path: '/power/SSKW/SJHQ',
+                    },
+                    PZSX: {
+                        name: '品种筛选',
+                        path: '/power/SSKW/PZSX',
+                    },
+                },
+            },
             JMFX: {
                 name: '建模分析',
                 path: '/power/JMFX',
@@ -32,61 +47,41 @@ const init_state = {
                 default_path: '/power/MJTY',
                 node: {},
             },
+            // RDDC: {
+            //     name: '弱点洞察',
+            //     path: '/power/RDDC',
+            //     default_path: '/power/RDDC',
+            //     node: {},
+            // },
+            // WJDC: {
+            //     name: '危机洞察',
+            //     path: '/power/WJDC',
+            //     default_path: '/power/WJDC',
+            //     node: {},
+            // },
+            // QDLJ: {
+            //     name: '强断连接',
+            //     path: '/power/QDLJ',
+            //     default_path: '/power/QDLJ',
+            //     node: {},
+            // },
+            // SHJS: {
+            //     name: '伤害加深',
+            //     path: '/power/SHJS',
+            //     default_path: '/power/SHJS',
+            //     node: {},
+            // },
+            // FXPG: {
+            //     name: '风险评估',
+            //     path: '/power/FXPG',
+            //     default_path: '/power/FXPG',
+            //     node: {},
+            // },
+
             ZSJY: {
                 name: '真实交易',
                 path: '/power/ZSJY',
                 default_path: '/power/ZSJY',
-                node: {},
-            },
-            SSKW: {
-                name: '嗜血渴望',
-                path: '/power/SSKW',
-                default_path: '/power/SSKW/SJHQ',
-                node: {
-                    SJHQ: {
-                        name: '数据获取',
-                        path: '/power/SSKW/SJHQ',
-                    },
-                    PZSX: {
-                        name: '品种筛选',
-                        path: '/power/SSKW/PZSX',
-                    },
-                },
-            },
-            RDDC: {
-                name: '弱点洞察',
-                path: '/power/RDDC',
-                default_path: '/power/RDDC',
-                node: {},
-            },
-            WJDC: {
-                name: '危机洞察',
-                path: '/power/WJDC',
-                default_path: '/power/WJDC',
-                node: {},
-            },
-            QDLJ: {
-                name: '强断连接',
-                path: '/power/QDLJ',
-                default_path: '/power/QDLJ',
-                node: {},
-            },
-            SHJS: {
-                name: '伤害加深',
-                path: '/power/SHJS',
-                default_path: '/power/SHJS',
-                node: {},
-            },
-            DXFS: {
-                name: '多线分身',
-                path: '/power/DXFS',
-                default_path: '/power/DXFS',
-                node: {},
-            },
-            FXPG: {
-                name: '风险评估',
-                path: '/power/FXPG',
-                default_path: '/power/FXPG',
                 node: {},
             },
             SY: {

@@ -3,15 +3,7 @@ import {
     ADD_RATE,
 } from 'SRC/module/main/power/MJTY/variable'
 
-export const P_加仓次数控制 = v => {
-    console.log('analy  | 盈 加仓判定 加仓次数判定',
-        v.current_deal.add_count,
-        MAX_ADD_COUNT,
-    )
-
-    return v.current_deal.add_count < MAX_ADD_COUNT
-}
-
+// 伤害加深 风险评估
 export const P_加仓临界值判定 = v => {
     // const target_profit = v.current_deal.price * v.current_deal.count * v.unit * v.rate * ADD_RATE
     // const pass = v.current_deal.profit > target_profit
@@ -31,4 +23,13 @@ export const P_加仓临界值判定 = v => {
     )
 
     return pass
+}
+
+export const P_加仓次数控制 = v => {
+    console.log('analy  | 盈 加仓判定 加仓次数判定',
+        v.current_deal.add_count,
+        MAX_ADD_COUNT,
+    )
+
+    return v.current_deal.add_count < MAX_ADD_COUNT
 }

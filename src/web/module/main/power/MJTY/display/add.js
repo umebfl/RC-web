@@ -18,6 +18,9 @@ export const display_add = v => {
             price: parseInt(price),
             add_count,
             add_before_price: [...v.current_deal.add_before_price, v.current_deal.price],
+            profit: v.current_deal.dir === 'up'
+                ? (v.current_day.收盘价 - v.current_deal.price) * v.unit * v.current_deal.count
+                : (v.current_deal.price - v.current_day.收盘价) * v.unit * v.current_deal.count,
         },
     }
 

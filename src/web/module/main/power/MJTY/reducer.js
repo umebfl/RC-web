@@ -82,12 +82,11 @@ const get_deduction = (cal_data) => {
             (breed, k) => {
 
                 const contract_data = breed.contract_data
-                // const contract_data = R.take(50)(breed.contract_data)
+                // const contract_data = R.take(20)(breed.contract_data)
                 // const contract_data = R.take(60)(breed.contract_data)
 
                 return R.compose(
 
-                    // 图表数据生成
                     C_交易_交易分段数据生成,
 
                     // 未平仓汇入
@@ -158,7 +157,6 @@ const get_deduction = (cal_data) => {
                                         // 存在盈利
                                         R.ifElse(
                                             // 加仓判定
-                                            // 盈利超过本金ADD_RATE
                                             R.allPass([
                                                 P_加仓次数控制,
                                                 P_加仓临界值判定,
@@ -200,6 +198,7 @@ const get_deduction = (cal_data) => {
                                 ),
 
                                 U_log_info,
+
                                 A_价格_最高最低价,
                                 A_趋势分析_10_20_30,
 
@@ -251,7 +250,7 @@ const get_deduction = (cal_data) => {
             },
         ),
 
-        // R.filter(v => v.code === 'NI'),
+        // R.filter(v => v.code === 'BU'),
 
     )(cal_data)
 }
