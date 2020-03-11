@@ -50,6 +50,62 @@ import {
     VITRIC_DDD,
 } from 'SRC/theme'
 
+const Deal_list = ({data}) => {
+
+    return (
+        <div style={{margin: 4}}>
+            {
+                R.compose(
+                    R.addIndex(R.map)(
+                        (v, k) => (
+                            <div key={k} style={{borderBottom: '1px solid #AAA', margin: 4, height: 30, paddingTop: 4}}>
+                                <div style={{display: 'inline-block', width: 50, marginLeft: 20}}>
+                                    {v.name}
+                                </div>
+                                {
+                                    v.deal_list.length
+                                        ? R.compose(
+                                            deal => (
+                                                <div style={{display: 'inline-block'}}>
+                                                    <div style={{display: 'inline-block', width: 50}}>
+                                                        {R.takeLast(5)(deal.open_date)}
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                                        {deal.days > 30 ? `${(deal.days / 30).toFixed(1)}月` : `${deal.days}天`}
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 50, textAlign: 'center'}}>
+                                                        {deal.close ? '平' : '持'}
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 30, color: deal.dir === 'up' ? red[5] : green[7]}}>
+                                                        {deal.dir === 'up' ? '多' : '空'}
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                                        {deal.count}手
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                                        {parseInt(deal.bond * deal.count / 10000)}w
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
+                                                        {(deal.profit / 10000).toFixed(2)}w
+                                                    </div>
+                                                    <div style={{display: 'inline-block', width: 240, textAlign: 'right', fontSize: 14}}>
+                                                        {deal.add_count > 0 ? R.join(', ')([...deal.add_before_price, deal.price]) : deal.price}
+                                                    </div>
+                                                </div>
+                                            ),
+                                        )(v.deal_list[v.deal_list.length - 1])
+                                        : null
+                                }
+                            </div>
+                        ),
+                    ),
+                    R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
+                )(data)
+            }
+        </div>
+    )
+}
+
 const Item_list = ({active_key, handle_select, deduction}) => (
     <div style={{padding: 10}}>
         <div>
@@ -60,7 +116,7 @@ const Item_list = ({active_key, handle_select, deduction}) => (
                             {(v / 10000).toFixed(2)}w
                         </div>
                     ),
-                    R.reduce((a, b) => a + (b.total_profit || b.current_deal.profit), 0),
+                    R.reduce((a, b) => a + (b?.total_profit || b.current_deal?.profit || 0), 0),
                 )(deduction)}
             </div>
         </div>
@@ -84,7 +140,7 @@ const Item_list = ({active_key, handle_select, deduction}) => (
                             }}>
                             {v.name}
                             <div style={{display: 'inline-block', marginLeft: 4, color: v.total_profit > 0 ? red[5] : green[5]}}>
-                                {((v.total_profit || v.current_deal.profit) / 10000).toFixed(2)}
+                                {((v.total_profit || v.current_deal?.profit) / 10000).toFixed(2)}
                             </div>
                         </div>
                     ),
@@ -95,7 +151,7 @@ const Item_list = ({active_key, handle_select, deduction}) => (
 )
 
 const TY_List = ({data, active_key}) => (
-    <div>
+    <div style={{marginBottom: 20}}>
         <div>
             <div style={{margin: 4, borderBottom: '1px solid'}}>
                 <div style={{display: 'inline-block', margin: 4, width: 120}}>
@@ -106,9 +162,6 @@ const TY_List = ({data, active_key}) => (
                 </div>
                 <div style={{display: 'inline-block', margin: 4, width: 40}}>
                     方向
-                </div>
-                <div style={{display: 'inline-block', margin: 4, width: 120}}>
-                    价格
                 </div>
                 <div style={{display: 'inline-block', margin: 4, width: 40}}>
                     数量
@@ -129,6 +182,9 @@ const TY_List = ({data, active_key}) => (
                 <div style={{display: 'inline-block', margin: 4, width: 60}}>
                     保证金
                 </div>
+                <div style={{display: 'inline-block', margin: 4, width: 120}}>
+                    价格
+                </div>
             </div>
 
             {
@@ -144,9 +200,6 @@ const TY_List = ({data, active_key}) => (
                             <div style={{display: 'inline-block', margin: 4, width: 40, color: v.dir === 'up' ? red[7] : green[7]}}>
                                 {v.dir === 'up' ? '多' : '空'}
                             </div>
-                            <div style={{display: 'inline-block', margin: 4, width: 120, fontSize: 14}}>
-                                {v.add_count > 0 ? R.join(', ')([...v.add_before_price, v.price]) : v.price}
-                            </div>
                             <div style={{display: 'inline-block', margin: 4, width: 40}}>
                                 {v.count}
                             </div>
@@ -158,6 +211,9 @@ const TY_List = ({data, active_key}) => (
                             </div>
                             <div style={{display: 'inline-block', margin: 4, width: 60}}>
                                 {v.bond.toFixed(0)}
+                            </div>
+                            <div style={{display: 'inline-block', margin: 4, width: 280, fontSize: 14}}>
+                                {v.add_count > 0 ? R.join(', ')([...v.add_before_price, v.price]) : v.price}
                             </div>
                         </div>
                     ),
@@ -174,6 +230,8 @@ const build_contract_data_chart = (data) => {
     const {
         day_list,
         deal_chart_list,
+        high_chart_list,
+        low_chart_list,
     } = data
 
     contract_data_chart.clear()
@@ -223,22 +281,46 @@ const build_contract_data_chart = (data) => {
                 data: R.map(v => v['收盘价'])(day_list),
                 animation: false,
                 lineStyle: {
-                    color: blue[5],
+                    color: blue[7],
                     width: 1,
                     shadowBlur: 0,
                 },
             },
+            // {
+            //     type: 'line',
+            //     showSymbol: false,
+            //     data: R.map(v => v['收盘价'])(day_list),
+            //     animation: false,
+            //     lineStyle: {
+            //         color: blue[3],
+            //         width: 1,
+            //         shadowBlur: 0,
+            //     },
+            //     yAxisIndex: 1,
+            // },
+
             {
                 type: 'line',
                 showSymbol: false,
-                data: R.map(v => v['收盘价'])(day_list),
+                data: high_chart_list,
                 animation: false,
                 lineStyle: {
                     color: blue[3],
                     width: 1,
                     shadowBlur: 0,
                 },
-                yAxisIndex: 1,
+            },
+
+            {
+                type: 'line',
+                showSymbol: false,
+                data: low_chart_list,
+                animation: false,
+                lineStyle: {
+                    color: blue[3],
+                    width: 1,
+                    shadowBlur: 0,
+                },
             },
 
             ...R.map(
@@ -248,8 +330,8 @@ const build_contract_data_chart = (data) => {
                     data: v.y,
                     animation: false,
                     lineStyle: {
-                        color: v.dir === 'up' ? red[5] : green[5],
-                        width: 1,
+                        color: v.dir === 'up' ? red[5] : gold[5],
+                        width: 2,
                         shadowBlur: 0,
                     },
                 }),
@@ -311,9 +393,11 @@ class Mod extends Component {
                     background: VITRIC_D,
                     overflowY: 'auto',
                 }}>
+                    <Deal_list data={deduction}/>
+
                     <Item_list deduction={deduction} active_key={active_key} handle_select={k => this.handle_select(k)}/>
 
-                    <div id='MJTY-contract_data' style={{display: 'inline-block', width: '50%', height: 300}}/>
+                    <div id='MJTY-contract_data' style={{background: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', width: '98%', height: 600}}/>
 
                     {
                         active_key !== null

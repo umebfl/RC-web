@@ -65,6 +65,7 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     } = info
 
     const current_data = await get_current_data({code, month})
+    // const contract_data_str = await get_contract_data({code, month: '2007'})
     const contract_data_str = await get_contract_data({code, month})
     const all_contract_data_str = await get_contract_data({code, month: '0'})
 
@@ -195,7 +196,7 @@ const get_cal_contract_day_amplitude = (fix_rate, contract_data) => {
         (v, k) => {
 
             // 日开收盘波幅
-            const day_amplitude = (v['开盘价'] - v['收盘价'])
+            const day_amplitude = (v['收盘价'] - v['开盘价'])
             const day_amplitude_rate = day_amplitude / v['最低价'] * 100
             const day_amplitude_rate_fixed = day_amplitude_rate * fix_rate
 
@@ -508,6 +509,7 @@ const _refresh = (dispatch, get_state) => {
         module_setter({
             finish_count: 0,
             origin_data: [],
+            cal_data: [],
         }),
     )
 
@@ -529,12 +531,12 @@ export const action = {
 
             const data = JSON.parse(localStorage.data)
 
-            // dispatch(
-            //     module_setter({
-            //         finish_count: data.length,
-            //         origin_data: data,
-            //     }),
-            // )
+            dispatch(
+                module_setter({
+                    finish_count: data.length,
+                    // origin_data: data,
+                }),
+            )
 
             R.map(
                 v => get_cal_data(dispatch, get_state, v),
@@ -543,7 +545,6 @@ export const action = {
         } else {
             _refresh(dispatch, get_state)
         }
-
 
     },
 

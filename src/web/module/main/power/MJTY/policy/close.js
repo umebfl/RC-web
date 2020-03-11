@@ -32,35 +32,71 @@ export const P_回撤平仓_盈利判定 = v => {
 export const P_回撤平仓_回撤临界值判定 = v => {
     const rate = v.current_deal.add_count > 0 ? CLOSE_ADD_BACK_RATE : CLOSE_BACK_RATE
 
-    const target_price = v.current_deal.dir === 'up'
-        ? parseInt(v.current_deal.price * (1 - rate))
-        : parseInt(v.current_deal.price * (1 + rate))
+    // 底价 =
+    // 多: 交易期最高价 * (1 - 回撤比例)
+    // 空: 交易期最低价 * (1 + 回撤比例)
+    // 如果
+    // 多: 底价 > 最低价 击穿 平仓
+    // 空: 底价 < 最高价 击穿 平仓
+
+    const base_price = v.current_deal.dir === 'up'
+        ? v.series_high_day.最高价 * (1 - rate)
+        : v.series_low_day.最低价 * (1 + rate)
 
     const pass = v.current_deal.dir === 'up'
-        // 多, 低价平,
-        // true = 平仓 false = 持有
-        // 成交价 * (1 - 0.6) = 平仓价2000
-        // true 平仓价2000 大于 最高价1000
-        // false 平仓价2000 小于 最高价1000
-        ? target_price > v.series_low_day.最低价
-        // 空 高价平
-        // true = 平仓 false = 持有
-        // 成交价 * (1 + 0.6) = 平仓价2000
-        // true 平仓价2000 大于 最高价3000
-        // false 平仓价2000 小于 最高价3000
-        : target_price > v.series_high_day.最高价
+        ? base_price > v.current_day.最低价
+        : base_price < v.current_day.最高价
 
     console.log('analy  | 盈 回撤判定 回撤幅度',
         'AH' + v.series_high_day.最高价,
         'AL' + v.series_low_day.最低价,
         '盈' + v.current_deal.profit,
-        'T' + target_price,
+        'B' + parseInt(base_price),
         rate,
         pass ? '过' : '否',
-        v.current_deal.dir === 'up' ? target_price - v.series_low_day.最低价 : target_price - v.series_high_day.最高价,
+        v.current_deal.dir === 'up' ? v.current_day.最低价 : v.current_day.最高价,
     )
 
     return pass
+
+
+
+
+
+
+    // const target_price = v.current_deal.dir === 'up'
+    //     ? parseInt(v.current_deal.price * (1 - rate))
+    //     : parseInt(v.current_deal.price * (1 + rate))
+    //
+    // if(v.current_day.日期 === '2019-12-12') {
+    //     debugger
+    // }
+    //
+    // const pass = v.current_deal.dir === 'up'
+    //     // 多, 低价平,
+    //     // true = 平仓 false = 持有
+    //     // 成交价 * (1 - 0.6) = 平仓价2000
+    //     // true 平仓价2000 大于 最高价1000
+    //     // false 平仓价2000 小于 最高价1000
+    //     ? target_price > v.series_low_day.最低价
+    //     // 空 高价平
+    //     // true = 平仓 false = 持有
+    //     // 成交价 * (1 + 0.6) = 平仓价2000
+    //     // true 平仓价2000 大于 最高价3000
+    //     // false 平仓价2000 小于 最高价3000
+    //     : target_price > v.series_high_day.最高价
+    //
+    // console.log('analy  | 盈 回撤判定 回撤幅度',
+    //     'AH' + v.series_high_day.最高价,
+    //     'AL' + v.series_low_day.最低价,
+    //     '盈' + v.current_deal.profit,
+    //     'T' + target_price,
+    //     rate,
+    //     pass ? '过' : '否',
+    //     v.current_deal.dir === 'up' ? target_price - v.series_low_day.最低价 : target_price - v.series_high_day.最高价,
+    // )
+    //
+    // return pass
 }
 
 // 强断连接

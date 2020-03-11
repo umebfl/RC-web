@@ -44,6 +44,7 @@ import {
     P_开仓_平仓静置期判定,
     P_开仓_数据积累期判定,
     P_开仓_10日趋势判定,
+    P_开仓_N天正向判定,
 } from 'SRC/module/main/power/MJTY/policy/open'
 
 import {
@@ -57,6 +58,10 @@ import {
 import {
     C_交易_交易分段数据生成,
 } from 'SRC/module/main/power/MJTY/chart/deal'
+
+import {
+    C_分析_最高最低图生成,
+} from 'SRC/module/main/power/MJTY/chart/analy'
 
 import {
     U_log_info,
@@ -87,6 +92,7 @@ const get_deduction = (cal_data) => {
 
                 return R.compose(
 
+                    C_分析_最高最低图生成,
                     C_交易_交易分段数据生成,
 
                     // 未平仓汇入
@@ -189,7 +195,9 @@ const get_deduction = (cal_data) => {
                                         R.allPass([
                                             P_开仓_数据积累期判定,
                                             P_开仓_平仓静置期判定,
+
                                             P_开仓_10日趋势判定,
+                                            P_开仓_N天正向判定,
                                             // 临界值突破
                                         ]),
                                         R.assoc('display', 'open'),
@@ -250,7 +258,7 @@ const get_deduction = (cal_data) => {
             },
         ),
 
-        // R.filter(v => v.code === 'BU'),
+        // R.filter(v => v.code === 'FU'),
 
     )(cal_data)
 }

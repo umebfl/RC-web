@@ -32,6 +32,11 @@ export const display_close = v => {
         deal_hl_price_back_rate: null,
         close_deal_day: CLOSE_DEAL_WAIT_DAY,
         total_profit: R.reduce((a, b) => a + b.profit, profit)(v.deal_list || []),
+
+        // 当前最高价
+        series_high_day: {最高价: 0},
+        // 当前最低价
+        series_low_day: {最低价: 9999999},
     }
 
     console.log('display | 平',
