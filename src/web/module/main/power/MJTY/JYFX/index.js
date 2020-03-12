@@ -59,7 +59,7 @@ const get_total = R.compose(
     ),
 )
 
-const get_one_profit_str = (list) => `${parseInt(get_total(list) / list.length / 10000)}w`
+const get_one_profit_str = (list) => `${(get_total(list) / list.length / 10000).toFixed(2)}w`
 const get_one_profit = (list) => parseInt(get_total(list) / list.length)
 
 const get_info_list = R.compose(

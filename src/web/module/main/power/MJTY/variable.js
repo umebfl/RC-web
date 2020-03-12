@@ -1,5 +1,5 @@
 // 单一品种起始资金
-export let INITIAL_CAPITAL = 40000   // 40000
+export let INITIAL_CAPITAL = 10000   // 40000
 
 // 平仓等待天数
 export let CLOSE_DEAL_WAIT_DAY = 5  // 5 10

@@ -13,6 +13,10 @@ import {
     grey,
 } from '@ant-design/colors'
 
+import {
+    INITIAL_CAPITAL,
+} from 'SRC/module/main/power/MJTY/variable'
+
 const get_hold_bond_count = R.reduce(
     (r, v) => r + (v.deal_list[v.deal_list.length - 1].price * v.unit * v.rate * v.deal_list[v.deal_list.length - 1].count),
     0,
@@ -48,6 +52,9 @@ const List = ({data}) => {
                                             </div>
                                             <div style={{display: 'inline-block', width: 30, color: deal.dir === 'up' ? red[5] : green[7]}}>
                                                 {deal.dir === 'up' ? '多' : '空'}
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                                {parseInt(deal.bond)}({parseInt(INITIAL_CAPITAL / deal.bond)})
                                             </div>
                                             <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
                                                 {deal.count}手

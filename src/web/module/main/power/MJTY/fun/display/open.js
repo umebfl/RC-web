@@ -22,7 +22,8 @@ export const display_open = v => {
             dir,
             price,
             open_date: v.current_day.日期,
-            count: Math.floor(INITIAL_CAPITAL / v.bond),
+            count: Math.ceil(INITIAL_CAPITAL / v.bond),
+            // count: Math.floor(INITIAL_CAPITAL / v.bond),
             profit: 0,
             // 加仓次数
             add_count: 0,
