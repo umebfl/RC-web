@@ -32,6 +32,10 @@ export const P_回撤平仓_盈利判定 = v => {
 export const P_回撤平仓_回撤临界值判定 = v => {
     const rate = v.current_deal.add_count > 0 ? CLOSE_ADD_BACK_RATE : CLOSE_BACK_RATE
 
+    // if(rate === CLOSE_BACK_RATE) {
+    //     debugger
+    // }
+
     // 底价 =
     // 多: 交易期最高价 * (1 - 回撤比例)
     // 空: 交易期最低价 * (1 + 回撤比例)

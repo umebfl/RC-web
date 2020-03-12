@@ -65,8 +65,11 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     } = info
 
     const current_data = await get_current_data({code, month})
+
+    // const contract_data_str = await get_contract_data({code, month: '2007'})
     // const contract_data_str = await get_contract_data({code, month: '2007'})
     const contract_data_str = await get_contract_data({code, month})
+
     const all_contract_data_str = await get_contract_data({code, month: '0'})
 
     const state = get_state()
@@ -101,9 +104,9 @@ const get_all_data = async ({dispatch, get_state, info}) => {
 
 const parse_data_str = (current_data, data, cut) => {
     return R.compose(
+        // 追加当天交易数据
         list => {
             if(current_data.日期 !== list[list.length - 1].日期) {
-                // 追加当天交易数据
                 list = [
                     ...list,
                     {
@@ -115,9 +118,9 @@ const parse_data_str = (current_data, data, cut) => {
                     },
                 ]
             }
-
             return list
         },
+
         list => R.addIndex(R.map)(
             (v, k) => {
                 const _open = parseInt(v[1])
@@ -144,6 +147,8 @@ const parse_data_str = (current_data, data, cut) => {
                 })
             },
         )(list),
+
+        // v => cut ? R.take(150)(v) : v,
         // cut = true 提取6月后的数据
         v => cut ? R.takeLast(180)(v) : v,
         JSON.parse,

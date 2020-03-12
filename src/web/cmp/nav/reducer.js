@@ -44,8 +44,21 @@ const init_state = {
             MJTY: {
                 name: '梦境推演',
                 path: '/power/MJTY',
-                default_path: '/power/MJTY',
-                node: {},
+                default_path: '/power/MJTY/JYTX',
+                node: {
+                    JYTX: {
+                        name: '交易提示',
+                        path: '/power/MJTY/JYTX',
+                    },
+                    JYFX: {
+                        name: '交易分析',
+                        path: '/power/MJTY/JYFX',
+                    },
+                    JYTB: {
+                        name: '交易图表',
+                        path: '/power/MJTY/JYTB',
+                    },
+                },
             },
             // RDDC: {
             //     name: '弱点洞察',

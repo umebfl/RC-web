@@ -12,12 +12,13 @@ export const P_开仓_数据积累期判定 = v => v.day_list.length > WAIT_BASE
 export const P_开仓_10日趋势判定 = v => v.trend_info.day_10 > 1 || v.trend_info.day_10 < -1
 
 export const P_开仓_10日临界值突破 = v => {
-    const data = R.takeLast(10)(v.contract_data)
+    const data = R.takeLast(10)(v.day_list)
     const rate = Math.abs((data[data.length - 1].收盘价 - data[0].收盘价) / data[0].收盘价)
 
+    // console.log('P_开仓_10日临界值突破', rate, rate > OPEN_10_DAY_RATE)
     // 最近N天, 波幅达到OPEN_10_DAY_RATE
-    // return rate > OPEN_10_DAY_RATE
-    return true
+    return rate > OPEN_10_DAY_RATE
+    // return true
 }
 
 // 弱点洞察 风险评估

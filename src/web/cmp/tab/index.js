@@ -45,7 +45,7 @@ export default ({
         </div>
 
         <div style={{
-            height: '90%',
+            height: '100%',
         }}>
             {children}
         </div>
