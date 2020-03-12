@@ -7,38 +7,38 @@ import {
 
 import {
     display_cut,
-} from 'SRC/module/main/power/MJTY/display/cut'
+} from 'SRC/module/main/power/MJTY/fun/display/cut'
 
 import {
     display_add,
-} from 'SRC/module/main/power/MJTY/display/add'
+} from 'SRC/module/main/power/MJTY/fun/display/add'
 
 import {
     display_close,
-} from 'SRC/module/main/power/MJTY/display/close'
+} from 'SRC/module/main/power/MJTY/fun/display/close'
 
 import {
     display_keep,
-} from 'SRC/module/main/power/MJTY/display/keep'
+} from 'SRC/module/main/power/MJTY/fun/display/keep'
 
 import {
     display_open,
-} from 'SRC/module/main/power/MJTY/display/open'
+} from 'SRC/module/main/power/MJTY/fun/display/open'
 
 import {
     display_wait,
-} from 'SRC/module/main/power/MJTY/display/wait'
+} from 'SRC/module/main/power/MJTY/fun/display/wait'
 
 import {
     P_加仓次数控制,
     P_加仓临界值判定,
-} from 'SRC/module/main/power/MJTY/policy/add'
+} from 'SRC/module/main/power/MJTY/fun/policy/add'
 
 import {
     P_回撤平仓_盈利判定,
     P_回撤平仓_回撤临界值判定,
     P_亏损平仓_临界值判定,
-} from 'SRC/module/main/power/MJTY/policy/close'
+} from 'SRC/module/main/power/MJTY/fun/policy/close'
 
 import {
     P_开仓_平仓静置期判定,
@@ -46,27 +46,27 @@ import {
     P_开仓_10日趋势判定,
     P_开仓_N天正向判定,
     P_开仓_10日临界值突破,
-} from 'SRC/module/main/power/MJTY/policy/open'
+} from 'SRC/module/main/power/MJTY/fun/policy/open'
 
 import {
     A_趋势分析_10_20_30,
-} from 'SRC/module/main/power/MJTY/analy/trend'
+} from 'SRC/module/main/power/MJTY/fun/analy/trend'
 
 import {
     A_价格_最高最低价,
-} from 'SRC/module/main/power/MJTY/analy/price'
+} from 'SRC/module/main/power/MJTY/fun/analy/price'
 
 import {
     C_交易_交易分段数据生成,
-} from 'SRC/module/main/power/MJTY/chart/deal'
+} from 'SRC/module/main/power/MJTY/fun/chart/deal'
 
 import {
     C_分析_最高最低图生成,
-} from 'SRC/module/main/power/MJTY/chart/analy'
+} from 'SRC/module/main/power/MJTY/fun/chart/analy'
 
 import {
     U_log_info,
-} from 'SRC/module/main/power/MJTY/util/log'
+} from 'SRC/module/main/power/MJTY/fun/util/log'
 
 import {
     MODULE_KEY as SJHQ_MODULE_KEY,
