@@ -32,11 +32,11 @@ export const display_open = v => {
         },
     }
 
-    console.log('display | 开',
-        v.current_deal.price,
-        v.current_deal.dir,
-        v.current_deal.count,
-    )
+    // console.log('display | 开',
+    //     v.current_deal.price,
+    //     v.current_deal.dir,
+    //     v.current_deal.count,
+    // )
 
     return v
 }

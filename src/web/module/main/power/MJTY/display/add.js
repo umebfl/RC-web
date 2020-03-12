@@ -24,12 +24,12 @@ export const display_add = v => {
         },
     }
 
-    console.log('display | 加',
-        '持' + v.current_deal.price, v.current_deal.dir === 'up' ? '多' : '空', v.current_deal.count,
-        '盈' + v.current_deal.profit,
-        '加仓次数' + v.current_deal.add_count,
-        v.current_deal.add_before_price,
-    )
+    // console.log('display | 加',
+    //     '持' + v.current_deal.price, v.current_deal.dir === 'up' ? '多' : '空', v.current_deal.count,
+    //     '盈' + v.current_deal.profit,
+    //     '加仓次数' + v.current_deal.add_count,
+    //     v.current_deal.add_before_price,
+    // )
 
     return v
 }

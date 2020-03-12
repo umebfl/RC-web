@@ -7,7 +7,7 @@ import {
 export const P_回撤平仓_盈利判定 = v => {
     // 存在加仓 默认通过
     if(v.current_deal.add_count > 0) {
-        console.log('analy  | 盈 回撤判定 盈利幅度 加仓默认通过')
+        // console.log('analy  | 盈 回撤判定 盈利幅度 加仓默认通过')
         return true
     }
 
@@ -19,11 +19,11 @@ export const P_回撤平仓_盈利判定 = v => {
         ? target_price < v.current_day.最高价
         : target_price > v.current_day.最低价
 
-    console.log('analy  | 盈 回撤判定 盈利幅度',
-        'T' + target_price,
-        pass ? '过' : '否',
-        v.current_deal.dir === 'up' ? target_price - v.current_day.最高价 : target_price - v.current_day.最低价,
-    )
+    // console.log('analy  | 盈 回撤判定 盈利幅度',
+    //     'T' + target_price,
+    //     pass ? '过' : '否',
+    //     v.current_deal.dir === 'up' ? target_price - v.current_day.最高价 : target_price - v.current_day.最低价,
+    // )
 
     return pass
 }
@@ -47,15 +47,15 @@ export const P_回撤平仓_回撤临界值判定 = v => {
         ? base_price > v.current_day.最低价
         : base_price < v.current_day.最高价
 
-    console.log('analy  | 盈 回撤判定 回撤幅度',
-        'AH' + v.series_high_day.最高价,
-        'AL' + v.series_low_day.最低价,
-        '盈' + v.current_deal.profit,
-        'B' + parseInt(base_price),
-        rate,
-        pass ? '过' : '否',
-        v.current_deal.dir === 'up' ? v.current_day.最低价 : v.current_day.最高价,
-    )
+    // console.log('analy  | 盈 回撤判定 回撤幅度',
+    //     'AH' + v.series_high_day.最高价,
+    //     'AL' + v.series_low_day.最低价,
+    //     '盈' + v.current_deal.profit,
+    //     'B' + parseInt(base_price),
+    //     rate,
+    //     pass ? '过' : '否',
+    //     v.current_deal.dir === 'up' ? v.current_day.最低价 : v.current_day.最高价,
+    // )
 
     return pass
 
@@ -109,11 +109,11 @@ export const P_亏损平仓_临界值判定 = v => {
         ? close_price < v.current_day.最低价   // 平1800 最低2000 过
         : close_price > v.current_day.最高价   // 2000 1900
 
-    console.log('analy   | 亏',
-        '盈' + v.current_deal.profit,
-        '平' + close_price.toFixed(0), pass ? '过' : '否',
-        v.current_deal.dir === 'up' ? parseInt(v.current_day.最低价 - close_price) : parseInt(close_price - v.current_day.最高价),
-    )
+    // console.log('analy   | 亏',
+    //     '盈' + v.current_deal.profit,
+    //     '平' + close_price.toFixed(0), pass ? '过' : '否',
+    //     v.current_deal.dir === 'up' ? parseInt(v.current_day.最低价 - close_price) : parseInt(close_price - v.current_day.最高价),
+    // )
 
     return pass
 }

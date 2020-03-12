@@ -39,12 +39,12 @@ export const display_close = v => {
         series_low_day: {最低价: 9999999},
     }
 
-    console.log('display | 平',
-        v.current_day.日期,
-        '平' + close_price,
-        '盈' + profit,
-        '总' + v.total_profit,
-    )
+    // console.log('display | 平',
+    //     v.current_day.日期,
+    //     '平' + close_price,
+    //     '盈' + profit,
+    //     '总' + v.total_profit,
+    // )
 
     return v
 }

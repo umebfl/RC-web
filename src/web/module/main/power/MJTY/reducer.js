@@ -45,6 +45,7 @@ import {
     P_开仓_数据积累期判定,
     P_开仓_10日趋势判定,
     P_开仓_N天正向判定,
+    P_开仓_10日临界值突破,
 } from 'SRC/module/main/power/MJTY/policy/open'
 
 import {
@@ -199,13 +200,14 @@ const get_deduction = (cal_data) => {
                                             P_开仓_10日趋势判定,
                                             P_开仓_N天正向判定,
                                             // 临界值突破
+                                            P_开仓_10日临界值突破,
                                         ]),
                                         R.assoc('display', 'open'),
                                         R.assoc('display', 'wait'),
                                     ),
                                 ),
 
-                                U_log_info,
+                                // U_log_info,
 
                                 A_价格_最高最低价,
                                 A_趋势分析_10_20_30,

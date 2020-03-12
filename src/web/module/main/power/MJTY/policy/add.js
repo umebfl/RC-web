@@ -16,20 +16,20 @@ export const P_加仓临界值判定 = v => {
         ? target_price < v.current_day.最高价
         : target_price > v.current_day.最低价
 
-    console.log('analy  | 盈 加仓判定',
-        'T' + parseInt(target_price),
-        pass ? '过' : '否',
-        '盈' + v.current_deal.profit,
-    )
+    // console.log('analy  | 盈 加仓判定',
+    //     'T' + parseInt(target_price),
+    //     pass ? '过' : '否',
+    //     '盈' + v.current_deal.profit,
+    // )
 
     return pass
 }
 
 export const P_加仓次数控制 = v => {
-    console.log('analy  | 盈 加仓判定 加仓次数判定',
-        v.current_deal.add_count,
-        MAX_ADD_COUNT,
-    )
+    // console.log('analy  | 盈 加仓判定 加仓次数判定',
+    //     v.current_deal.add_count,
+    //     MAX_ADD_COUNT,
+    // )
 
     return v.current_deal.add_count < MAX_ADD_COUNT
 }

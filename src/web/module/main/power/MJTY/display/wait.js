@@ -1,9 +1,9 @@
 
 
 export const display_wait = v => {
-    console.log('display | 观',
-        v.close_deal_day,
-    )
+    // console.log('display | 观',
+    //     v.close_deal_day,
+    // )
 
     return R.ifElse(
         // 平仓静止期

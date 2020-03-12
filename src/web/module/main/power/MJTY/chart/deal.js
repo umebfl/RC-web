@@ -15,7 +15,7 @@ export const C_交易_交易分段数据生成 = v => ({
                     }
                     if(item.日期 === close_date) {
                         close = true
-                        return deal.close_price
+                        return deal.close_price || v.current_day.收盘价
                     }
                     if(item.日期 === open_date) {
                         find = true
