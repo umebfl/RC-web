@@ -99,6 +99,7 @@ const get_info_list = R.compose(
             </div>
         ),
     ),
+    // R.sort((a, b) => b.add_count - a.add_count),
 )
 
 class Mod extends Component {
@@ -143,6 +144,8 @@ class Mod extends Component {
 
         const total_profit_str = get_total_str(group.盈利 || [])
         const total_loss_str = get_total_str(group.亏损 || [])
+
+        console.log('盈亏比:', (total_profit / Math.abs(total_loss)).toFixed(2), V_FIX_VAR_STR?.toFixed(3))
 
         return (
             <div style={{

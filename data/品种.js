@@ -25,14 +25,6 @@ export default [
         disable: false,
     },
     {
-        code: 'J',
-        name: '焦炭',
-        rate: 0.13,
-        unit: 100,
-        month: '2005',
-        disable: false,
-    },
-    {
         code: 'JD',
         name: '鸡蛋',
         rate: 0.10,
@@ -81,6 +73,14 @@ export default [
         disable: false,
     },
 
+    // {
+    //     code: 'J',
+    //     name: '焦炭',
+    //     rate: 0.13,
+    //     unit: 100,
+    //     month: '2005',
+    //     disable: false,
+    // },
     ///////////////////////////
     // {
     //     code: 'CF',

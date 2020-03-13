@@ -37,6 +37,7 @@ import Tab from 'SRC/cmp/tab'
 
 import {
     V_FIX_VAR_STR,
+    var_fix,
 } from 'SRC/module/main/power/MJTY/variable'
 
 class Mod extends Component {
@@ -44,14 +45,13 @@ class Mod extends Component {
     componentDidMount() {
         this.props.action.deduction()
 
-        if(V_FIX_VAR_STR !== null) {
-            setInterval(
-                () => {
-                    this.props.action.deduction()
-                },
-                800,
-            )
-        }
+        // setInterval(
+        //     () => {
+        //         var_fix()
+        //         this.props.action.deduction()
+        //     },
+        //     200,
+        // )
     }
 
     render() {
