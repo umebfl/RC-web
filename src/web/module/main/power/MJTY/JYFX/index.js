@@ -173,7 +173,7 @@ class Mod extends Component {
                         盈亏比: {(total_profit / Math.abs(total_loss)).toFixed(2)}
                     </div>
                     <div style={{display: 'inline-block', fontWeight: 'bold', marginLeft: 20, color: red[5]}}>
-                        {V_FIX_VAR_STR.toFixed(3)}
+                        {V_FIX_VAR_STR?.toFixed(3)}
                     </div>
 
                 </div>

@@ -1,4 +1,6 @@
-
+import {
+    TREND_DAY_10,
+} from 'SRC/module/main/power/MJTY/variable'
 
 const get_trend_info = (day) => {
     if(day && day.length) {
@@ -13,7 +15,7 @@ export const A_趋势分析_10_20_30 = v => ({
         // 连续走势
         series: get_trend_info(v.day_list),
         // 10天走势
-        day_10: get_trend_info(R.takeLast(10)(v.day_list)),
+        day_10: get_trend_info(R.takeLast(TREND_DAY_10)(v.day_list)),
         // 20天走势
         day_20: get_trend_info(R.takeLast(20)(v.day_list)),
         // 30天走势

@@ -1,5 +1,6 @@
 // 单一品种起始资金
-export let INITIAL_CAPITAL = 10000   // 40000
+export let INITIAL_CAPITAL = 40000   // 40000
+// export let INITIAL_CAPITAL = 40000   // 40000
 
 // 平仓等待天数
 export let CLOSE_DEAL_WAIT_DAY = 5  // 5 10
@@ -25,12 +26,14 @@ export let V_正向判定天数 = 1
 // 10天临界点
 export let OPEN_10_DAY_RATE = 0.013
 
-export let V_FIX_VAR_STR = 0
+export let TREND_DAY_10 = 10
+
+export let V_FIX_VAR_STR = null
 
 // setInterval(
 //     () => {
-//         // CLOSE_DEAL_WAIT_DAY += 1
-//         // V_FIX_VAR_STR = CLOSE_DEAL_WAIT_DAY
+//         TREND_DAY_10 += 1
+//         V_FIX_VAR_STR = TREND_DAY_10
 //     },
 //     2000,
 // )

@@ -35,16 +35,23 @@ import JYTB from 'SRC/module/main/power/MJTY/JYTB'
 import Content from 'SRC/cmp/content'
 import Tab from 'SRC/cmp/tab'
 
+import {
+    V_FIX_VAR_STR,
+} from 'SRC/module/main/power/MJTY/variable'
+
 class Mod extends Component {
 
     componentDidMount() {
         this.props.action.deduction()
-        // setInterval(
-        //     () => {
-        //         this.props.action.deduction()
-        //     },
-        //     800,
-        // )
+
+        if(V_FIX_VAR_STR !== null) {
+            setInterval(
+                () => {
+                    this.props.action.deduction()
+                },
+                800,
+            )
+        }
     }
 
     render() {
