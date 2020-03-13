@@ -11,8 +11,6 @@ import {
 
 import Main from 'SRC/module/main'
 
-import Flex from 'SRC/cmp/flex'
-
 export default () => (
     <Router>
         <Switch>

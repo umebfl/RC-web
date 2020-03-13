@@ -28,6 +28,8 @@ import Nav from 'SRC/cmp/nav'
 import SSKW from 'SRC/module/main/power/SSKW'
 import JMFX from 'SRC/module/main/power/JMFX'
 import MJTY from 'SRC/module/main/power/MJTY'
+import ZSJY from 'SRC/module/main/power/ZSJY'
+import SY from 'SRC/module/main/power/SY'
 
 import {
     VITRIC_L,
@@ -60,6 +62,8 @@ class Mod extends Component {
                             <Route path='/power/JMFX' component={JMFX}/>
                             <Route path='/power/SSKW' component={SSKW}/>
                             <Route path='/power/MJTY' component={MJTY}/>
+                            <Route path='/power/ZSJY' component={ZSJY}/>
+                            <Route path='/power/SY' component={SY}/>
                             {/*<Redirect from='*' to='/404'/>*/}
                         </Switch>
                     </div>

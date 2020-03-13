@@ -94,14 +94,24 @@ const init_state = {
             ZSJY: {
                 name: '真实交易',
                 path: '/power/ZSJY',
-                default_path: '/power/ZSJY',
-                node: {},
+                default_path: '/power/ZSJY/JYLB',
+                node: {
+                    JYLB: {
+                        name: '交易列表',
+                        path: '/power/ZSJY/JYLB',
+                    },
+                },
             },
             SY: {
                 name: '盛宴',
                 path: '/power/SY',
-                default_path: '/power/SY',
-                node: {},
+                default_path: '/power/SY/ZJFP',
+                node: {
+                    ZJFP: {
+                        name: '资金分配',
+                        path: '/power/SY/ZJFP',
+                    },
+                },
             },
         },
     },
