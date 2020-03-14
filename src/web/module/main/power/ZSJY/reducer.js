@@ -8,19 +8,43 @@ export const MODULE_KEY = 'ZSJY'
 const init_state = {
 
     // 交易记录
-    deal_log: [
+    current_deal: [
         {
             // 品种
             code: 'TA',
+            name: 'PTA',
             month: '2005',
-            price: 3000,
-            count: 20,
-            date: '2020年3月13日',
+            dir: 'up',
+            price: 3800,
+            count: 6,
+            date: '2020-03-13',
 
             // 加仓信息
+            add_count: 1,
 
             // 平仓信息
+
         },
+        {
+            // 品种
+            code: 'NI',
+            name: '沪镍',
+            month: '2005',
+            dir: 'down',
+            price: 98863,
+            count: 1,
+            date: '2020-03-13',
+
+            // 加仓信息
+            add_count: 0,
+
+            // 平仓信息
+
+        },
+    ],
+
+    deal_log: [
+
     ],
 }
 

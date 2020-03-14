@@ -2,6 +2,7 @@
 
 import {
     INITIAL_CAPITAL,
+    CLOSE_LOSS_RATE,
 } from 'SRC/module/main/power/MJTY/variable'
 
 export const display_open = v => {
@@ -15,6 +16,8 @@ export const display_open = v => {
         price = trend_info.day_10 >= 0 ? v.current_day.最高价 : v.current_day.最低价
     }
 
+    const fix_capital = parseInt(v.rate * 10 * INITIAL_CAPITAL)
+
     // 10天走势 - 方向
     v = {
         ...v,
@@ -22,7 +25,8 @@ export const display_open = v => {
             dir,
             price,
             open_date: v.current_day.日期,
-            count: Math.ceil(INITIAL_CAPITAL / v.bond),
+            op_date: v.current_day.日期,
+            count: Math.round(fix_capital / v.bond),
             // count: Math.floor(INITIAL_CAPITAL / v.bond),
             profit: 0,
             // 加仓次数
@@ -30,6 +34,10 @@ export const display_open = v => {
             // 加仓前价格
             add_before_price: [],
             bond: v.bond,
+
+            close_price_tips: dir === 'up'
+                ? parseInt(price * (1 - CLOSE_LOSS_RATE))
+                : parseInt(price * (1 + CLOSE_LOSS_RATE)),
         },
     }
 

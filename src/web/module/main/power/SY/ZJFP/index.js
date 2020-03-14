@@ -47,6 +47,11 @@ class Mod extends Component {
             SY,
         } = this.props
 
+        const profit = R.compose(
+            R.reduce((r, v) => r + v.count, 0),
+            R.filter(v => v.display === false),
+        )(SY.total_profit)
+
         return (
             <div style={{
                 height: '90%',
@@ -59,6 +64,14 @@ class Mod extends Component {
                 <div>
                     <div style={{margin: 10}}>总交易本金: {SY.total_capital}</div>
                     <div style={{margin: 10}}>总盈利: {R.reduce((r, v) => r + v.count, 0)(SY.total_profit)}</div>
+                </div>
+                <div>
+                    <div style={{margin: 10}}>资金分配:</div>
+                    <div style={{margin: 10}}>
+                        <div style={{margin: 10}}>支出: {parseInt(profit * SY.profit_cut_rate.output.rate)}</div>
+                        <div style={{margin: 10}}>本金: {parseInt(profit * SY.profit_cut_rate.capital.rate)}</div>
+                        <div style={{margin: 10}}>储备: {parseInt(profit * SY.profit_cut_rate.store.rate)}</div>
+                    </div>
                 </div>
             </div>
         )

@@ -21,6 +21,7 @@ import {
 } from 'SRC/theme'
 
 import JYLB from 'SRC/module/main/power/ZSJY/JYLB'
+import PZXX from 'SRC/module/main/power/ZSJY/PZXX'
 
 import Content from 'SRC/cmp/content'
 import Tab from 'SRC/cmp/tab'
@@ -30,6 +31,7 @@ const Mod = ({history, nav}) => (
         <Tab history={history} data={nav.power.node.ZSJY.node}>
             <Switch>
                 <Route path={nav.power.node.ZSJY.node.JYLB.path} component={JYLB}/>
+                <Route path={nav.power.node.ZSJY.node.PZXX.path} component={PZXX}/>
                 <Redirect from='*' to='/404'/>
             </Switch>
         </Tab>

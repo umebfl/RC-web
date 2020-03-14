@@ -75,6 +75,9 @@ const get_info_list = R.compose(
                 <div style={{display: 'inline-block', width: 80, textAlign: 'right'}}>
                     {(v.bond * v.count / 10000).toFixed(2)}w
                 </div>
+                <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: v.profit > 0 ? red[5] : green[7]}}>
+                    {(v.profit / (v.bond * v.count) * 100).toFixed(0)}%
+                </div>
                 <div style={{display: 'inline-block', width: 50,  textAlign: 'right', color: v.dir === 'up' ? red[7] : green[7]}}>
                     {v.dir === 'up' ? '多' : '空'}
                 </div>

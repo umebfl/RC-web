@@ -41,20 +41,14 @@ const List = ({data}) => {
                                 ? R.compose(
                                     deal => (
                                         <div style={{display: 'inline-block'}}>
-                                            <div style={{display: 'inline-block', width: 50}}>
-                                                {R.takeLast(5)(deal.open_date)}
+                                            <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                                {R.takeLast(5)(deal.op_date)}
                                             </div>
                                             <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
-                                                {deal.days > 30 ? `${(deal.days / 30).toFixed(1)}月` : `${deal.days}天`}
+                                                {deal.price}
                                             </div>
-                                            <div style={{display: 'inline-block', width: 50, textAlign: 'center'}}>
-                                                {deal.close ? '平' : '持'}
-                                            </div>
-                                            <div style={{display: 'inline-block', width: 30, color: deal.dir === 'up' ? red[5] : green[7]}}>
+                                            <div style={{display: 'inline-block', width: 30, textAlign: 'right', color: deal.dir === 'up' ? red[5] : green[7]}}>
                                                 {deal.dir === 'up' ? '多' : '空'}
-                                            </div>
-                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
-                                                {parseInt(deal.bond)}({parseInt(INITIAL_CAPITAL / deal.bond)})
                                             </div>
                                             <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
                                                 {deal.count}手
@@ -63,13 +57,29 @@ const List = ({data}) => {
                                                 {parseInt(deal.price * v.unit * v.rate * deal.count / 10000)}w
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
+                                                {(deal.profit / (deal.price * v.unit * v.rate * deal.count) * 100).toFixed(0)}%
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
                                                 {(deal.profit / 10000).toFixed(2)}w
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                                {v.current_day.收盘价}
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
+                                                {deal.close_price_tips}
+                                                ({parseInt((v.current_day.收盘价 - deal.close_price_tips) / v.current_day.收盘价 * 100)}%)
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                                {R.takeLast(5)(deal.open_date)}
+                                            </div>
+                                            <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                                {deal.days > 30 ? `${(deal.days / 30).toFixed(1)}月` : `${deal.days}天`}
                                             </div>
                                             <div style={{display: 'inline-block', width: 240, textAlign: 'right', fontSize: 14}}>
                                                 {deal.add_count > 0 ? R.join(', ')([...deal.add_before_price, deal.price]) : deal.price}
                                             </div>
                                             <div style={{display: 'inline-block', width: 80, textAlign: 'right'}}>
-                                                {deal.close ? R.takeLast(5)(deal.close_date) : ''}
+                                                {deal.close_price}
                                             </div>
                                         </div>
                                     ),

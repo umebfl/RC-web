@@ -100,6 +100,10 @@ const init_state = {
                         name: '交易列表',
                         path: '/power/ZSJY/JYLB',
                     },
+                    PZXX: {
+                        name: '品种信息',
+                        path: '/power/ZSJY/PZXX',
+                    },
                 },
             },
             SY: {

@@ -15,26 +15,65 @@ const init_state = {
         {
             date: '2020年3月13日',
             count: 10000,
-            // 剩余
-            surplus: 10000,
+            display: true,
         },
     ],
 
-    // 资金分配
-    profit_cut_rate: {
-        // 储备
-        store: {
-            rate: 0.6,
-        },
-        // 支出
-        output: {
-            rate: 0.2,
-        },
-        // 本金
-        capital: {
-            rate: 0.2,
-        },
+    profit_cut: {
+        store: [
+            {
+                name: '广发-2133',
+                remark: '储备',
+                num: 0,
+            },
+        ],
+
+        output: [
+            {
+                name: '微信',
+                remark: '房租',
+                num: 0,
+            },
+            {
+                name: '支付宝',
+                remark: '购物',
+                num: 0,
+            },
+            {
+                name: '京东',
+                remark: '购物',
+                num: 0,
+            },
+            {
+                name: '建设',
+                remark: '车贷',
+                num: 0,
+            },
+            {
+                name: '招商-4379',
+                remark: '贷款',
+                num: 0,
+            },
+        ],
+
+        capital: [
+            {
+                name: '广发期货',
+                remark: '保证金',
+                num: 0,
+            },
+            {
+                name: '中信期货',
+                remark: '保证金',
+                num: 0,
+            },
+        ],
     },
+
+    // 支付详情
+    output_detail: [
+
+    ],
 
     // 债务
     debt: [
@@ -92,10 +131,22 @@ const init_state = {
         },
     ],
 
-    // 支付详情
-    output_detail: [
 
-    ],
+    // 资金分配
+    profit_cut_rate: {
+        // 储备
+        store: {
+            rate: 0.6,
+        },
+        // 支出
+        output: {
+            rate: 0.2,
+        },
+        // 本金
+        capital: {
+            rate: 0.2,
+        },
+    },
 }
 
 const module_setter = createAction(`${MODULE_KEY}_setter`)

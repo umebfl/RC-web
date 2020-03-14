@@ -25,6 +25,7 @@ export const display_close = v => {
                 days: moment(v.current_day.日期).diff(v.current_deal.open_date, 'days'),
                 close_price,
                 profit,
+                op_date: v.current_day.日期,
             },
         ],
         current_deal: null,

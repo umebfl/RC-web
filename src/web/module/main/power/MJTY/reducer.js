@@ -261,7 +261,7 @@ const get_deduction = (cal_data) => {
             },
         ),
 
-        // R.filter(v => v.code === 'J'),
+        // R.filter(v => v.code === 'NI'),
 
     )(cal_data)
 }
