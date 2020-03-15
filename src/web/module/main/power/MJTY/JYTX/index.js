@@ -32,6 +32,8 @@ import {
     grey,
 } from '@ant-design/colors'
 
+import moment from 'moment'
+
 import Deal_list from 'SRC/module/main/power/MJTY/JYTX/cmp/Deal_list'
 
 import {
@@ -61,6 +63,7 @@ class Mod extends Component {
                 overflowY: 'auto',
                 overflowX: 'hidden',
             }}>
+                <div style={{marginTop: 20, marginLeft: 10, fontWeight: 'bold'}}>更新时间: {moment().format('MM-DD HH:mm')}</div>
                 <Deal_list data={deduction}/>
             </div>
         )

@@ -13,6 +13,8 @@ import {
     grey,
 } from '@ant-design/colors'
 
+import moment from 'moment'
+
 import {
     INITIAL_CAPITAL,
 } from 'SRC/module/main/power/MJTY/variable'
@@ -21,6 +23,7 @@ const get_hold_bond_count = R.reduce(
     (r, v) => r + (v.deal_list[v.deal_list.length - 1].price * v.unit * v.rate * v.deal_list[v.deal_list.length - 1].count),
     0,
 )
+
 const get_hold_profit_count = R.reduce(
     (r, v) => r + v.deal_list[v.deal_list.length - 1].profit,
     0,
@@ -41,10 +44,10 @@ const List = ({data}) => {
                                 ? R.compose(
                                     deal => (
                                         <div style={{display: 'inline-block'}}>
-                                            <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                            <div style={{display: 'inline-block', width: 60, textAlign: 'right', color: moment().format('YYYY-MM-DD') === deal.op_date ? red[5] : 'normal'}}>
                                                 {R.takeLast(5)(deal.op_date)}
                                             </div>
-                                            <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                            <div style={{display: 'inline-block', width: 60, textAlign: 'right'}}>
                                                 {deal.price}
                                             </div>
                                             <div style={{display: 'inline-block', width: 30, textAlign: 'right', color: deal.dir === 'up' ? red[5] : green[7]}}>
@@ -89,7 +92,16 @@ const List = ({data}) => {
                     </div>
                 ),
             ),
-            R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
+            R.sort((a, b) => {
+                const item_a = a.deal_list[a.deal_list.length - 1]
+                const close_price_a = (a.current_day.收盘价 - item_a.close_price_tips) / a.current_day.收盘价
+
+                const item_b = b.deal_list[b.deal_list.length - 1]
+                const close_price_b = (b.current_day.收盘价 - item_b.close_price_tips) / b.current_day.收盘价
+
+                return close_price_b - close_price_a
+            }),
+            // R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
         )(data)
     )
 }
