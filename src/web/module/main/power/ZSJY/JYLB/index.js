@@ -216,6 +216,15 @@ class Mod extends Component {
 
     componentDidMount() {
         this.props.action.deduction()
+
+        this.timeout = setInterval(
+            () => this.props.action.deduction(),
+            1000 * 70,
+        )
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeout)
     }
 
     render() {

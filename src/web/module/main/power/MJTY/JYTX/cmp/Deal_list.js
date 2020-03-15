@@ -115,6 +115,12 @@ const Deal_list = ({data}) => {
 
                                 <div style={{marginLeft: 10, marginTop: 20, fontWeight: 'bold'}}>
                                     平仓({group.平?.length})
+                                    <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
+                                        总投: {`${parseInt(get_hold_bond_count(group.平 || []) / 10000)}w`}
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
+                                        盈利: {`${parseInt(get_hold_profit_count(group.平 || []) / 10000)}w`}
+                                    </div>
                                 </div>
                                 <List data={group.平 || []}/>
                             </div>

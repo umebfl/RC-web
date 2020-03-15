@@ -12,7 +12,8 @@ const init_state = {
         default_path: '/power/JMFX/DYJM',
         node: {
             SSKW: {
-                name: '嗜血渴望',
+                name: '基础数据',
+                // name: '嗜血渴望',
                 path: '/power/SSKW',
                 default_path: '/power/SSKW/SJHQ',
                 node: {
@@ -42,7 +43,8 @@ const init_state = {
                 },
             },
             MJTY: {
-                name: '梦境推演',
+                name: '交易测算',
+                // name: '梦境推演',
                 path: '/power/MJTY',
                 default_path: '/power/MJTY/JYTX',
                 node: {
@@ -107,7 +109,8 @@ const init_state = {
                 },
             },
             SY: {
-                name: '盛宴',
+                name: '资金分配',
+                // name: '盛宴',
                 path: '/power/SY',
                 default_path: '/power/SY/ZJFP',
                 node: {
