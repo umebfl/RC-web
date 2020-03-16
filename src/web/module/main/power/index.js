@@ -42,14 +42,14 @@ class Mod extends Component {
     componentWillMount() {
         this.props.action.search()
 
-        this.timeout = setInterval(
+        this.interval = setInterval(
             () => this.props.action.refresh(),
             1000 * 60,
         )
     }
 
     componentWillUnmount() {
-        clearInterval(this.timeout)
+        clearInterval(this.interval)
     }
 
     render() {

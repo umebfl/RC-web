@@ -36,8 +36,8 @@ const List = ({data}) => {
             R.addIndex(R.map)(
                 (v, k) => (
                     <div key={k} style={{borderBottom: '1px solid #AAA', margin: 4, height: 30, paddingTop: 4}}>
-                        <div style={{display: 'inline-block', width: 50, marginLeft: 20}}>
-                            {v.name}
+                        <div style={{display: 'inline-block', width: 60, marginLeft: 20}}>
+                            {v.name}{R.takeLast(2)(v.month)}
                         </div>
                         {
                             v.deal_list.length
@@ -63,7 +63,7 @@ const List = ({data}) => {
                                                 {(deal.profit / (deal.price * v.unit * v.rate * deal.count) * 100).toFixed(0)}%
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
-                                                {(deal.profit / 10000).toFixed(2)}w
+                                                {(deal.profit / 10000).toFixed(3)}w
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
                                                 {v.current_day.收盘价}

@@ -52,6 +52,15 @@ class Mod extends Component {
         //     },
         //     200,
         // )
+
+        this.interval = setInterval(
+            () => this.props.action.deduction(),
+            1000 * 70,
+        )
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     render() {

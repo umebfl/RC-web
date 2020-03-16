@@ -149,8 +149,13 @@ const parse_data_str = (current_data, data, cut) => {
         )(list),
 
         // v => cut ? R.take(150)(v) : v,
-        // cut = true 提取6月后的数据
+
+
         v => cut ? R.takeLast(180)(v) : v,
+        // cut = true 提取6月后的数据
+        // v => cut ? R.takeLast(180)(v) : v,
+
+
         JSON.parse,
     )(data)
 }
