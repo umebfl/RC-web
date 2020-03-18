@@ -87,7 +87,7 @@ const Deal_log = ({data}) => (
                 加仓手数
             </div>
             <div style={{width: 100, display: 'inline-block'}}>
-                加仓保证金
+                准备金
             </div>
             <div style={{width: 80, display: 'inline-block'}}>
                 平仓价
@@ -124,8 +124,8 @@ const Deal_log = ({data}) => (
                                     R.compose(
                                         v => {
                                             const profit = v.deal.dir === 'up'
-                                                ? (v.breed.current_day.收盘价 - v.deal.price) * v.deal.count * v.deal.count
-                                                : (v.deal.price - v.breed.current_day.收盘价) * v.deal.count * v.deal.count
+                                                ? (v.breed.current_day.收盘价 - v.deal.price) * v.breed.unit * v.deal.count
+                                                : (v.deal.price - v.breed.current_day.收盘价) * v.breed.unit * v.deal.count
 
                                             return (
                                                 <div style={{width: 150, display: 'inline-block', color: profit > 0 ? red[5] : green[5]}}>

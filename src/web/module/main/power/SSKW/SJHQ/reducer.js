@@ -156,7 +156,7 @@ const parse_data_str = (current_data, data, cut) => {
         // v => cut ? R.take(150)(v) : v,
 
 
-        // v => cut ? R.takeLast(12)(v) : v,
+        // v => cut ? R.takeLast(15)(v) : v,
         // cut = true 提取6月后的数据
         v => cut ? R.takeLast(180)(v) : v,
 
