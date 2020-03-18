@@ -123,6 +123,10 @@ const parse_data_str = (current_data, data, cut) => {
 
         list => R.addIndex(R.map)(
             (v, k) => {
+                // if(v[0] === '2020-03-17') {
+                //     debugger
+                // }
+
                 const _open = parseInt(v[1])
                 const _high = parseInt(v[2])
                 const _low = parseInt(v[3])
@@ -132,7 +136,8 @@ const parse_data_str = (current_data, data, cut) => {
 
                 const open = k === 0
                     ? (_open || default_val)
-                    : (parseInt(list[k - 1][4]) || default_val)
+                    // : (parseInt(list[k - 1][4]) || default_val)
+                    : default_val
 
                 const close = _close || default_val
                 const high = open > _high ? open : _high
@@ -151,9 +156,9 @@ const parse_data_str = (current_data, data, cut) => {
         // v => cut ? R.take(150)(v) : v,
 
 
-        v => cut ? R.takeLast(180)(v) : v,
+        // v => cut ? R.takeLast(12)(v) : v,
         // cut = true 提取6月后的数据
-        // v => cut ? R.takeLast(180)(v) : v,
+        v => cut ? R.takeLast(180)(v) : v,
 
 
         JSON.parse,

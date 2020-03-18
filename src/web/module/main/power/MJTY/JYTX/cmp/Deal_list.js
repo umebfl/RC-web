@@ -70,7 +70,7 @@ const List = ({data}) => {
                                             </div>
                                             <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
                                                 {deal.close_price_tips}
-                                                ({parseInt((v.current_day.收盘价 - deal.close_price_tips) / v.current_day.收盘价 * 100)}%)
+                                                ({parseInt(Math.abs(v.current_day.收盘价 - deal.close_price_tips) / v.current_day.收盘价 * 100)}%)
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
                                                 {R.takeLast(5)(deal.open_date)}
@@ -94,12 +94,12 @@ const List = ({data}) => {
             ),
             R.sort((a, b) => {
                 const item_a = a.deal_list[a.deal_list.length - 1]
-                const close_price_a = (a.current_day.收盘价 - item_a.close_price_tips) / a.current_day.收盘价
+                const close_price_a = Math.abs(a.current_day.收盘价 - item_a.close_price_tips) / a.current_day.收盘价
 
                 const item_b = b.deal_list[b.deal_list.length - 1]
-                const close_price_b = (b.current_day.收盘价 - item_b.close_price_tips) / b.current_day.收盘价
+                const close_price_b = Math.abs(b.current_day.收盘价 - item_b.close_price_tips) / b.current_day.收盘价
 
-                return close_price_b - close_price_a
+                return close_price_a - close_price_b
             }),
             // R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
         )(data)
