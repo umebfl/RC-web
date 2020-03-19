@@ -44,6 +44,7 @@ class Mod extends Component {
     render() {
 
         const {
+            CZ,
         } = this.props
 
         return (
@@ -63,5 +64,6 @@ class Mod extends Component {
 
 export default connect(
     state => ({
+        CZ: state.CZ,
     }),
 )(Mod)

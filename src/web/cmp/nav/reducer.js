@@ -203,6 +203,11 @@ const init_state = {
                         name: '名称',
                         path: '/novel/FZ/MC',
                     },
+
+                    CJGJ: {
+                        name: '场景构建',
+                        path: '/novel/FZ/CJGJ',
+                    },
                 },
             },
 

@@ -10,6 +10,9 @@ import MJTY from 'SRC/module/main/power/MJTY/reducer'
 import SY from 'SRC/module/main/power/SY/reducer'
 import ZSJY from 'SRC/module/main/power/ZSJY/reducer'
 
+
+import CZ from 'SRC/module/main/novel/CZ/reducer'
+
 // export const AUTH_SIGNOUT = 'redux_auth_signout'
 
 const app_reducer = combineReducers({
@@ -21,6 +24,9 @@ const app_reducer = combineReducers({
     MJTY,
     SY,
     ZSJY,
+
+    // novel
+    CZ,
 })
 
 const root_reducer = (state, action) => {

@@ -44,7 +44,13 @@ class Mod extends Component {
     render() {
 
         const {
+            CZ: {
+                opus,
+            },
         } = this.props
+
+        const selected = R.filter(v => v.selected)(opus)[0]
+        const no_selected = R.filter(v => !v.selected)(opus)
 
         return (
             <div style={{
@@ -55,7 +61,30 @@ class Mod extends Component {
                 paddingTop: 20,
                 paddingBottom: 800,
             }}>
-                ZP
+                <div style={{
+                    margin: 10,
+                    height: 30,
+                    borderBottom: '1px solid',
+                    fontWeight: 'bold',
+                }}>
+                    {
+                        selected.name
+                    }
+                </div>
+
+                <div style={{
+                    margin: 10,
+                }}>
+                    {
+                        R.addIndex(R.map)(
+                            (v, k) => (
+                                <div key={k}>
+                                    {v.name}
+                                </div>
+                            ),
+                        )(no_selected)
+                    }
+                </div>
             </div>
         )
     }
@@ -63,5 +92,6 @@ class Mod extends Component {
 
 export default connect(
     state => ({
+        CZ: state.CZ,
     }),
 )(Mod)

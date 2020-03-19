@@ -36,8 +36,8 @@ import {
 const Mod = ({history, nav}) => (
     <div style={{width: '100%', height: '100%'}}>
         <Top history={history} nav={nav}/>
-        <div style={{height: '100%', paddingLeft: '300px', position: 'relative'}}>
-            <div style={{position: 'absolute', left: 0, top: 0, width: '300px', height: '100%'}}>
+        <div style={{height: '100%', paddingLeft: '200px', position: 'relative'}}>
+            <div style={{position: 'absolute', left: 0, top: 0, width: '200px', height: '100%'}}>
                 <Nav history={history} nav={nav} root={'novel'}/>
             </div>
             <div style={{width: '100%', height: '100%'}}>
