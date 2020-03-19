@@ -8,7 +8,7 @@ import {
     VITRIC_DDD,
 } from 'SRC/theme'
 
-export default ({history, nav}) => (
+export default ({history, nav, root}) => (
     <div style={{
         width: '100%',
         height: '100%',
@@ -32,7 +32,7 @@ export default ({history, nav}) => (
                         {v.name}
                     </Flex>
                 ),
-            )(R.values(nav.power.node))
+            )(R.values(nav[root].node))
         }
     </div>
 )

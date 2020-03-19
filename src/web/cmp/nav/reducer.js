@@ -128,6 +128,87 @@ const init_state = {
         path: '/note',
         default_path: '/note/T2',
     },
+
+    novel: {
+        name: '小说',
+        path: '/novel',
+        default_path: '/novel/CZ/RQ',
+        node: {
+            CZ: {
+                name: '创作',
+                path: '/novel/CZ',
+                default_path: '/novel/CZ/RQ',
+                node: {
+                    RQ: {
+                        name: '入口',
+                        path: '/novel/CZ/RQ',
+                    },
+                    ZJ: {
+                        name: '章节',
+                        path: '/novel/CZ/ZJ',
+                    },
+                    DG: {
+                        name: '大纲',
+                        path: '/novel/CZ/DG',
+                    },
+                    ZP: {
+                        name: '作品',
+                        path: '/novel/CZ/ZP',
+                    },
+                },
+            },
+
+            SJ: {
+                name: '世界',
+                path: '/novel/SJ',
+                default_path: '/novel/SJ/RQ',
+                node: {
+                    RQ: {
+                        name: '入口',
+                        path: '/novel/SJ/RQ',
+                    },
+                },
+            },
+
+            SC: {
+                name: '素材',
+                path: '/novel/SC',
+                default_path: '/novel/SC/RQ',
+                node: {
+                    RQ: {
+                        name: '入口',
+                        path: '/novel/SC/RQ',
+                    },
+                },
+            },
+
+            TJ: {
+                name: '统计分析',
+                path: '/novel/TJ',
+                default_path: '/novel/TJ/RQ',
+                node: {
+                    RQ: {
+                        name: '入口',
+                        path: '/novel/TJ/RQ',
+                    },
+                },
+            },
+
+            FZ: {
+                name: '辅助',
+                path: '/novel/FZ',
+                default_path: '/novel/FZ/MC',
+                node: {
+                    MC: {
+                        name: '名称',
+                        path: '/novel/FZ/MC',
+                    },
+                },
+            },
+
+
+        },
+    },
 }
 
 const module_setter = createAction(`${MODULE_KEY}_setter`)

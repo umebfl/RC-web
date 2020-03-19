@@ -40,5 +40,6 @@ export default payload => (
     }}>
         <TAB text='POWER' history={payload.history} path={payload.nav.power.default_path} active={check_active(payload.history.location.pathname, '/power')}/>
         <TAB text='NOTE' history={payload.history} path={payload.nav.note.default_path} active={check_active(payload.history.location.pathname, '/note')}/>
+        <TAB text='NOVEL' history={payload.history} path={payload.nav.novel.default_path} active={check_active(payload.history.location.pathname, '/novel')}/>
     </Flex>
 )
