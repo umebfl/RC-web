@@ -88,8 +88,6 @@ const get_deduction = (cal_data) => {
             (breed, k) => {
 
                 const contract_data = breed.contract_data
-                // const contract_data = R.take(20)(breed.contract_data)
-                // const contract_data = R.take(60)(breed.contract_data)
 
                 return R.compose(
 

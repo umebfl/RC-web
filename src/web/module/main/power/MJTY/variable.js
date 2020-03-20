@@ -1,6 +1,5 @@
 // 单一品种起始资金
 export let INITIAL_CAPITAL = 10000   // 40000
-// export let INITIAL_CAPITAL = 40000   // 40000
 
 // 数据量等待天数
 export let WAIT_BASE_DAY_LEN = 10
