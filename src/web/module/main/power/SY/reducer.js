@@ -28,31 +28,32 @@ const init_state = {
             },
         ],
 
-        output: [
-            {
-                name: '微信',
-                remark: '房租',
-                num: 0,
-            },
+        output: [ // 2W/月
             {
                 name: '支付宝',
                 remark: '购物',
-                num: 0,
+                num: 1500,
             },
             {
                 name: '京东',
                 remark: '购物',
-                num: 0,
+                num: 500,
+            },
+
+            {
+                name: '微信',
+                remark: '房租',
+                num: 3300,
             },
             {
                 name: '建设',
                 remark: '车贷',
-                num: 0,
+                num: 3600,
             },
             {
                 name: '招商-4379',
                 remark: '贷款',
-                num: 0,
+                num: 9800,
             },
         ],
 

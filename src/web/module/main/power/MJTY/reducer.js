@@ -160,7 +160,7 @@ const get_deduction = (cal_data) => {
                                         // 是否存在盈利 或 存在加仓
                                         // v => v.current_deal.profit > 0,
                                         v => v.current_deal.profit > 0 || v.current_deal.add_count > 0,
-                                        // 存在盈利
+                                        // 存在盈利 或 存在加仓
                                         R.ifElse(
                                             // 加仓判定
                                             R.allPass([
@@ -259,7 +259,7 @@ const get_deduction = (cal_data) => {
             },
         ),
 
-        // R.filter(v => v.code === 'AG'),
+        // R.filter(v => v.code === 'BU'),
 
     )(cal_data)
 }

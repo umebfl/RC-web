@@ -153,7 +153,7 @@ const parse_data_str = (current_data, data, cut) => {
             },
         )(list),
 
-        // v => cut ? R.take(150)(v) : v,
+        // v => cut ? R.take(60)(v) : v,
 
 
         // v => cut ? R.takeLast(15)(v) : v,
@@ -466,6 +466,8 @@ const get_cal_data = (dispatch, get_state, item) => {
     } = item
 
     const contract_data = parse_data_str(current_data, contract_data_str, true)
+    // const contract_data = R.takeLast(26)(parse_data_str(current_data, contract_data_str, true))
+
     const all_contract_data = parse_data_str(current_data, all_contract_data_str)
 
     // 杠杆
