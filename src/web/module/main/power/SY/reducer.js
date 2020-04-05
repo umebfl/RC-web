@@ -13,9 +13,9 @@ const init_state = {
     // 总盈利
     total_profit: [
         {
-            date: '2020年3月13日',
+            date: '2020年3月31日',
             count: 10000,
-            display: true,
+            display: false,
         },
     ],
 
@@ -63,11 +63,11 @@ const init_state = {
                 remark: '保证金',
                 num: 0,
             },
-            {
-                name: '中信期货',
-                remark: '保证金',
-                num: 0,
-            },
+            // {
+            //     name: '中信期货',
+            //     remark: '保证金',
+            //     num: 0,
+            // },
         ],
     },
 

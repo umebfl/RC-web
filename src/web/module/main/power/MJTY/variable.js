@@ -1,5 +1,5 @@
 // 单一品种起始资金
-export let INITIAL_CAPITAL = 10000   // 40000
+export let INITIAL_CAPITAL = 10000   // 40000 10000
 
 // 数据量等待天数
 export let WAIT_BASE_DAY_LEN = 10
@@ -34,6 +34,7 @@ export let CLOSE_LOSS_RATE = 0.132  // 0.038 0.07 0.08 0.1
 
 // 最大加仓次数
 export let MAX_ADD_COUNT = 3 // 3
+// export let MAX_ADD_COUNT = 3 // 3
 // 加仓比例 0.1 = 10%
 export let ADD_RATE = 0.040    // 0.05 0.072
 // export let ADD_RATE = 0.041    // 0.05 0.072

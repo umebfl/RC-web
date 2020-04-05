@@ -18,6 +18,8 @@ export const display_open = v => {
 
     const fix_capital = parseInt(v.rate * 10 * INITIAL_CAPITAL)
 
+    const count = Math.round(fix_capital / v.bond)
+
     // 10天走势 - 方向
     v = {
         ...v,
@@ -26,9 +28,14 @@ export const display_open = v => {
             price,
             open_date: v.current_day.日期,
             op_date: v.current_day.日期,
-            count: Math.round(fix_capital / v.bond),
+            count,
             // count: Math.floor(INITIAL_CAPITAL / v.bond),
-            profit: 0,
+
+            // profit: 0,
+            profit: dir === 'up'
+                ? (v.current_day.收盘价 - price) * v.unit * count
+                : (price - v.current_day.收盘价) * v.unit * count,
+
             // 加仓次数
             add_count: 0,
             // 加仓前价格

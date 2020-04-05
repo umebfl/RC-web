@@ -106,8 +106,14 @@ const Deal_log = ({data}) => (
             <div style={{width: 100, display: 'inline-block'}}>
                 准备金
             </div>
-            <div style={{width: 80, display: 'inline-block'}}>
+            <div style={{width: 100, display: 'inline-block'}}>
                 平仓价
+            </div>
+            <div style={{width: 80, display: 'inline-block'}}>
+                临平
+            </div>
+            <div style={{width: 80, display: 'inline-block'}}>
+                总平盈利
             </div>
         </div>
         {
@@ -192,7 +198,7 @@ const Deal_log = ({data}) => (
                                             },
                                         )(v)
                                     }
-                                    <div style={{width: 80, display: 'inline-block'}}>
+                                    <div style={{width: 100, display: 'inline-block'}}>
                                         {
                                             v.breed.series_high_day
                                                 ? v.deal.dir === 'up'
@@ -204,6 +210,12 @@ const Deal_log = ({data}) => (
                                                         : parseInt(v.deal.price * (1 + CLOSE_LOSS_RATE))
                                                 : null
                                         }
+                                    </div>
+                                    <div style={{width: 80, display: 'inline-block'}}>
+                                        {v.deal.tmp_close_profit}
+                                    </div>
+                                    <div style={{width: 80, display: 'inline-block'}}>
+                                        {v.deal.close_profit}
                                     </div>
                                 </div>
                             )

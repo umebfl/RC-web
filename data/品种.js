@@ -27,12 +27,12 @@ export default [
         disable: false,
     },
     {
-        code: 'P',
-        name: '棕油',
-        rate: 0.12,
+        code: 'BU',
+        name: '沥青',
+        rate: 0.17,
         unit: 10,
         month: '2009',
-        // month: '2005',
+        // month: '2006',
         disable: false,
     },
     {
@@ -54,12 +54,12 @@ export default [
         disable: false,
     },
     {
-        code: 'BU',
-        name: '沥青',
-        rate: 0.17,
+        code: 'P',
+        name: '棕油',
+        rate: 0.12,
         unit: 10,
         month: '2009',
-        // month: '2006',
+        // month: '2005',
         disable: false,
     },
     {
@@ -261,3 +261,96 @@ export default [
     //     disable: false,
     // },
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+//     code: 'AP',
+//     name: '苹果',
+//     rate: 0.15,
+//     unit: 10,
+//     // month: '2010',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'JD',
+//     name: '鸡蛋',
+//     rate: 0.10,
+//     unit: 5,
+//     // month: '2009',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'TA',
+//     name: 'PTA',
+//     rate: 0.13,
+//     unit: 5,
+//     // month: '2009',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'P',
+//     name: '棕油',
+//     rate: 0.12,
+//     unit: 10,
+//     // month: '2009',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'FU',
+//     name: '燃油',
+//     rate: 0.19,
+//     unit: 10,
+//     // month: '2009',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'Y',
+//     name: '豆油',
+//     rate: 0.10,
+//     unit: 10,
+//     // month: '2009',
+//     month: '2005',
+//     disable: false,
+// },
+// {
+//     code: 'BU',
+//     name: '沥青',
+//     rate: 0.17,
+//     unit: 10,
+//     // month: '2009',
+//     month: '2006',
+//     disable: false,
+// },
+// {
+//     code: 'AG',
+//     name: '沪银',
+//     rate: 0.14,
+//     unit: 15,
+//     // month: '2008',
+//     month: '2006',
+//     disable: false,
+// },
+// {
+//     code: 'NI',
+//     name: '沪镍',
+//     rate: 0.16,
+//     unit: 1,
+//     // month: '2007',
+//     month: '2005',
+//     disable: false,
+// },
