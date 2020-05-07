@@ -121,3 +121,28 @@ export const P_亏损平仓_临界值判定 = v => {
 
     return pass
 }
+
+export const P_亏损平仓_巨额亏损判定 = v => {
+
+    // 加仓判定
+    if(v.current_deal.add_count < 0) {
+        return true
+    }
+
+    // 亏损率判定
+    const close_price = v.current_deal.dir === 'up'
+        ? v.current_deal.price * (1 - 0.087)
+        : v.current_deal.price * (1 + 0.087)
+
+    const pass =  v.current_deal.dir === 'up'
+        ? close_price < v.current_day.最低价   // 平1800 最低2000 过
+        : close_price > v.current_day.最高价   // 2000 1900
+
+    // console.log('analy   | 亏',
+    //     '盈' + v.current_deal.profit,
+    //     '平' + close_price.toFixed(0), pass ? '过' : '否',
+    //     v.current_deal.dir === 'up' ? parseInt(v.current_day.最低价 - close_price) : parseInt(close_price - v.current_day.最高价),
+    // )
+
+    return pass
+}

@@ -45,7 +45,7 @@ const TY_List = ({data, active_key}) => (
                 <div style={{display: 'inline-block', margin: 4, width: 60}}>
                     保证金
                 </div>
-                <div style={{display: 'inline-block', margin: 4, width: 120}}>
+                <div style={{display: 'inline-block', margin: 4, width: 400}}>
                     价格
                 </div>
             </div>
@@ -75,7 +75,7 @@ const TY_List = ({data, active_key}) => (
                             <div style={{display: 'inline-block', margin: 4, width: 60}}>
                                 {v.bond.toFixed(0)}
                             </div>
-                            <div style={{display: 'inline-block', margin: 4, width: 280, fontSize: 14}}>
+                            <div style={{display: 'inline-block', margin: 4, width: 400, fontSize: 14}}>
                                 {v.add_count > 0 ? R.join(', ')([...v.add_before_price, v.price]) : v.price}
                             </div>
                         </div>

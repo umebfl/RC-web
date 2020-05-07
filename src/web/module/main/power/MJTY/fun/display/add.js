@@ -9,7 +9,7 @@ export const display_add = v => {
 
     const add_price = v.current_deal.dir === 'up' ? v.current_day.最高价 : v.current_day.最低价
     const add_count = v.current_deal.add_count + 1
-    const add_num = Math.round(fix_capital / v.bond) * (add_count + 1)
+    const add_num = (Math.round(fix_capital / v.bond) || 1) * (add_count + 1)
     const count = v.current_deal.count + add_num
     const price = v.current_deal.dir === 'up'
         ? add_price - (add_price - v.current_deal.price) * v.current_deal.count / count

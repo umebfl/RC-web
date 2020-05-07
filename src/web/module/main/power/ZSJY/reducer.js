@@ -15,8 +15,8 @@ const init_state = {
             name: '苹果',
             month: '2010',
             dir: 'up',
-            price: 8066.33,
-            count: 3,
+            price: 8403,
+            count: 2,
             date: '2020-03-27',
             price_list: [
                 {
@@ -35,31 +35,7 @@ const init_state = {
             add_count: 1,
 
             // 平仓信息
-            tmp_close_profit: 0,
-            close_profit: 0,
-        },
-        {
-            // 品种
-            code: 'JD',
-            name: '鸡蛋',
-            month: '2009',
-            dir: 'up',
-            price: 4138,
-            count: 5,
-            date: '2020-03-24',
-            price_list: [
-                {
-                    price: 4138,
-                    count: 5,
-                    date: '2020-03-24',
-                },
-            ],
-
-            // 加仓信息
-            add_count: 0,
-
-            // 平仓信息
-            tmp_close_profit: 0,
+            tmp_close_profit: -1000,
             close_profit: 0,
         },
 
@@ -69,8 +45,8 @@ const init_state = {
             name: '燃油',
             month: '2009',
             dir: 'up',
-            price: 1688.33,
-            count: 18,
+            price: 1758.5,
+            count: 22,
             date: '2020-03-24',
             price_list: [
                 {
@@ -89,7 +65,7 @@ const init_state = {
             add_count: 1,
 
             // 平仓信息
-            tmp_close_profit: -1620,
+            tmp_close_profit: -4220,
             close_profit: 0,
         },
 
@@ -99,8 +75,8 @@ const init_state = {
             name: '沥青',
             month: '2009',
             dir: 'up',
-            price: 2132.67,
-            count: 30,
+            price: 2262.11,
+            count: 18,
             date: '2020-03-25',
             price_list: [
                 {
@@ -124,7 +100,7 @@ const init_state = {
             add_count: 1,
 
             // 平仓信息
-            tmp_close_profit: -7600,
+            tmp_close_profit: -18500,
             close_profit: 0,
         },
         // {
@@ -149,8 +125,8 @@ const init_state = {
             name: 'PTA',
             month: '2009',
             dir: 'up',
-            price: 3543,
-            count: 9,
+            price: 3550.5,
+            count: 28,
             date: '2020-03-24',
             price_list: [
                 {
@@ -161,7 +137,7 @@ const init_state = {
             ],
 
             // 加仓信息
-            add_count: 0,
+            add_count: 1,
 
             // 平仓信息
 
@@ -177,7 +153,7 @@ const init_state = {
             name: '棕榈',
             month: '2009',
             dir: 'up',
-            price: 4839.33,
+            price: 4875.67,
             count: 6,
             date: '2020-03-25',
             price_list: [
@@ -203,61 +179,12 @@ const init_state = {
 
         {
             // 品种
-            code: 'Y',
-            name: '豆油',
-            month: '2009',
-            dir: 'up',
-            price: 5571,
-            count: 2,
-            date: '2020-03-24',
-            price_list: [
-                {
-                    price: 5571,
-                    count: 2,
-                    date: '2020-03-24',
-                },
-            ],
-
-            // 加仓信息
-            add_count: 0,
-
-            // 平仓信息
-            tmp_close_profit: 0,
-            close_profit: 0,
-        },
-
-        {
-            // 品种
-            code: 'AG',
-            name: '沪银',
-            month: '2008',
-            dir: 'up',
-            price: 3516.5,
-            count: 2,
-            date: '2020-03-25',
-            price_list: [
-                {
-                    price: 3516.5,
-                    count: 2,
-                    date: '2020-03-25',
-                },
-            ],
-
-            // 加仓信息
-            add_count: 0,
-
-            // 平仓信息
-            tmp_close_profit: 0,
-            close_profit: 0,
-        },
-        {
-            // 品种
             code: 'NI',
             name: '沪镍',
             month: '2005',
             dir: 'up',
-            price: 92690,
-            count: 1,
+            price: 95155,
+            count: 2,
             date: '2020-03-27',
             price_list: [
                 {
@@ -275,6 +202,87 @@ const init_state = {
             close_profit: 0,
 
         },
+
+        // {
+        //     // 品种
+        //     code: 'Y',
+        //     name: '豆油',
+        //     month: '2009',
+        //     dir: 'up',
+        //     price: 5626.67,
+        //     count: 3,
+        //     date: '2020-03-24',
+        //     price_list: [
+        //         {
+        //             price: 5571,
+        //             count: 2,
+        //             date: '2020-03-24',
+        //         },
+        //     ],
+        //
+        //     // 加仓信息
+        //     add_count: 0,
+        //
+        //     // 平仓信息
+        //     tmp_close_profit: 0,
+        //     close_profit: 0,
+        // },
+
+        // {
+        //     // 品种
+        //     code: 'AG',
+        //     name: '沪银',
+        //     month: '2008',
+        //     dir: 'up',
+        //     price: 3751.6,
+        //     count: 5,
+        //     date: '2020-03-25',
+        //     price_list: [
+        //         {
+        //             price: 3516.5,
+        //             count: 2,
+        //             date: '2020-03-25',
+        //         },
+        //     ],
+        //
+        //     // 加仓信息
+        //     add_count: 0,
+        //
+        //     // 平仓信息
+        //     tmp_close_profit: -2900,
+        //     close_profit: 0,
+        // },
+
+
+        // {
+        //     // 品种
+        //     code: 'JD',
+        //     name: '鸡蛋',
+        //     month: '2009',
+        //     dir: 'up',
+        //     price: 4271.67,
+        //     count: 15,
+        //     date: '2020-03-24',
+        //     price_list: [
+        //         {
+        //             price: 4138,
+        //             count: 5,
+        //             date: '2020-03-24',
+        //         },
+        //         {
+        //             price: 4309,
+        //             count: 15,
+        //             date: '2020-04-07',
+        //         },
+        //     ],
+        //
+        //     // 加仓信息
+        //     add_count: 1,
+        //
+        //     // 平仓信息
+        //     tmp_close_profit: -3200,
+        //     close_profit: 0,
+        // },
     ],
 
     deal_log: [

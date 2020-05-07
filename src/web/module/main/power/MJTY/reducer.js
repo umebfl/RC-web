@@ -38,6 +38,7 @@ import {
     P_回撤平仓_盈利判定,
     P_回撤平仓_回撤临界值判定,
     P_亏损平仓_临界值判定,
+    P_亏损平仓_巨额亏损判定,
 } from 'SRC/module/main/power/MJTY/fun/policy/close'
 
 import {
@@ -184,6 +185,7 @@ const get_deduction = (cal_data) => {
                                             // 持有/平仓判定
                                             R.allPass([
                                                 P_亏损平仓_临界值判定,
+                                                // P_亏损平仓_巨额亏损判定,
                                             ]),
                                             R.assoc('display', 'keep'),
                                             R.assoc('display', 'close'),

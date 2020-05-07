@@ -142,7 +142,7 @@ const Deal_log = ({data}) => (
                                         {v.deal.count}手
                                     </div>
                                     <div style={{width: 70, display: 'inline-block'}}>
-                                        {parseInt(v.breed.current_day.收盘价 * v.breed.unit * v.deal.count * v.breed.rate)}
+                                        {(v.breed.current_day.收盘价 * v.breed.unit * v.deal.count * v.breed.rate / 10000).toFixed(1)}w
                                     </div>
                                     {
                                         R.compose(
@@ -203,10 +203,10 @@ const Deal_log = ({data}) => (
                                             v.breed.series_high_day
                                                 ? v.deal.dir === 'up'
                                                     ? v.deal.add_count > 0
-                                                        ? `回撤${CLOSE_ADD_BACK_RATE * 100}%`
+                                                        ? `回撤${CLOSE_ADD_BACK_RATE.toFixed(2) * 100}%`
                                                         : parseInt(v.deal.price * (1 - CLOSE_LOSS_RATE))
                                                     : v.deal.add_count > 0
-                                                        ? `回撤${CLOSE_ADD_BACK_RATE * 100}%`
+                                                        ? `回撤${CLOSE_ADD_BACK_RATE.toFixed(2) * 100}%`
                                                         : parseInt(v.deal.price * (1 + CLOSE_LOSS_RATE))
                                                 : null
                                         }

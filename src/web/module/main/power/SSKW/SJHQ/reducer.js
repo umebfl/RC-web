@@ -102,7 +102,7 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     get_cal_data(dispatch, get_state, item)
 }
 
-const parse_data_str = (current_data, data, cut) => {
+const parse_data_str = (current_data, data, cut, cut_len) => {
     return R.compose(
         // 追加当天交易数据
         list => {
@@ -158,8 +158,7 @@ const parse_data_str = (current_data, data, cut) => {
 
         // v => cut ? R.takeLast(15)(v) : v,
         // cut = true 提取6月后的数据
-        v => cut ? R.takeLast(180)(v) : v,
-
+        v => cut ? R.takeLast(cut_len)(v) : v,
 
         JSON.parse,
     )(data)
@@ -465,10 +464,10 @@ const get_cal_data = (dispatch, get_state, item) => {
         all_contract_data_str,
     } = item
 
-    const contract_data = parse_data_str(current_data, contract_data_str, true)
+    const contract_data = parse_data_str(current_data, contract_data_str, true, 180)
     // const contract_data = R.takeLast(26)(parse_data_str(current_data, contract_data_str, true))
 
-    const all_contract_data = parse_data_str(current_data, all_contract_data_str)
+    const all_contract_data = parse_data_str(current_data, all_contract_data_str, true, 1200)
 
     // 杠杆
     const lever = 1 / rate

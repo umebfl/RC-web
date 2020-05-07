@@ -18,7 +18,7 @@ export const display_open = v => {
 
     const fix_capital = parseInt(v.rate * 10 * INITIAL_CAPITAL)
 
-    const count = Math.round(fix_capital / v.bond)
+    const count = Math.round(fix_capital / v.bond) || 1
 
     // 10天走势 - 方向
     v = {

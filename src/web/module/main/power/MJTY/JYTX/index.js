@@ -63,6 +63,7 @@ class Mod extends Component {
                 overflowY: 'auto',
                 overflowX: 'hidden',
             }}>
+                <div style={{marginTop: 20, marginLeft: 10, fontWeight: 'bold'}}>{new Date().getTime() % 2 > 0 ? 'T' : 'F'}</div>
                 <div style={{marginTop: 20, marginLeft: 10, fontWeight: 'bold'}}>更新时间: {moment().format('MM-DD HH:mm')}</div>
                 <Deal_list data={deduction}/>
             </div>

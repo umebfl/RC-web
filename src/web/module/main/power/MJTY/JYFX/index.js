@@ -96,7 +96,7 @@ const get_info_list = R.compose(
                 <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
                     {v.close ? '' : '持'}
                 </div>
-                <div style={{display: 'inline-block', width: 240, textAlign: 'right', fontSize: 14}}>
+                <div style={{display: 'inline-block', width: 400, textAlign: 'right', fontSize: 14}}>
                     {v.add_count > 0 ? R.join(', ')([...v.add_before_price, v.price]) : v.price}
                 </div>
             </div>

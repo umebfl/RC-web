@@ -57,7 +57,7 @@ const List = ({data}) => {
                                                 {deal.count}手
                                             </div>
                                             <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
-                                                {parseInt(deal.price * v.unit * v.rate * deal.count / 10000)}w
+                                                {(deal.price * v.unit * v.rate * deal.count / 10000).toFixed(2)}w
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
                                                 {(deal.profit / (deal.price * v.unit * v.rate * deal.count) * 100).toFixed(0)}%

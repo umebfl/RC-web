@@ -8,13 +8,13 @@ export const MODULE_KEY = 'SY'
 const init_state = {
 
     // 总交易本金
-    total_capital: 400000,
+    total_capital: 400000 - 70000 - 10000,
 
     // 总盈利
     total_profit: [
         {
             date: '2020年3月31日',
-            count: 10000,
+            count: -50000 + 10000,    // 10000 + 24483 + 12443 + 10000 + 3252 + 1739 + 2625 + 4593
             display: false,
         },
     ],

@@ -33,7 +33,7 @@ export let CLOSE_LOSS_RATE = 0.132  // 0.038 0.07 0.08 0.1
 // export let CLOSE_LOSS_RATE = 0.1  // 0.038 0.07 0.08 0.1
 
 // 最大加仓次数
-export let MAX_ADD_COUNT = 3 // 3
+export let MAX_ADD_COUNT = 2 // 3
 // export let MAX_ADD_COUNT = 3 // 3
 // 加仓比例 0.1 = 10%
 export let ADD_RATE = 0.040    // 0.05 0.072
