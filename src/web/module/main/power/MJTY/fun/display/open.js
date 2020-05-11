@@ -14,6 +14,7 @@ export const display_open = v => {
     if(trend_info.day_10 >= 0 || trend_info.day_10 < 0) {
         dir = trend_info.day_10 >= 0 ? 'up' : 'down'
         price = trend_info.day_10 >= 0 ? v.current_day.最高价 : v.current_day.最低价
+        // price = v.current_day.开盘价
     }
 
     const fix_capital = parseInt(v.rate * 10 * INITIAL_CAPITAL)
