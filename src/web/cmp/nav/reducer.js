@@ -120,6 +120,12 @@ const init_state = {
                     },
                 },
             },
+            FKJZ: {
+                name: '风控机制',
+                // name: '盛宴',
+                path: '/power/FKJZ',
+                default_path: '/power/FKJZ',
+            },
         },
     },
 

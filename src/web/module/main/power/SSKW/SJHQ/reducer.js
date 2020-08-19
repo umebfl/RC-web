@@ -90,7 +90,7 @@ const get_all_data = async ({dispatch, get_state, info}) => {
     ]
 
     // 更新缓存
-    localStorage.data = JSON.stringify(rv)
+    // localStorage.data = JSON.stringify(rv)
 
     dispatch(
         module_setter({
@@ -485,6 +485,12 @@ const get_cal_data = (dispatch, get_state, item) => {
 
         lever,
         fix_rate,
+
+        bond: parseInt(item.info.current_data.最新价 * item.info.unit * item.info.rate),
+        amplitude: ((item.info.current_data['最新价'] - item.info.current_data['昨收价']) / item.info.current_data['昨收价'] * 100).toFixed(2),
+
+        // 周价格状态
+        wprice_state: parseInt((item.info.current_data['最新价'] - item.info.wlow) / (item.info.whigh - item.info.wlow) * 100),
 
         contract_data_day_amplitude_rate_fixed_sum,
 

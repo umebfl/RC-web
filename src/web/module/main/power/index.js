@@ -30,6 +30,7 @@ import JMFX from 'SRC/module/main/power/JMFX'
 import MJTY from 'SRC/module/main/power/MJTY'
 import ZSJY from 'SRC/module/main/power/ZSJY'
 import SY from 'SRC/module/main/power/SY'
+import FKJZ from 'SRC/module/main/power/FKJZ'
 
 import {
     VITRIC_L,
@@ -44,7 +45,7 @@ class Mod extends Component {
 
         this.interval = setInterval(
             () => this.props.action.refresh(),
-            1000 * 60,
+            2000 * 60,
         )
     }
 
@@ -73,6 +74,7 @@ class Mod extends Component {
                             <Route path='/power/MJTY' component={MJTY}/>
                             <Route path='/power/ZSJY' component={ZSJY}/>
                             <Route path='/power/SY' component={SY}/>
+                            <Route path='/power/FKJZ' component={FKJZ}/>
                             {/*<Redirect from='*' to='/404'/>*/}
                         </Switch>
                     </div>

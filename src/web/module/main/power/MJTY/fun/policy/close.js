@@ -43,6 +43,7 @@ export const P_回撤平仓_回撤临界值判定 = v => {
     // 多: 底价 > 最低价 击穿 平仓
     // 空: 底价 < 最高价 击穿 平仓
 
+    // 回撤平仓目标价
     const base_price = v.current_deal.dir === 'up'
         ? v.series_high_day.最高价 * (1 - rate)
         : v.series_low_day.最低价 * (1 + rate)

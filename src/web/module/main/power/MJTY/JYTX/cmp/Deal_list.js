@@ -57,13 +57,13 @@ const List = ({data}) => {
                                                 {deal.count}手
                                             </div>
                                             <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
-                                                {(deal.price * v.unit * v.rate * deal.count / 10000).toFixed(2)}w
+                                                {(deal.price * v.unit * v.rate * deal.count / 10000).toFixed(1)}w
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
                                                 {(deal.profit / (deal.price * v.unit * v.rate * deal.count) * 100).toFixed(0)}%
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right', color: deal.profit > 0 ? red[5] : green[7]}}>
-                                                {(deal.profit / 10000).toFixed(3)}w
+                                                {(deal.profit / 10000).toFixed(1)}w
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
                                                 {v.current_day.收盘价}
@@ -92,16 +92,16 @@ const List = ({data}) => {
                     </div>
                 ),
             ),
-            R.sort((a, b) => {
-                const item_a = a.deal_list[a.deal_list.length - 1]
-                const close_price_a = Math.abs(a.current_day.收盘价 - item_a.close_price_tips) / a.current_day.收盘价
-
-                const item_b = b.deal_list[b.deal_list.length - 1]
-                const close_price_b = Math.abs(b.current_day.收盘价 - item_b.close_price_tips) / b.current_day.收盘价
-
-                return close_price_a - close_price_b
-            }),
-            // R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
+            // R.sort((a, b) => {
+            //     const item_a = a.deal_list[a.deal_list.length - 1]
+            //     const close_price_a = Math.abs(a.current_day.收盘价 - item_a.close_price_tips) / a.current_day.收盘价
+            //
+            //     const item_b = b.deal_list[b.deal_list.length - 1]
+            //     const close_price_b = Math.abs(b.current_day.收盘价 - item_b.close_price_tips) / b.current_day.收盘价
+            //
+            //     return close_price_a - close_price_b
+            // }),
+            R.sort((a, b) => a.deal_list[a.deal_list.length - 1].days - b.deal_list[b.deal_list.length - 1].days),
         )(data)
     )
 }
@@ -114,6 +114,50 @@ const Deal_list = ({data}) => {
                     group => {
                         return (
                             <div>
+                                <div style={{display: 'inline-block'}}>
+                                    <div style={{display: 'inline-block', width: 60, marginLeft: 20}}>
+                                        品种
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 60, textAlign: 'right'}}>
+                                        最近
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 60, textAlign: 'right'}}>
+                                        价格
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 30, textAlign: 'right'}}>
+
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                        手数
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 50, textAlign: 'right'}}>
+                                        保金
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                        盈利比
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                        盈利
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                        当前价
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
+                                        平仓价提示
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                        开仓
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
+                                        天数
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 240, textAlign: 'right', fontSize: 14}}>
+                                        开仓价
+                                    </div>
+                                    <div style={{display: 'inline-block', width: 80, textAlign: 'right'}}>
+                                        平仓价
+                                    </div>
+                                </div>
                                 <div style={{marginLeft: 10, marginTop: 20, fontWeight: 'bold'}}>
                                     持有({group.持?.length})
                                     <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>

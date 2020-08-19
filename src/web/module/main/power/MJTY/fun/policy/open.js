@@ -8,7 +8,7 @@ import {
 export const P_开仓_平仓静置期判定 = R.compose(
     v => v.close_deal_day === 0,
     v => {
-        // console.log('开仓_平仓静置期判定', v.close_deal_day === 0, v.close_deal_day)
+        console.log('开仓_平仓静置期判定', v.close_deal_day === 0, v.close_deal_day)
         return v
     },
 )
@@ -23,7 +23,7 @@ export const P_开仓_数据积累期判定 = R.compose(
 
 export const P_开仓_10日趋势判定 = R.compose(
     v => {
-        // console.log('开仓_10日趋势判定', v)
+        console.log('开仓_10日趋势判定', v)
         return v
     },
     v => v.trend_info.day_10 > 1 || v.trend_info.day_10 < -1,
@@ -33,7 +33,7 @@ export const P_开仓_10日临界值突破 = v => {
     const data = R.takeLast(10)(v.day_list)
     const rate = Math.abs((data[data.length - 1].收盘价 - data[0].收盘价) / data[0].收盘价)
 
-    // console.log('开仓_10日临界值突破', rate, rate > OPEN_10_DAY_RATE, v.code)
+    console.log('开仓_10日临界值突破', rate, rate > OPEN_10_DAY_RATE, v.code)
     // 最近N天, 波幅达到OPEN_10_DAY_RATE
     return rate > OPEN_10_DAY_RATE
     // return true
@@ -70,7 +70,7 @@ export const P_开仓_N天正向判定 = v => {
         }
     }
 
-    // console.log('analy  | 盈 加仓判定 P_开仓_N天正向判定', v.code, dir_count.up, dir_count.down, dir_count.up === V_正向判定天数 || V_正向判定天数.down === V_正向判定天数)
+    console.log('analy  | 盈 加仓判定 P_开仓_N天正向判定', v.code, dir_count.up, dir_count.down, dir_count.up === V_正向判定天数 || V_正向判定天数.down === V_正向判定天数)
 
     return dir_count.up === V_正向判定天数 || V_正向判定天数.down === V_正向判定天数
 }

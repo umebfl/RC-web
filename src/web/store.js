@@ -10,8 +10,8 @@ export default () => {
 
     const store = createStore(
         root_reducer,
-        applyMiddleware(thunk),
-        // applyMiddleware(thunk, logger),
+        // applyMiddleware(thunk),
+        applyMiddleware(thunk, logger),
     )
 
     // if(module.hot) {

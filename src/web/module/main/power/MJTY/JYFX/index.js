@@ -67,7 +67,7 @@ const get_info_list = R.compose(
         (v, k) => (
             <div key={k} style={{margin: 4, marginLeft: 10, height: 26}}>
                 <div style={{display: 'inline-block', width: 80}}>
-                    {v.name}{v.code}
+                    {v.name}-{v.code}
                 </div>
                 <div style={{display: 'inline-block', width: 80,  textAlign: 'right', color: v.profit > 0 ? red[7] : green[7]}}>
                     {(v.profit / 10000).toFixed(2)}w
