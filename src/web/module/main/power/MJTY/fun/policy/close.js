@@ -52,15 +52,17 @@ export const P_回撤平仓_回撤临界值判定 = v => {
         ? base_price > v.current_day.最低价
         : base_price < v.current_day.最高价
 
-    // console.log('analy  | 盈 回撤判定 回撤幅度',
-    //     'AH' + v.series_high_day.最高价,
-    //     'AL' + v.series_low_day.最低价,
-    //     '盈' + v.current_deal.profit,
-    //     'B' + parseInt(base_price),
-    //     rate,
-    //     pass ? '过' : '否',
-    //     v.current_deal.dir === 'up' ? v.current_day.最低价 : v.current_day.最高价,
-    // )
+    console.log('analy  | 盈 回撤判定 回撤幅度',
+        'AH' + v.series_high_day.最高价,
+        'AL' + v.series_low_day.最低价,
+        '盈' + v.current_deal.profit,
+        'B' + parseInt(base_price),
+        'CL' + v.current_day.最低价,
+        'CH' + v.current_day.最高价,
+        rate,
+        pass ? '过' : '否',
+        v.current_deal.dir === 'up' ? v.current_day.最低价 : v.current_day.最高价,
+    )
 
     return pass
 

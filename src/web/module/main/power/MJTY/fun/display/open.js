@@ -43,9 +43,11 @@ export const display_open = v => {
             add_before_price: [],
             bond: v.bond,
 
-            close_price_tips: dir === 'up'
-                ? parseInt(price * (1 - CLOSE_LOSS_RATE))
-                : parseInt(price * (1 + CLOSE_LOSS_RATE)),
+            // close_price_tips: dir === 'up'
+            //     // ? parseInt(price * -CLOSE_LOSS_RATE)
+            //     // : parseInt(price * CLOSE_LOSS_RATE),
+            //     ? parseInt(v.series_high_day.最高价 * -CLOSE_LOSS_RATE)
+            //     : parseInt(v.series_low_day.最低价 * CLOSE_LOSS_RATE),
         },
     }
 

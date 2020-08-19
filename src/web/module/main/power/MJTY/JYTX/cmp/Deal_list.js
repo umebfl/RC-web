@@ -70,7 +70,9 @@ const List = ({data}) => {
                                             </div>
                                             <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
                                                 {deal.close_price_tips}
-                                                ({parseInt(Math.abs(v.current_day.收盘价 - deal.close_price_tips) / v.current_day.收盘价 * 100)}%)
+                                                {
+                                                    // ({parseInt(Math.abs(v.current_day.收盘价 - deal.close_price_tips) / v.current_day.收盘价 * 100)}%)
+                                                }
                                             </div>
                                             <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
                                                 {R.takeLast(5)(deal.open_date)}
@@ -143,7 +145,7 @@ const Deal_list = ({data}) => {
                                         当前价
                                     </div>
                                     <div style={{display: 'inline-block', width: 120, textAlign: 'right'}}>
-                                        平仓价提示
+                                        动态止损
                                     </div>
                                     <div style={{display: 'inline-block', width: 70, textAlign: 'right'}}>
                                         开仓

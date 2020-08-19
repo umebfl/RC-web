@@ -28,9 +28,12 @@ export const display_add = v => {
                 ? (v.current_day.收盘价 - v.current_deal.price) * v.unit * v.current_deal.count
                 : (v.current_deal.price - v.current_day.收盘价) * v.unit * v.current_deal.count,
 
-            close_price_tips: v.current_deal.dir === 'up'
-                ? parseInt(price * (1 - CLOSE_ADD_BACK_RATE))
-                : parseInt(price * (1 + CLOSE_ADD_BACK_RATE)),
+            // close_price_tips: v.current_deal.dir === 'up'
+            //     // ? parseInt(price * -CLOSE_ADD_BACK_RATE)
+            //     // : parseInt(price * CLOSE_ADD_BACK_RATE),
+            //     ? parseInt(v.series_high_day.最高价 * -CLOSE_ADD_BACK_RATE)
+            //     : parseInt(v.series_low_day.最低价 * CLOSE_ADD_BACK_RATE),
+
             // add_log: [
             //     ...v.current_deal.add_log || [],
             //     {
@@ -54,6 +57,7 @@ export const display_add = v => {
     //     '盈' + v.current_deal.profit,
     //     '加仓次数' + v.current_deal.add_count,
     //     v.current_deal.add_before_price,
+    //     v.series_high_day.最高价,
     // )
 
     return v
