@@ -16,13 +16,14 @@ export let V_FIX_VAR_STR = null
 export let OPEN_10_DAY_RATE = 0.031
 // export let OPEN_10_DAY_RATE = 0.017
 // export let OPEN_10_DAY_RATE = 0.013
-export let V_正向判定天数 = 1
+export let V_正向判定天数 = 3
 // 平仓等待天数
 export let CLOSE_DEAL_WAIT_DAY = 8
 // export let CLOSE_DEAL_WAIT_DAY = 7  // 5 10
 
 // 盈利加仓后回撤比例  0.101 * 100 = 10.1%
-export let CLOSE_ADD_BACK_RATE = 0.101
+// export let CLOSE_ADD_BACK_RATE = 0.101
+export let CLOSE_ADD_BACK_RATE = 0.14
 // export let CLOSE_ADD_BACK_RATE = 0.09
 // export let CLOSE_ADD_BACK_RATE = 0.087
 // export let CLOSE_ADD_BACK_RATE = 0.081
@@ -39,7 +40,7 @@ export let CLOSE_LOSS_RATE = 0.09  // 0.038 0.07 0.08 0.1
 // export let CLOSE_LOSS_RATE = 0.1  // 0.038 0.07 0.08 0.1
 
 // 最大加仓次数
-export let MAX_ADD_COUNT = 1 // 3
+export let MAX_ADD_COUNT = 2 // 3
 // export let MAX_ADD_COUNT = 3 // 3
 
 // 加仓比例 0.1 = 10% 0.041 * 100 = 0.41%

@@ -464,7 +464,8 @@ const get_cal_data = (dispatch, get_state, item) => {
         all_contract_data_str,
     } = item
 
-    const contract_data = parse_data_str(current_data, contract_data_str, true, 180)
+    const contract_data = parse_data_str(current_data, contract_data_str, true, 20)
+    // const contract_data = parse_data_str(current_data, contract_data_str, true, 180)
     // const contract_data = R.takeLast(26)(parse_data_str(current_data, contract_data_str, true))
 
     const all_contract_data = parse_data_str(current_data, all_contract_data_str, true, 1200)
